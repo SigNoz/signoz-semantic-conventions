@@ -1,0 +1,22 @@
+groups:
+- id: entity.signoz.workspace
+  type: entity
+  name: signoz.workspace
+  stability: development
+  brief: >
+    A SigNoz workspace.
+  attributes:
+  - ref: signoz.workspace.name
+    role: identifying
+    requirement_level: required
+
+- id: entity.signoz.workspace.key
+  type: entity
+  name: signoz.workspace.key
+  stability: development
+  brief: >
+    A key of a SigNoz workspace.
+  attributes:
+  - ref: signoz.workspace.key.id
+    role: identifying
+    requirement_level: required
