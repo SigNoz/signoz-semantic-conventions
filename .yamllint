@@ -1,0 +1,17 @@
+extends: default
+ignore:
+  - .github/
+rules:
+  document-start: disable
+  octal-values: enable
+  truthy:
+    allowed-values:
+      - 'true'
+      - 'false'
+  line-length:
+    max: 200
+  indentation:
+    check-multi-line-strings: false
+    indent-sequences: consistent
+  brackets:
+    forbid: true

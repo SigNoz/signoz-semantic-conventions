@@ -1,0 +1,7 @@
+name: signoz
+description: Registry of semantic conventions for SigNoz.
+schema_url: https://signoz.io/schemas/otel/0.0.1-unreleased
+stability: development
+dependencies:
+  - schema_url: https://opentelemetry.io/schemas/1.26.0
+    registry_path: https://github.com/open-telemetry/semantic-conventions/archive/refs/tags/v1.26.0.zip[model]
