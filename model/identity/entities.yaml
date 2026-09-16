@@ -7,8 +7,8 @@ groups:
     A SigNoz organization, the tenant boundary on the backend plane.
   note: |
     Identified by its id alone. Backend-plane signals such as billing
-    readings and audit events associate with this entity; ingested telemetry
-    associates with `signoz.workspace` instead (see the workspace area).
+    readings associate with this entity; ingested telemetry associates with
+    `signoz.workspace` instead (see the workspace area).
   attributes:
   - ref: signoz.organization.id
     role: identifying
@@ -22,8 +22,7 @@ groups:
     A principal of the SigNoz platform: an authenticated user or service account.
   note: |
     Identified by its id alone, which is unique across principal types; the
-    type is therefore descriptive rather than part of the identity. The
-    principal is the actor recorded in signals such as audit events.
+    type is therefore descriptive rather than part of the identity.
   attributes:
   - ref: signoz.principal.id
     role: identifying

@@ -6,7 +6,7 @@ groups:
     Attributes that identify the SigNoz organization a piece of telemetry belongs to.
   note: |
     The organization is the tenant of the SigNoz platform on the backend
-    plane: billing, audit and platform administration are scoped to it. It is
+    plane: billing and platform administration are scoped to it. It is
     distinct from the `signoz.workspace.*` attributes, which identify the
     tenant on the ingestion plane and are stamped by the SigNoz gateway; today
     the two are bridged only by the license key.
@@ -20,9 +20,7 @@ groups:
       A UUID assigned when the organization is created.
 
       Carried today as a dimension on the meter readings the backend reports
-      to the billing system. Audit events carry the same value under
-      `signoz.audit.principal.org_id`, which is being renamed to this
-      attribute.
+      to the billing system.
     examples:
     - "58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e"
 
@@ -32,12 +30,8 @@ groups:
   brief: >
     Attributes that describe the principal, the authenticated user or service account whose action a piece of telemetry records.
   note: |
-    The principal is the actor recorded in the telemetry. It is also
-    modelled as the entity `signoz.principal` (see `entities.yaml`).
-
-    Emitted today on audit events under `signoz.audit.principal.*`, which is
-    being renamed to this shared namespace so that any signal that records an
-    actor can reference the same attributes.
+    The principal is the actor whose action a piece of telemetry records. It
+    is also modelled as the entity `signoz.principal` (see `entities.yaml`).
   attributes:
   - id: signoz.principal.id
     type: string
@@ -116,8 +110,6 @@ groups:
       Describes the credential presented on the recorded request, not how the
       principal's identity was verified at login; for the latter see
       `signoz.principal.authn.method`. This is an open enum.
-
-      Renamed from `signoz.audit.identn_provider`.
     examples:
     - "api_key"
   - id: signoz.principal.authn.method
