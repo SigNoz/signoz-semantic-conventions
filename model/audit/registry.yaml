@@ -1,0 +1,67 @@
+groups:
+- id: registry.signoz.audit
+  type: attribute_group
+  display_name: SigNoz Audit Attributes
+  brief: >
+    Attributes that describe an audited operation on the SigNoz platform.
+  note: |
+    An audit record answers who did what, to which resource, and whether it
+    succeeded. Only the operation itself is described here: the actor is
+    `signoz.principal.*`, the object is `signoz.resource.*` and the owner is
+    `signoz.organization.id`.
+  attributes:
+  - id: signoz.audit.verb
+    type: string
+    stability: development
+    brief: >
+      Operation the principal performed on the resource.
+    note: |
+      Known values: `create`, `read`, `update`, `delete`, `list`, `assignee`,
+      `attach`, `detach`. The set is not final: it follows the verbs of the
+      authorization model.
+
+      `list` applies to a collection of resources and is recorded with the
+      resource id `*`. `attach` and `detach` relate two resources and are
+      recorded once from each side, with `signoz.resource.target.*`
+      describing the other side.
+    examples:
+    - "update"
+  - id: signoz.audit.action_category
+    type: string
+    stability: development
+    brief: >
+      Category of the audited operation.
+    note: |
+      Classifies the operation per IEC 62443. Known values:
+      `access_control` (a change to who may do what, such as a role
+      assignment), `configuration_change` (a change to a metaresource such as
+      a dashboard or an alert rule), `data_access` (a read of telemetry) and
+      `system_event` (an operation the platform performed on its own). The
+      set is not final.
+    examples:
+    - "configuration_change"
+  - id: signoz.audit.outcome
+    type: string
+    stability: development
+    brief: >
+      Outcome of the audited operation.
+    note: |
+      Known values: `success` and `failure`. The set is complete.
+
+      An operation served over HTTP counts as a success when the response
+      status code is 2xx or 3xx.
+    examples:
+    - "success"
+  - id: signoz.audit.error.code
+    type: string
+    stability: development
+    brief: >
+      SigNoz error code identifying the specific failure.
+    note: |
+      Narrows down `error.type`: the type is the class of failure, the code
+      names the individual one. Set only when the operation failed and the
+      error carries a code. Instrumentations MUST NOT emit a placeholder
+      value when there is no code; they omit the attribute instead.
+    examples:
+    - "api_key_not_found"
+    - "rate_limited"
