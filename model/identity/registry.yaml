@@ -32,9 +32,8 @@ groups:
   brief: >
     Attributes that describe the principal, the authenticated user or service account whose action a piece of telemetry records.
   note: |
-    The principal is the actor recorded in the telemetry, not the entity the
-    telemetry is about, so it is modelled as plain attributes rather than as
-    an entity.
+    The principal is the actor recorded in the telemetry. It is also
+    modelled as the entity `signoz.principal` (see `entities.yaml`).
 
     Emitted today on audit events under `signoz.audit.principal.*`, which is
     being renamed to this shared namespace so that any signal that records an
@@ -77,8 +76,6 @@ groups:
     brief: >
       Email address of the principal.
     note: |
-      Set for user principals; service accounts have no email address.
-
       > [!WARNING]
       > This attribute may contain sensitive personally identifiable
       > information (PII).
