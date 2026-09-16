@@ -4,11 +4,9 @@ groups:
   name: signoz.organization
   stability: development
   brief: >
-    A SigNoz organization, the tenant boundary on the backend plane.
+    A SigNoz organization, the tenant of the SigNoz platform.
   note: |
-    Identified by its id alone. Backend-plane signals such as billing
-    readings associate with this entity; ingested telemetry associates with
-    `signoz.workspace` instead (see the workspace area).
+    Identified by its id alone.
   attributes:
   - ref: signoz.organization.id
     role: identifying
