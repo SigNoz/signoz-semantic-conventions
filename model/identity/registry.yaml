@@ -5,8 +5,9 @@ groups:
   brief: >
     Attributes that identify a SigNoz organization.
   note: |
-    The organization is the tenant of the SigNoz platform: telemetry and
-    platform resources such as dashboards are scoped to one.
+    An organization is the logical grouping of everything one SigNoz
+    account holds: metaresources such as dashboards and alert rules, and
+    telemetry resources such as logs, traces and metrics.
   attributes:
   - id: signoz.organization.id
     type: string
@@ -25,10 +26,10 @@ groups:
   type: attribute_group
   display_name: SigNoz Principal Attributes
   brief: >
-    Attributes that describe the principal, the authenticated user or service account whose action a piece of telemetry records.
+    Attributes that describe the principal, an authenticated user or service account.
   note: |
-    The principal is the actor whose action a piece of telemetry records. It
-    is also modelled as the entity `signoz.principal` (see `entities.yaml`).
+    The principal is also modelled as the entity `signoz.principal` (see
+    `entities.yaml`).
   attributes:
   - id: signoz.principal.id
     type: string
@@ -48,8 +49,7 @@ groups:
     note: |
       Known values: `user` (a human user of the SigNoz platform) and
       `service_account` (a non-human principal that authenticates with an API
-      key). The set is not final: the platform also knows a `system`
-      principal type, which may be emitted later.
+      key).
     examples:
     - "user"
   - id: signoz.principal.email

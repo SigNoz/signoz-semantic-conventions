@@ -4,7 +4,7 @@ groups:
   name: signoz.organization
   stability: development
   brief: >
-    A SigNoz organization, the tenant of the SigNoz platform.
+    A SigNoz organization, the logical grouping of everything one SigNoz account holds.
   note: |
     Identified by its id alone.
   attributes:
