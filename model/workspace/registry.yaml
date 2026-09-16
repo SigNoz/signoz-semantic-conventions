@@ -1,0 +1,29 @@
+groups:
+- id: registry.signoz.workspace
+  type: attribute_group
+  display_name: SigNoz Workspace Attributes
+  brief: >
+    Attributes that identify the SigNoz workspace, and the key within it, under which a piece of telemetry was ingested.
+  note: |
+    Set at ingestion time by the SigNoz gateway. If any of these attributes are already present in the incoming
+    telemetry, the gateway overwrites them. They are therefore absent from telemetry that did not pass through the
+    gateway, for example in installations that run without it.
+  attributes:
+  - id: signoz.workspace.key.id
+    type: string
+    stability: development
+    brief: >
+      Identifier of the key that authenticated the telemetry.
+    note: |
+      Useful for identifying which key the telemetry was ingested under.
+    examples:
+    - "019d9a99-f8f0-7e50-8bb3-995599fa1f76"
+  - id: signoz.workspace.name
+    type: string
+    stability: development
+    brief: >
+      Identifier of the workspace under which the telemetry was ingested.
+    note: |
+      Useful for identifying which workspace the telemetry was ingested under.
+    examples:
+    - "acme-prod"

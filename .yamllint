@@ -1,17 +1,18 @@
 extends: default
 ignore:
-  - .github/
+- .github/
+- .claude/
 rules:
   document-start: disable
   octal-values: enable
   truthy:
     allowed-values:
-      - 'true'
-      - 'false'
+    - 'true'
+    - 'false'
   line-length:
     max: 200
   indentation:
     check-multi-line-strings: false
-    indent-sequences: consistent
+    indent-sequences: false
   brackets:
     forbid: true
