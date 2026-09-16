@@ -1,0 +1,159 @@
+groups:
+- id: registry.signoz.organization
+  type: attribute_group
+  display_name: SigNoz Organization Attributes
+  brief: >
+    Attributes that identify the SigNoz organization a piece of telemetry belongs to.
+  note: |
+    The organization is the tenant of the SigNoz platform on the backend
+    plane: billing, audit and platform administration are scoped to it. It is
+    distinct from the `signoz.workspace.*` attributes, which identify the
+    tenant on the ingestion plane and are stamped by the SigNoz gateway; today
+    the two are bridged only by the license key.
+  attributes:
+  - id: signoz.organization.id
+    type: string
+    stability: development
+    brief: >
+      Unique identifier of the organization.
+    note: |
+      A UUID assigned when the organization is created.
+
+      Carried today as a dimension on the meter readings the backend reports
+      to the billing system. Audit events carry the same value under
+      `signoz.audit.principal.org_id`, which is being renamed to this
+      attribute.
+    examples:
+    - "58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e"
+
+- id: registry.signoz.principal
+  type: attribute_group
+  display_name: SigNoz Principal Attributes
+  brief: >
+    Attributes that describe the principal, the authenticated user or service account whose action a piece of telemetry records.
+  note: |
+    The principal is the actor recorded in the telemetry, not the entity the
+    telemetry is about, so it is modelled as plain attributes rather than as
+    an entity.
+
+    Emitted today on audit events under `signoz.audit.principal.*`, which is
+    being renamed to this shared namespace so that any signal that records an
+    actor can reference the same attributes.
+  attributes:
+  - id: signoz.principal.id
+    type: string
+    stability: development
+    brief: >
+      Unique identifier of the principal.
+    note: |
+      Identifies a user or a service account, as indicated by
+      `signoz.principal.type`.
+    examples:
+    - "7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c"
+  - id: signoz.principal.type
+    type:
+      members:
+      - id: user
+        value: "user"
+        brief: >
+          A human user of the SigNoz platform.
+        stability: development
+      - id: service_account
+        value: "service_account"
+        brief: >
+          A non-human principal that authenticates with an API key.
+        stability: development
+    stability: development
+    brief: >
+      Kind of the principal.
+    note: |
+      This is an open enum: the platform also knows a `system` principal type,
+      which is not emitted in telemetry today but may be added later.
+    examples:
+    - "user"
+  - id: signoz.principal.email
+    type: string
+    stability: development
+    brief: >
+      Email address of the principal.
+    note: |
+      Set for user principals; service accounts have no email address.
+
+      > [!WARNING]
+      > This attribute may contain sensitive personally identifiable
+      > information (PII).
+    examples:
+    - "jane.doe@example.com"
+  - id: signoz.principal.authn.credential.type
+    type:
+      members:
+      - id: tokenizer
+        value: "tokenizer"
+        brief: >
+          The request carried an access token issued by SigNoz.
+        stability: development
+      - id: api_key
+        value: "api_key"
+        brief: >
+          The request carried a service account API key.
+        stability: development
+      - id: anonymous
+        value: "anonymous"
+        brief: >
+          The request was unauthenticated.
+        stability: development
+      - id: internal
+        value: "internal"
+        brief: >
+          The request arrived over an internal, trusted path.
+        stability: development
+      - id: impersonation
+        value: "impersonation"
+        brief: >
+          The request was made by an administrator impersonating the principal.
+        stability: development
+    stability: development
+    brief: >
+      Type of credential that authenticated the request.
+    note: |
+      Describes the credential presented on the recorded request, not how the
+      principal's identity was verified at login; for the latter see
+      `signoz.principal.authn.method`. This is an open enum.
+
+      Renamed from `signoz.audit.identn_provider`.
+    examples:
+    - "api_key"
+  - id: signoz.principal.authn.method
+    type:
+      members:
+      - id: google
+        value: "google"
+        brief: >
+          The user authenticated with Google sign-in.
+        stability: development
+      - id: saml
+        value: "saml"
+        brief: >
+          The user authenticated via SAML single sign-on.
+        stability: development
+      - id: email_password
+        value: "email_password"
+        brief: >
+          The user authenticated with an email address and password.
+        stability: development
+      - id: oidc
+        value: "oidc"
+        brief: >
+          The user authenticated via OpenID Connect single sign-on.
+        stability: development
+    stability: development
+    brief: >
+      Method by which the principal's identity was verified at login.
+    note: |
+      Applies to user principals only; service accounts do not log in. This is
+      an open enum: more methods may be added as the platform supports them.
+
+      No instrumentation emits this attribute yet; it is defined here so that
+      producers have a stable name to implement against.
+    examples:
+    - "oidc"
