@@ -65,7 +65,12 @@ groups:
       Kind of the counterpart resource in a relation.
     note: |
       Set on operations that relate two resources, for example attach and
-      detach. Takes the same values as `signoz.resource.kind`.
+      detach: `attach dashboard D to alert rule R` records R as the target.
+      Relations emit one event per side; in each event the
+      `signoz.resource.*` attributes describe the side the event is recorded
+      from and the `signoz.resource.target.*` attributes the other side.
+
+      Takes the same values as `signoz.resource.kind`.
     examples:
     - "dashboard"
   - id: signoz.resource.target.id
