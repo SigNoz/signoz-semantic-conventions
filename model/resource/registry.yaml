@@ -1,0 +1,90 @@
+groups:
+- id: registry.signoz.resource
+  type: attribute_group
+  display_name: SigNoz Resource Attributes
+  brief: >
+    Attributes that identify a SigNoz platform resource, and the counterpart resource of a relation.
+  note: |
+    A resource is an object the SigNoz platform manages: a metaresource such
+    as a dashboard or an alert rule, a telemetry resource such as the logs,
+    traces or metrics of an organization, or a platform object such as an
+    ingestion key or a license.
+
+    The term is unrelated to the OpenTelemetry Resource. Each signal that
+    carries these attributes defines whether they appear as signal attributes
+    or on the OpenTelemetry Resource.
+
+    The resource is also modelled as the entity `signoz.resource` (see
+    `entities.yaml`).
+  attributes:
+  - id: signoz.resource.kind
+    type: string
+    stability: development
+    brief: >
+      Kind of the resource.
+    note: |
+      Kind values are lowercase, with words joined by hyphens.
+
+      Known values include metaresource kinds such as `dashboard` and
+      `alert-rule`; telemetry resource kinds `logs`, `traces`, `metrics`,
+      `meter-metrics`, `logs-field` and `traces-field`; and platform object
+      kinds such as `ingestion-key`, `ingestion-limit`, `license`,
+      `subscription` and `deployment-host`. The set is not final.
+    examples:
+    - "ingestion-key"
+  - id: signoz.resource.id
+    type: string
+    stability: development
+    brief: >
+      Unique identifier of the resource.
+    note: |
+      The id is unique within its kind and organization, not across kinds.
+      Its format depends on the kind; most platform objects use a UUID.
+
+      The value `*` denotes the collection of all resources of the kind and
+      is used when an operation applies to the collection rather than to a
+      single resource, for example a list operation.
+    examples:
+    - "3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c"
+    - "*"
+  - id: signoz.resource.object
+    type: string
+    stability: development
+    brief: >
+      Object reference of the resource in the authorization model.
+    note: |
+      The grammar is `<type>:organization/<organization id>/<kind>/<selector>`.
+      For telemetry resources the type is `telemetryresource` and the selector
+      is replaced by its SHA-256 hash truncated to 16 hexadecimal characters.
+    examples:
+    - "telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f"
+  - id: signoz.resource.target.kind
+    type: string
+    stability: development
+    brief: >
+      Kind of the counterpart resource in a relation.
+    note: |
+      Set on operations that relate two resources, for example attach and
+      detach. Takes the same values as `signoz.resource.kind`.
+    examples:
+    - "dashboard"
+  - id: signoz.resource.target.id
+    type: string
+    stability: development
+    brief: >
+      Unique identifier of the counterpart resource in a relation.
+    note: |
+      Set on operations that relate two resources, for example attach and
+      detach. Follows the same rules as `signoz.resource.id`.
+    examples:
+    - "7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c"
+  - id: signoz.resource.target.object
+    type: string
+    stability: development
+    brief: >
+      Object reference of the counterpart resource in a relation.
+    note: |
+      Set on operations that relate two resources, for example attach and
+      detach. Follows the same grammar as `signoz.resource.object`.
+    examples:
+    - "telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65"

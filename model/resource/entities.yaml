@@ -1,0 +1,21 @@
+groups:
+- id: entity.signoz.resource
+  type: entity
+  name: signoz.resource
+  stability: development
+  brief: >
+    A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key.
+  note: |
+    Identified by its kind and id together: ids are unique within a kind and
+    organization, not across kinds. Operations on a collection, for example
+    listing all resources of a kind, use the id `*` and therefore do not
+    identify a single resource.
+  attributes:
+  - ref: signoz.resource.kind
+    role: identifying
+    requirement_level: required
+  - ref: signoz.resource.id
+    role: identifying
+    requirement_level: required
+  - ref: signoz.resource.object
+    role: descriptive
