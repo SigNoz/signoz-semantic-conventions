@@ -15,10 +15,8 @@ groups:
     brief: >
       Unique identifier of the organization.
     note: |
-      A UUID assigned when the organization is created.
-
-      Carried today as a dimension on the meter readings the backend reports
-      to the billing system.
+      The value is an opaque string: a UUID today, but the format may
+      change.
     examples:
     - "58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e"
 
