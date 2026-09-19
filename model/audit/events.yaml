@@ -1,23 +1,9 @@
 groups:
-- id: event.signoz.audit.event
-  type: event
-  name: signoz.audit.event
-  stability: development
+- id: attributes.signoz.audit.common
+  type: attribute_group
   brief: >
-    Records one operation a principal performed on a SigNoz resource.
+    Attributes shared by every SigNoz audit event.
   note: |
-    Recorded once per operation, after the operation has completed and its
-    outcome is known. The timestamp is the time of the operation.
-
-    One event name covers every audited operation, because every occurrence
-    carries the same attribute set. The operation and its object are
-    attributes, never part of the name: query `signoz.audit.verb` and
-    `signoz.resource.kind` instead.
-
-    Instrumentations SHOULD set severity `INFO` (9) when
-    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
-    `failure`.
-
     Attribute placement: `signoz.resource.*` are set on the OpenTelemetry
     Resource, so that records about one resource share a resource
     fingerprint and can be filtered without touching the record attributes.
@@ -26,14 +12,12 @@ groups:
     record. The Resource also carries the producer's `service.name` and
     `service.version`.
 
-    An operation that relates two resources, such as `attach` and `detach`,
-    is recorded once from each side. The two records describe the same
-    operation from opposite directions: what `signoz.resource.*` names in
-    one, `signoz.resource.target.*` names in the other.
-
     The body, when set, is a human-readable sentence describing the
-    operation. It carries no attribute that is not also recorded as an
-    attribute, and it MUST NOT contain the principal's email address.
+    operation, including the principal's email address. It carries no
+    attribute that is not also recorded as an attribute.
+
+    > [!WARNING]
+    > The body contains personally identifiable information (PII).
   attributes:
   - ref: signoz.audit.verb
     requirement_level: required
@@ -51,19 +35,9 @@ groups:
     requirement_level: required
     note: |
       Set to `*` when the operation applies to the collection of all
-      resources of the kind rather than to a single resource, as a `list`
-      does.
+      resources of the kind rather than to a single resource.
   - ref: signoz.resource.object
     requirement_level: recommended
-  - ref: signoz.resource.target.kind
-    requirement_level:
-      conditionally_required: If the operation relates two resources.
-  - ref: signoz.resource.target.id
-    requirement_level:
-      conditionally_required: If the operation relates two resources.
-  - ref: signoz.resource.target.object
-    requirement_level:
-      recommended: If the operation relates two resources.
   - ref: signoz.principal.id
     requirement_level:
       conditionally_required: If the request was authenticated.
@@ -91,7 +65,7 @@ groups:
 
       SHOULD also be set when `signoz.resource.kind` is `ingestion-limit`,
       where the key is the one the limit belongs to.
-  - ref: error.type
+  - ref: exception.type
     requirement_level:
       conditionally_required: If `signoz.audit.outcome` is `failure`.
     note: |
@@ -99,14 +73,18 @@ groups:
       raises: `invalid-input`, `not-found`, `already-exists`,
       `unauthenticated`, `forbidden`, `unsupported`, `canceled`, `timeout`,
       `license-unavailable`, `too-many-requests` and `internal`.
-
-      `signoz.audit.error.code` names the individual failure within the
-      class. Error messages are deliberately not recorded: they may carry
-      user data, and the trace id correlates the record with the logs that
-      do have the detail.
-  - ref: signoz.audit.error.code
-    requirement_level:
-      conditionally_required: If the operation failed with an error that carries a code.
+  - ref: exception.message
+    requirement_level: opt_in
+    note: |
+      > [!WARNING]
+      > Exception messages may carry user-supplied data. Record the message
+      > only where it is known to be free of it. The trace context of the
+      > record correlates with the logs that carry the detail.
+  - ref: exception.stacktrace
+    requirement_level: opt_in
+    note: |
+      Recording a stacktrace is expensive and the value is large; record it
+      only when debugging failures warrants it.
   - ref: http.request.method
     requirement_level:
       conditionally_required: If the operation was served over HTTP.
@@ -138,6 +116,147 @@ groups:
   - ref: network.protocol.name
     requirement_level: recommended
   - ref: network.protocol.version
+    requirement_level: recommended
+
+- id: event.signoz.audit.create
+  type: event
+  name: signoz.audit.create
+  stability: development
+  extends: attributes.signoz.audit.common
+  brief: >
+    Records the creation of a SigNoz resource.
+  note: |
+    Recorded once per creation, after the operation has completed and its
+    outcome is known. The timestamp is the time of the operation.
+
+    The verb is part of the event name and is also recorded as
+    `signoz.audit.verb`, so records can be queried either way.
+    `signoz.resource.kind` names the kind of resource created. Query by
+    event name or verb, and kind; never by parsing the body.
+
+    Instrumentations SHOULD set severity `INFO` (9) when
+    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
+    `failure`.
+
+    Attributes and their placement are inherited from
+    `attributes.signoz.audit.common`.
+  entity_associations:
+  - signoz.resource
+
+- id: event.signoz.audit.update
+  type: event
+  name: signoz.audit.update
+  stability: development
+  extends: attributes.signoz.audit.common
+  brief: >
+    Records the modification of a SigNoz resource.
+  note: |
+    Recorded once per modification, after the operation has completed and
+    its outcome is known. The timestamp is the time of the operation.
+
+    The verb is part of the event name and is also recorded as
+    `signoz.audit.verb`, so records can be queried either way.
+    `signoz.resource.kind` names the kind of resource modified. Query by
+    event name or verb, and kind; never by parsing the body.
+
+    Instrumentations SHOULD set severity `INFO` (9) when
+    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
+    `failure`.
+
+    Attributes and their placement are inherited from
+    `attributes.signoz.audit.common`.
+  entity_associations:
+  - signoz.resource
+
+- id: event.signoz.audit.delete
+  type: event
+  name: signoz.audit.delete
+  stability: development
+  extends: attributes.signoz.audit.common
+  brief: >
+    Records the deletion of a SigNoz resource.
+  note: |
+    Recorded once per deletion, after the operation has completed and its
+    outcome is known. The timestamp is the time of the operation.
+
+    The verb is part of the event name and is also recorded as
+    `signoz.audit.verb`, so records can be queried either way.
+    `signoz.resource.kind` names the kind of resource deleted. Query by
+    event name or verb, and kind; never by parsing the body.
+
+    Instrumentations SHOULD set severity `INFO` (9) when
+    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
+    `failure`.
+
+    Attributes and their placement are inherited from
+    `attributes.signoz.audit.common`.
+  entity_associations:
+  - signoz.resource
+
+- id: event.signoz.audit.attach
+  type: event
+  name: signoz.audit.attach
+  stability: development
+  extends: attributes.signoz.audit.common
+  brief: >
+    Records the attachment of one SigNoz resource to another.
+  note: |
+    Recorded after the operation has completed and its outcome is known.
+    The timestamp is the time of the operation.
+
+    An attach operation relates two resources, as in `attach dashboard D to
+    alert rule R`, and is recorded twice, once from each side of the
+    relation. In one record `signoz.resource.*` describes D and
+    `signoz.resource.target.*` describes R; in the other record the two
+    attribute sets are swapped. Both records describe the same operation
+    from opposite directions and carry the same verb and outcome.
+
+    Instrumentations SHOULD set severity `INFO` (9) when
+    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
+    `failure`.
+
+    Attributes and their placement are inherited from
+    `attributes.signoz.audit.common`.
+  attributes:
+  - ref: signoz.resource.target.kind
+    requirement_level: required
+  - ref: signoz.resource.target.id
+    requirement_level: required
+  - ref: signoz.resource.target.object
+    requirement_level: recommended
+  entity_associations:
+  - signoz.resource
+
+- id: event.signoz.audit.detach
+  type: event
+  name: signoz.audit.detach
+  stability: development
+  extends: attributes.signoz.audit.common
+  brief: >
+    Records the detachment of one SigNoz resource from another.
+  note: |
+    Recorded after the operation has completed and its outcome is known.
+    The timestamp is the time of the operation.
+
+    A detach operation relates two resources, as in `detach dashboard D
+    from alert rule R`, and is recorded twice, once from each side of the
+    relation. In one record `signoz.resource.*` describes D and
+    `signoz.resource.target.*` describes R; in the other record the two
+    attribute sets are swapped. Both records describe the same operation
+    from opposite directions and carry the same verb and outcome.
+
+    Instrumentations SHOULD set severity `INFO` (9) when
+    `signoz.audit.outcome` is `success` and `ERROR` (17) when it is
+    `failure`.
+
+    Attributes and their placement are inherited from
+    `attributes.signoz.audit.common`.
+  attributes:
+  - ref: signoz.resource.target.kind
+    requirement_level: required
+  - ref: signoz.resource.target.id
+    requirement_level: required
+  - ref: signoz.resource.target.object
     requirement_level: recommended
   entity_associations:
   - signoz.resource
