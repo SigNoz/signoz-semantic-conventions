@@ -1,0 +1,121 @@
+groups:
+- id: registry.signoz.spanmetrics
+  type: attribute_group
+  display_name: SigNoz Span Metrics Attributes
+  brief: >
+    Attributes that describe SigNoz span metrics.
+  attributes:
+  - id: signoz.collector.id
+    type: string
+    stability: development
+    brief: >
+      The identifier of the collector instance that produced the metric.
+    note: |
+      The collector's `service.instance.id`, or a UUID assigned when the
+      collector starts if it has none.
+    examples:
+    - "6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14"
+  - id: resource_signoz.collector.id
+    type: string
+    stability: development
+    brief: >
+      A copy of `signoz.collector.id`.
+    examples:
+    - "6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14"
+  - id: operation
+    type: string
+    stability: development
+    brief: >
+      The name of the aggregated spans.
+    note: |
+      Set to `overflow_operation` when the service has more distinct span
+      names than are tracked.
+    examples:
+    - "GET /api/v1/orders/{id}"
+    - "overflow_operation"
+  - id: span.kind
+    type:
+      members:
+      - id: unspecified
+        value: "SPAN_KIND_UNSPECIFIED"
+        stability: development
+        brief: >
+          The span kind is unspecified.
+      - id: internal
+        value: "SPAN_KIND_INTERNAL"
+        stability: development
+        brief: >
+          An internal operation.
+      - id: server
+        value: "SPAN_KIND_SERVER"
+        stability: development
+        brief: >
+          The server side of a remote call.
+      - id: client
+        value: "SPAN_KIND_CLIENT"
+        stability: development
+        brief: >
+          The client side of a remote call.
+      - id: producer
+        value: "SPAN_KIND_PRODUCER"
+        stability: development
+        brief: >
+          The producer of an asynchronous message.
+      - id: consumer
+        value: "SPAN_KIND_CONSUMER"
+        stability: development
+        brief: >
+          The consumer of an asynchronous message.
+    stability: development
+    brief: >
+      The kind of the aggregated spans.
+    examples:
+    - "SPAN_KIND_SERVER"
+  - id: status.code
+    type:
+      members:
+      - id: unset
+        value: "STATUS_CODE_UNSET"
+        stability: development
+        brief: >
+          The span status is unset.
+      - id: ok
+        value: "STATUS_CODE_OK"
+        stability: development
+        brief: >
+          The span completed successfully.
+      - id: error
+        value: "STATUS_CODE_ERROR"
+        stability: development
+        brief: >
+          The span completed with an error.
+    stability: development
+    brief: >
+      The status code of the aggregated spans.
+    examples:
+    - "STATUS_CODE_ERROR"
+  - id: address
+    type: string
+    stability: development
+    brief: >
+      The remote endpoint of an external call.
+    note: |
+      `<rpc.service>/<rpc.method>` for RPC calls, otherwise the remote host
+      as `host` or `host:port`, or the span's `peer.service`.
+    examples:
+    - "payments.internal:8443"
+    - "oteldemo.CartService/GetCart"
+  - id: resource_service.namespace
+    type: string
+    stability: development
+    brief: >
+      The value of `service.namespace` on the span's Resource.
+    examples:
+    - "shop"
+  - id: resource_deployment.environment
+    type: string
+    stability: development
+    brief: >
+      The value of `deployment.environment` on the span's Resource.
+    examples:
+    - "production"
