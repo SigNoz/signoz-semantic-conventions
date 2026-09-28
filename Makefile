@@ -9,3 +9,8 @@ yaml-lint: ## Lint the yaml files
 .PHONY: weaver-check
 weaver-check: ## Runs weaver check.
 	@weaver registry check --registry model/
+
+.PHONY: weaver-docs
+weaver-docs: ## Generate docs/ from the registry.
+	@rm -rf docs
+	@weaver registry generate --registry model/ --v2 --quiet markdown docs
