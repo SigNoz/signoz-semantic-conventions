@@ -7,11 +7,9 @@
 - A version with a suffix such as `-rc.1` is published as a pre-release.
 - Between releases, `main` carries the next version with an `-unreleased` suffix.
 
-## Setup
-
-The version checks and edits live in [`hack/release.sh`](hack/release.sh) (run it with no arguments for usage); the workflows call it, then commit, open PRs or publish. The three workflows authenticate as the primus GitHub App through the `PRIMUS_APP_ID` and `PRIMUS_PRIVATE_KEY` organization secrets, so their PRs and releases trigger other workflows. The app needs write access to contents and pull requests on this repository.
-
 ## Steps
+
+The workflows run [`hack/release.sh`](hack/release.sh) for the version checks and edits; run it with no arguments for usage.
 
 1. Run the [prereleaser](.github/workflows/prereleaser.yaml) workflow with the version, e.g. `0.0.1-rc.1`. It opens a `chore(release): v<version>` PR that sets `schema_url`.
 2. Review and merge that PR.
