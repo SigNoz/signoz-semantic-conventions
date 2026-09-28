@@ -1,0 +1,98 @@
+groups:
+- id: attributes.signoz.meter.common
+  type: attribute_group
+  brief: >
+    Attributes shared by every SigNoz meter metric.
+  note: |
+    Each attribute is a resource attribute of the metered telemetry, recorded
+    under its own key with its value as a string. The attributes are
+    configurable: further resource attributes MAY be recorded the same way,
+    and an attribute is omitted when the metered telemetry does not carry it.
+  attributes:
+  - ref: service.name
+    requirement_level: recommended
+  - ref: deployment.environment
+    requirement_level: recommended
+  - ref: host.name
+    requirement_level: recommended
+
+- id: metric.signoz.meter.log.count
+  type: metric
+  metric_name: signoz.meter.log.count
+  stability: development
+  brief: >
+    The number of log records observed.
+  note: |
+    Each log record counts as one.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.log.size
+  type: metric
+  metric_name: signoz.meter.log.size
+  stability: development
+  brief: >
+    The size of log records observed.
+  note: |
+    The size of a log record is the size of its resource attributes, its
+    attributes and its body. `signoz.workspace.*` attributes are not
+    counted.
+  instrument: counter
+  unit: "By"
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.span.count
+  type: metric
+  metric_name: signoz.meter.span.count
+  stability: development
+  brief: >
+    The number of spans observed.
+  note: |
+    Each span counts as one.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.span.size
+  type: metric
+  metric_name: signoz.meter.span.size
+  stability: development
+  brief: >
+    The size of spans observed.
+  note: |
+    The size of a span is the size of its fields, its resource attributes,
+    its attributes, its events and its links. `signoz.workspace.*` and
+    `signoz.gen_ai.*` attributes are not counted.
+  instrument: counter
+  unit: "By"
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.metric.datapoint.count
+  type: metric
+  metric_name: signoz.meter.metric.datapoint.count
+  stability: development
+  brief: >
+    The number of metric data points observed.
+  note: |
+    A gauge or sum data point counts as one. A histogram data point counts
+    as its number of buckets plus one for its count and one each for its
+    sum, min and max when present.
+    A summary data point counts as its number of quantiles plus two.
+    Exponential histogram data points, and metrics whose name starts with
+    `signoz` or `otelcol`, are not counted.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.metric.datapoint.size
+  type: metric
+  metric_name: signoz.meter.metric.datapoint.size
+  stability: development
+  brief: >
+    The size of metric data points observed.
+  note: |
+    The value is always `0`.
+  instrument: counter
+  unit: "By"
+  extends: attributes.signoz.meter.common
