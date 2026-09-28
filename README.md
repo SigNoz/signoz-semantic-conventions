@@ -16,17 +16,7 @@
 
 ## Overview
 
-The conventions are an [OpenTelemetry Weaver](https://github.com/open-telemetry/weaver) registry built on the [OpenTelemetry semantic conventions](https://github.com/open-telemetry/semantic-conventions). The YAML definitions are in [`model/`](model), one folder per area, and the [docs](docs/README.md) are generated from them.
-
-| Area | Covers |
-| --- | --- |
-| [`audit`](docs/audit.md) | Audit log events for operations on SigNoz resources |
-| [`genai`](docs/genai.md) | The cost of generative AI model calls |
-| [`identity`](docs/identity.md) | Organizations and principals |
-| [`meter`](docs/meter.md) | Usage metrics for ingested telemetry |
-| [`resource`](docs/resource.md) | SigNoz resources such as dashboards, alert rules and ingestion keys |
-| [`spanmetrics`](docs/spanmetrics.md) | Metrics derived from spans for APM |
-| [`workspace`](docs/workspace.md) | Workspaces and their ingestion keys |
+The conventions are an [OpenTelemetry Weaver](https://github.com/open-telemetry/weaver) registry built on the [OpenTelemetry semantic conventions](https://github.com/open-telemetry/semantic-conventions). The YAML definitions are in [`model/`](model), one folder per area, and the generated [docs](docs/README.md) list every attribute, metric, event and entity.
 
 ## Using the conventions
 
