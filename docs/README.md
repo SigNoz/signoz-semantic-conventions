@@ -2,28 +2,45 @@
 
 # SigNoz semantic conventions
 
-## Attributes
+## 🏷️ Attributes
+
+### [`audit`](audit.md)
 
 - [`signoz.audit.action_category`](audit.md#signoz-audit-action-category): Category of the audited operation.
 - [`signoz.audit.outcome`](audit.md#signoz-audit-outcome): Outcome of the audited operation.
 - [`signoz.audit.verb`](audit.md#signoz-audit-verb): Operation the principal performed on the resource.
+
+### [`genai`](genai.md)
+
 - [`signoz.gen_ai.usage.cache_read.input_tokens.cost`](genai.md#signoz-gen-ai-usage-cache-read-input-tokens-cost): The monetary cost of the input tokens served from a provider-managed cache.
 - [`signoz.gen_ai.usage.cache_write.input_tokens.cost`](genai.md#signoz-gen-ai-usage-cache-write-input-tokens-cost): The monetary cost of the input tokens written to a provider-managed cache.
 - [`signoz.gen_ai.usage.input_tokens.cost`](genai.md#signoz-gen-ai-usage-input-tokens-cost): The monetary cost of the input tokens billed at the model's standard input rate.
 - [`signoz.gen_ai.usage.output_tokens.cost`](genai.md#signoz-gen-ai-usage-output-tokens-cost): The monetary cost of the output tokens a model generated.
 - [`signoz.gen_ai.usage.tokens.cost`](genai.md#signoz-gen-ai-usage-tokens-cost): The total monetary cost of the tokens a model call used.
+
+### [`identity`](identity.md)
+
 - [`signoz.organization.id`](identity.md#signoz-organization-id): Unique identifier of the organization.
 - [`signoz.principal.email`](identity.md#signoz-principal-email): Email address of the principal.
 - [`signoz.principal.id`](identity.md#signoz-principal-id): Unique identifier of the principal.
 - [`signoz.principal.type`](identity.md#signoz-principal-type): Kind of the principal.
+
+### [`meter`](meter.md)
+
 - [`connector_id`](meter.md#connector-id): The identifier of the meter connector instance that produced the metric.
 - [`signoz.io/workload`](meter.md#signoz-io-workload): The SigNoz workload a Kubernetes node is dedicated to.
+
+### [`resource`](resource.md)
+
 - [`signoz.resource.id`](resource.md#signoz-resource-id): Unique identifier of the resource.
 - [`signoz.resource.kind`](resource.md#signoz-resource-kind): Kind of the resource.
 - [`signoz.resource.object`](resource.md#signoz-resource-object): Object reference of the resource in the authorization model.
 - [`signoz.resource.target.id`](resource.md#signoz-resource-target-id): Unique identifier of the counterpart resource in a relation.
 - [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind): Kind of the counterpart resource in a relation.
 - [`signoz.resource.target.object`](resource.md#signoz-resource-target-object): Object reference of the counterpart resource in a relation.
+
+### [`spanmetrics`](spanmetrics.md)
+
 - [`address`](spanmetrics.md#address): The remote endpoint of an external call.
 - [`operation`](spanmetrics.md#operation): The name of the aggregated spans.
 - [`resource_deployment.environment`](spanmetrics.md#resource-deployment-environment): The value of `deployment.environment` on the span's Resource.
@@ -32,10 +49,15 @@
 - [`signoz.collector.id`](spanmetrics.md#signoz-collector-id): The identifier of the collector instance that produced the metric.
 - [`span.kind`](spanmetrics.md#span-kind): The kind of the aggregated spans.
 - [`status.code`](spanmetrics.md#status-code): The status code of the aggregated spans.
+
+### [`workspace`](workspace.md)
+
 - [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id): Identifier of the key that authenticated the telemetry.
 - [`signoz.workspace.name`](workspace.md#signoz-workspace-name): Identifier of the workspace under which the telemetry was ingested.
 
-## Metrics
+## 📈 Metrics
+
+### [`meter`](meter.md)
 
 - [`signoz.meter.cpu.node.allocatable.usage`](meter.md#signoz-meter-cpu-node-allocatable-usage): The amount of CPU allocatable on a Kubernetes node that runs SigNoz.
 - [`signoz.meter.log.count`](meter.md#signoz-meter-log-count): The number of log records observed.
@@ -44,6 +66,9 @@
 - [`signoz.meter.metric.datapoint.size`](meter.md#signoz-meter-metric-datapoint-size): The size of metric data points observed.
 - [`signoz.meter.span.count`](meter.md#signoz-meter-span-count): The number of spans observed.
 - [`signoz.meter.span.size`](meter.md#signoz-meter-span-size): The size of spans observed.
+
+### [`spanmetrics`](spanmetrics.md)
+
 - [`signoz_calls_total`](spanmetrics.md#signoz-calls-total): The number of spans observed.
 - [`signoz_db_latency_count`](spanmetrics.md#signoz-db-latency-count): The number of database calls observed.
 - [`signoz_db_latency_sum`](spanmetrics.md#signoz-db-latency-sum): The total duration of database calls observed.
@@ -51,7 +76,9 @@
 - [`signoz_external_call_latency_sum`](spanmetrics.md#signoz-external-call-latency-sum): The total duration of external calls observed.
 - [`signoz_latency`](spanmetrics.md#signoz-latency): The duration of spans observed.
 
-## Events
+## ⚡ Events
+
+### [`audit`](audit.md)
 
 - [`signoz.audit.attach`](audit.md#signoz-audit-attach): Records the attachment of one SigNoz resource to another.
 - [`signoz.audit.create`](audit.md#signoz-audit-create): Records the creation of a SigNoz resource.
@@ -59,10 +86,18 @@
 - [`signoz.audit.detach`](audit.md#signoz-audit-detach): Records the detachment of one SigNoz resource from another.
 - [`signoz.audit.update`](audit.md#signoz-audit-update): Records the modification of a SigNoz resource.
 
-## Entities
+## 🧩 Entities
+
+### [`identity`](identity.md)
 
 - [`signoz.organization`](identity.md#signoz-organization): A SigNoz organization, the logical grouping of everything one SigNoz account holds.
 - [`signoz.principal`](identity.md#signoz-principal): A principal of the SigNoz platform: an authenticated user or service account.
+
+### [`resource`](resource.md)
+
 - [`signoz.resource`](resource.md#signoz-resource): A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key.
+
+### [`workspace`](workspace.md)
+
 - [`signoz.workspace`](workspace.md#signoz-workspace): A SigNoz workspace.
 - [`signoz.workspace.key`](workspace.md#signoz-workspace-key): A key of a SigNoz workspace.
