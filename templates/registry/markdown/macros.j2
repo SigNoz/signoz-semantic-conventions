@@ -1,0 +1,104 @@
+{#- Shared helpers for the area and README pages. -#}
+
+{%- macro cell(text) -%}
+{{ (text or "") | replace("\n", " ") | trim | replace("|", "\\|") }}
+{%- endmacro -%}
+
+{%- macro anchor(key) -%}
+{{ key | replace(".", "-") | replace("_", "-") | replace("/", "-") | lower }}
+{%- endmacro -%}
+
+{#- Link an attribute to its definition: this repo's area page, or upstream's
+    registry page at the pinned release. -#}
+{%- macro attr_link(a, here) -%}
+{%- if a.provenance.path -%}
+{%- set area = a.provenance.path.split("/")[-2] -%}
+{%- if area == here -%}
+[`{{ a.key }}`](#{{ anchor(a.key) }})
+{%- else -%}
+[`{{ a.key }}`]({{ area }}.md#{{ anchor(a.key) }})
+{%- endif -%}
+{%- else -%}
+{%- set version = a.provenance.source.split("/")[-1] -%}
+{%- set page = a.key.split(".")[0] | replace("_", "-") -%}
+[`{{ a.key }}`](https://github.com/open-telemetry/semantic-conventions/blob/v{{ version }}/docs/registry/attributes/{{ page }}.md#{{ anchor(a.key) }})
+{%- endif -%}
+{%- endmacro -%}
+
+{#- Enums show the type of their values, as upstream does. -#}
+{%- macro type_name(t) -%}
+{%- if t is mapping -%}
+{%- if t.members and t.members[0].value is string -%}string{%- else -%}int{%- endif -%}
+{%- else -%}{{ t }}{%- endif -%}
+{%- endmacro -%}
+
+{%- macro stability(s, deprecated=none) -%}
+{%- if deprecated -%}
+![Deprecated](https://img.shields.io/badge/-deprecated-red)
+{%- if deprecated.renamed_to %}<br>Replaced by `{{ deprecated.renamed_to }}`.{% endif -%}
+{%- elif s == "stable" -%}
+![Stable](https://img.shields.io/badge/-stable-lightgreen)
+{%- elif s == "release_candidate" -%}
+![Release Candidate](https://img.shields.io/badge/-rc-mediumorchid)
+{%- elif s == "development" -%}
+![Development](https://img.shields.io/badge/-development-blue)
+{%- else -%}
+{{ s }}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro requirement(r) -%}
+{%- set names = {"required": "Required", "recommended": "Recommended", "opt_in": "Opt-In", "conditionally_required": "Conditionally Required"} -%}
+{%- if r is mapping -%}
+{%- for level, condition in r | items -%}
+`{{ names[level] or level }}` {{ cell(condition) }}
+{%- endfor -%}
+{%- else -%}
+`{{ names[r] or r }}`
+{%- endif -%}
+{%- endmacro -%}
+
+{#- `examples` may be a single value or a list. -#}
+{%- macro examples(values) -%}
+{%- if values is string or values is number or values is boolean -%}{%- set values = [values] -%}{%- endif -%}
+{%- for e in values or [] -%}
+`{{ cell(e if e is string else e | tojson) }}`{% if not loop.last %}; {% endif %}
+{%- endfor -%}
+{%- endmacro -%}
+
+{#- Attribute table for a signal or entity, plus numbered notes under it.
+    A note starting with a callout, code fence or table goes on its own line,
+    since those only render at the start of one. -#}
+{%- macro attribute_table(attrs, here, show_requirement=true) -%}
+{%- set noted = attrs | selectattr("note") | list -%}
+{%- set roles = attrs | selectattr("role") | list | length > 0 -%}
+{% if roles %}
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+{% elif show_requirement %}
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+{% else %}
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+{% endif %}
+{% for a in attrs %}
+{%- set ns = namespace(n=0) -%}
+{%- for x in noted -%}{%- if x.key == a.key -%}{%- set ns.n = loop.index -%}{%- endif -%}{%- endfor -%}
+| {% if roles %}{{ a.role }} | {% endif %}{{ attr_link(a, here) }} | {{ stability(a.stability, a.deprecated) }} | {% if show_requirement %}{{ requirement(a.requirement_level) }} | {% endif %}{{ type_name(a.type) }} | {{ description(a) }}{% if ns.n %} [{{ ns.n }}]{% endif %} | {{ examples(a.examples) }} |
+{% endfor %}
+{% for a in noted %}
+
+**[{{ loop.index }}] `{{ a.key }}`:**{{ "\n\n" if (a.note | trim)[:1] in [">", "`", "|"] else " " }}{{ a.note | trim }}
+{% endfor %}
+{%- endmacro -%}
+
+{#- OpenTelemetry deprecated some names SigNoz still uses; say so instead of
+    repeating upstream's "Deprecated, use X instead." brief. -#}
+{%- macro description(a) -%}
+{%- if a.deprecated -%}
+SigNoz uses this name, which OpenTelemetry has deprecated.
+{%- else -%}
+{{ cell(a.brief) }}
+{%- endif -%}
+{%- endmacro -%}

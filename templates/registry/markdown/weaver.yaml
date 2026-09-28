@@ -1,0 +1,44 @@
+# Renders docs/ from the resolved registry (weaver --v2 schema).
+# One page per area: the directory under model/ each definition lives in.
+params:
+  # Group every definition in this registry by the model/ directory it came
+  # from. On signals and entities, an attribute keeps its `note` only where
+  # it refines the definition (here or upstream); otherwise the page links to
+  # the definition instead of repeating it.
+  areas_filter: &areas >
+    .registry as $r
+    | ([(.dependencies // {})[] | .registry.attributes[]] + $r.attributes
+       | map({key: .key, value: .note}) | from_entries) as $notes
+    | def refine: map(. + {note: (if .note == $notes[.key] then null else .note end)});
+      [
+        ($r.attributes[] | {kind: "attributes", v: .}),
+        ($r.metrics[] | {kind: "metrics", v: (. + {attributes: ((.attributes // []) | refine)})}),
+        ($r.events[] | {kind: "events", v: (. + {attributes: ((.attributes // []) | refine)})}),
+        ($r.entities[] | {kind: "entities", v: (. + {attributes: (
+            ((.identity // []) | refine | map(. + {role: "Identity"}))
+            + ((.description // []) | refine | map(. + {role: "Description"})))})}),
+        ($r.spans[] | {kind: "spans", v: (. + {attributes: ((.attributes // []) | refine)})})
+      ]
+    | map(. + {area: (.v.provenance.path | split("/") | .[-2])})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        attributes: (map(select(.kind == "attributes") | .v) | sort_by(.key)),
+        metrics: (map(select(.kind == "metrics") | .v) | sort_by(.name)),
+        events: (map(select(.kind == "events") | .v) | sort_by(.name)),
+        entities: (map(select(.kind == "entities") | .v) | sort_by(.type)),
+        spans: (map(select(.kind == "spans") | .v) | sort_by(.type))
+      })
+templates:
+- pattern: readme.md.j2
+  filter: *areas
+  application_mode: single
+  file_name: README.md
+- pattern: area.md.j2
+  filter: *areas
+  application_mode: each
+  file_name: "{{ ctx.area }}.md"
+whitespace_control:
+  trim_blocks: true
+  lstrip_blocks: true
+  keep_trailing_newline: true
