@@ -66,7 +66,9 @@
 {%- endfor -%}
 {%- endmacro -%}
 
-{#- Attribute table for a signal or entity, plus numbered notes under it. -#}
+{#- Attribute table for a signal or entity, plus numbered notes under it.
+    A note starting with a callout, code fence or table goes on its own line,
+    since those only render at the start of one. -#}
 {%- macro attribute_table(attrs, here, show_requirement=true) -%}
 {%- set noted = attrs | selectattr("note") | list -%}
 {% if show_requirement %}
@@ -83,7 +85,7 @@
 {% endfor %}
 {% for a in noted %}
 
-**[{{ loop.index }}] `{{ a.key }}`:** {{ a.note | trim }}
+**[{{ loop.index }}] `{{ a.key }}`:**{{ "\n\n" if (a.note | trim)[:1] in [">", "`", "|"] else " " }}{{ a.note | trim }}
 {% endfor %}
 {%- endmacro -%}
 

@@ -112,7 +112,9 @@ and `ERROR` (17) when it is `failure`.
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
 
-**[2] `exception.message`:** > [!WARNING]
+**[2] `exception.message`:**
+
+> [!WARNING]
 > Exception messages may contain user-supplied data.
 
 **[3] `exception.type`:** The class of the failure. Values are the error types the platform
@@ -135,7 +137,9 @@ resources of the kind rather than to a single resource.
 `signoz.resource.id`; it SHOULD also be set when the kind is
 `ingestion-limit`.
 
-**[8] `url.path`:** > [!WARNING]
+**[8] `url.path`:**
+
+> [!WARNING]
 > Path segments contain resource identifiers, including those of
 > resources the principal was not allowed to reach.
 
@@ -182,7 +186,9 @@ and `ERROR` (17) when it is `failure`.
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
 
-**[2] `exception.message`:** > [!WARNING]
+**[2] `exception.message`:**
+
+> [!WARNING]
 > Exception messages may contain user-supplied data.
 
 **[3] `exception.type`:** The class of the failure. Values are the error types the platform
@@ -205,7 +211,9 @@ resources of the kind rather than to a single resource.
 `signoz.resource.id`; it SHOULD also be set when the kind is
 `ingestion-limit`.
 
-**[8] `url.path`:** > [!WARNING]
+**[8] `url.path`:**
+
+> [!WARNING]
 > Path segments contain resource identifiers, including those of
 > resources the principal was not allowed to reach.
 
@@ -252,7 +260,9 @@ and `ERROR` (17) when it is `failure`.
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
 
-**[2] `exception.message`:** > [!WARNING]
+**[2] `exception.message`:**
+
+> [!WARNING]
 > Exception messages may contain user-supplied data.
 
 **[3] `exception.type`:** The class of the failure. Values are the error types the platform
@@ -275,7 +285,9 @@ resources of the kind rather than to a single resource.
 `signoz.resource.id`; it SHOULD also be set when the kind is
 `ingestion-limit`.
 
-**[8] `url.path`:** > [!WARNING]
+**[8] `url.path`:**
+
+> [!WARNING]
 > Path segments contain resource identifiers, including those of
 > resources the principal was not allowed to reach.
 
@@ -328,7 +340,9 @@ and `ERROR` (17) when it is `failure`.
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
 
-**[2] `exception.message`:** > [!WARNING]
+**[2] `exception.message`:**
+
+> [!WARNING]
 > Exception messages may contain user-supplied data.
 
 **[3] `exception.type`:** The class of the failure. Values are the error types the platform
@@ -351,7 +365,9 @@ resources of the kind rather than to a single resource.
 `signoz.resource.id`; it SHOULD also be set when the kind is
 `ingestion-limit`.
 
-**[8] `url.path`:** > [!WARNING]
+**[8] `url.path`:**
+
+> [!WARNING]
 > Path segments contain resource identifiers, including those of
 > resources the principal was not allowed to reach.
 
@@ -398,7 +414,9 @@ and `ERROR` (17) when it is `failure`.
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
 
-**[2] `exception.message`:** > [!WARNING]
+**[2] `exception.message`:**
+
+> [!WARNING]
 > Exception messages may contain user-supplied data.
 
 **[3] `exception.type`:** The class of the failure. Values are the error types the platform
@@ -421,6 +439,8 @@ resources of the kind rather than to a single resource.
 `signoz.resource.id`; it SHOULD also be set when the kind is
 `ingestion-limit`.
 
-**[8] `url.path`:** > [!WARNING]
+**[8] `url.path`:**
+
+> [!WARNING]
 > Path segments contain resource identifiers, including those of
 > resources the principal was not allowed to reach.
