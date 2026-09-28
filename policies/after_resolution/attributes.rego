@@ -132,7 +132,7 @@ signoz_example_holders contains {"key": entry.attr.key, "type": entry.attr.type,
 deny contains finding if {
 	some holder in signoz_example_holders
 	is_string(holder.type)
-	endswith(holder.type, "[]")
+	regex.match(`\[\]\]?$`, holder.type) # string[] and template[string[]] alike
 	some example in signoz_as_array(holder.examples)
 	not is_array(example)
 	finding := {

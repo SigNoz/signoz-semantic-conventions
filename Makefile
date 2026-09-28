@@ -22,7 +22,7 @@ WEAVER_PACKAGES_POLICIES := \
 
 .PHONY: weaver-check
 weaver-check: ## Runs weaver check with the rego policies.
-	@dups="$$(grep -rhE '^- id: |^  metric_name: ' model | sed 's/ *#.*//' | sort | uniq -d)"; \
+	@dups="$$(grep -rhE '^- id: |^  metric_name: ' model | sed -E 's/ *#.*//; s/["'"'"']//g; s/ +$$//' | sort | uniq -d)"; \
 		if [ -n "$$dups" ]; then echo "Defined more than once in model/:"; echo "$$dups"; exit 1; fi
 	@weaver registry check --registry model/ --policy policies/before_resolution
 	@weaver registry check --registry model/ --v2 --policy policies/after_resolution \
