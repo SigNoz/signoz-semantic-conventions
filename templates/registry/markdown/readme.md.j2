@@ -7,7 +7,7 @@
 
 {% for a in ctx %}
 {% for x in a.attributes %}
-- [`{{ x.key }}`]({{ a.area }}.md#{{ m.anchor(x.key) }})
+- [`{{ x.key }}`]({{ a.area }}.md#{{ m.anchor(x.key) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
@@ -15,7 +15,7 @@
 
 {% for a in ctx %}
 {% for x in a.metrics %}
-- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
@@ -23,7 +23,7 @@
 
 {% for a in ctx %}
 {% for x in a.events %}
-- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
@@ -31,6 +31,6 @@
 
 {% for a in ctx %}
 {% for x in a.entities %}
-- [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }})
+- [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
