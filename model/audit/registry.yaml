@@ -5,13 +5,8 @@ groups:
   brief: >
     Attributes that describe an audited operation on the SigNoz platform.
   note: |
-    An audit record answers who did what, to which resource, and whether it
-    succeeded. The verb names the event (`signoz.audit.create`,
-    `signoz.audit.update`, `signoz.audit.delete`, `signoz.audit.attach`,
-    `signoz.audit.detach`) and is also recorded as the `signoz.audit.verb`
-    attribute. The actor is `signoz.principal.*`, the object is
-    `signoz.resource.*` and the owner is `signoz.organization.id`. Failures
-    are described by the upstream `exception.*` attributes.
+    An audit record describes who performed which operation on which
+    resource, and whether it succeeded.
   attributes:
   - id: signoz.audit.verb
     type: string
