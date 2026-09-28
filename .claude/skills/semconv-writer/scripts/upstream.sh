@@ -9,15 +9,18 @@ set -euo pipefail
 root="$(git rev-parse --show-toplevel)"
 registry="$(yq '.dependencies[0].registry_path' "$root/model/manifest.yaml")"
 version="$(yq '.dependencies[0].schema_url' "$root/model/manifest.yaml" | sed 's#.*/##')"
-cache="${TMPDIR:-/tmp}/semconv-upstream-$version"
-json="$cache/resolved.json"
+json="${TMPDIR:-/tmp}/semconv-upstream-$version.json"
 
-if [[ "${1:-}" == refresh ]]; then rm -rf "$cache"; fi
+if [[ "${1:-}" == refresh ]]; then rm -f "$json"; fi
 if [[ ! -f "$json" ]]; then
-  if ! out="$(weaver registry package --v2 --quiet --resolved-registry-uri unused -o "$cache" -r "$registry" 2>&1)"; then
+  # Build in a temp dir, then rename the file into place, so a concurrent lookup never reads it half-written.
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/semconv-upstream.XXXXXX")"
+  trap 'rm -rf "$tmp"' EXIT
+  if ! out="$(weaver registry package --v2 --quiet --resolved-registry-uri unused -o "$tmp" -r "$registry" 2>&1)"; then
     echo "$out" >&2; exit 1
   fi
-  yq -o=json . "$cache/resolved.yaml" >"$json"
+  yq -o=json . "$tmp/resolved.yaml" >"$tmp/resolved.json"
+  mv -f "$tmp/resolved.json" "$json"
 fi
 
 # The catalog repeats an attribute once per refinement; registry.attributes indexes the canonical one.
