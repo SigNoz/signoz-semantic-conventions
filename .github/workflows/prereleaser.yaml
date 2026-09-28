@@ -1,0 +1,55 @@
+name: prereleaser
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version to release, without the v prefix (e.g. 0.0.1-rc.1)"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+    - name: github-token-gen
+      id: token
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ secrets.PRIMUS_APP_ID }}
+        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
+    - name: self-checkout
+      uses: actions/checkout@v7
+      with:
+        token: ${{ steps.token.outputs.token }}
+    - name: version-validate
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+          echo "::error::'${VERSION}' is not MAJOR.MINOR.PATCH with an optional -suffix (and no v prefix)."
+          exit 1
+        fi
+        if git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" >/dev/null; then
+          echo "::error::Tag v${VERSION} already exists."
+          exit 1
+        fi
+    - name: git-configure
+      run: |
+        git config --global user.name "primus-bot[bot]"
+        git config --global user.email "171087277+primus-bot[bot]@users.noreply.github.com"
+    - name: release-pr
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+        VERSION: ${{ inputs.version }}
+      run: |
+        branch="chore/release-v${VERSION}"
+        git switch -c "${branch}"
+        sed -i -E "s#^(schema_url: https://signoz.io/schemas/otel/).*#\1${VERSION}#" model/manifest.yaml
+        git commit -am "chore(release): v${VERSION}"
+        git push origin "${branch}"
+        gh pr create --base main --head "${branch}" --title "chore(release): v${VERSION}" \
+          --body "$(printf '%s\n\n%s\n' '#### Chores' "- release \`v${VERSION}\`: set \`schema_url\` in \`model/manifest.yaml\` to \`${VERSION}\`")"

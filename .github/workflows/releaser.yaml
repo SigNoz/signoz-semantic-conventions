@@ -1,0 +1,61 @@
+name: releaser
+
+on:
+  push:
+    tags:
+    - "v*"
+
+permissions:
+  contents: read
+
+env:
+  WEAVER_VERSION: 0.26.1
+  YAMLLINT_VERSION: 1.37.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: github-token-gen
+      id: token
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ secrets.PRIMUS_APP_ID }}
+        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: version-verify
+      run: |
+        version="$(sed -nE 's#^schema_url: https://signoz.io/schemas/otel/(.*)#\1#p' model/manifest.yaml)"
+        if [[ "v${version}" != "${GITHUB_REF_NAME}" ]]; then
+          echo "::error::Tag ${GITHUB_REF_NAME} doesn't match schema_url version ${version} in model/manifest.yaml."
+          exit 1
+        fi
+    - name: yamllint-install
+      run: pipx install "yamllint==${YAMLLINT_VERSION}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: yaml-lint
+      run: make yaml-lint
+    - name: weaver-check
+      run: make weaver-check
+    - name: weaver-package
+      run: |
+        weaver registry package --v2 --quiet -r model/ -o dist \
+          --resolved-registry-uri "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/resolved.yaml"
+    - name: github-release
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+      run: |
+        flags=(--verify-tag --title "${GITHUB_REF_NAME}" --generate-notes)
+        if [[ "${GITHUB_REF_NAME}" == *-* ]]; then flags+=(--prerelease); fi
+        gh release create "${GITHUB_REF_NAME}" dist/manifest.yaml dist/resolved.yaml "${flags[@]}"

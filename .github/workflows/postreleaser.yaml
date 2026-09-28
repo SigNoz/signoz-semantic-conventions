@@ -1,0 +1,62 @@
+name: postreleaser
+
+on:
+  release:
+    types:
+    - published
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+    - name: github-token-gen
+      id: token
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ secrets.PRIMUS_APP_ID }}
+        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
+    - name: self-checkout
+      uses: actions/checkout@v7
+      with:
+        ref: main
+        token: ${{ steps.token.outputs.token }}
+    - name: version-next
+      id: next
+      env:
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        version="${TAG#v}"
+        base="${version%%-*}"
+        if [[ "${version}" == *-* ]]; then
+          # After a pre-release, main prepares the same version: 0.0.1-rc.1 -> 0.0.1-unreleased.
+          next="${base}-unreleased"
+        else
+          # After a release, main prepares the next minor: 0.1.0 -> 0.2.0-unreleased.
+          IFS=. read -r major minor _ <<<"${base}"
+          next="${major}.$((minor + 1)).0-unreleased"
+        fi
+        echo "version=${next}" >>"${GITHUB_OUTPUT}"
+    - name: git-configure
+      run: |
+        git config --global user.name "primus-bot[bot]"
+        git config --global user.email "171087277+primus-bot[bot]@users.noreply.github.com"
+    - name: postrelease-pr
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+        TAG: ${{ github.event.release.tag_name }}
+        NEXT: ${{ steps.next.outputs.version }}
+      run: |
+        sed -i -E "s#^(schema_url: https://signoz.io/schemas/otel/).*#\1${NEXT}#" model/manifest.yaml
+        if git diff --quiet; then
+          echo "schema_url is already ${NEXT}."
+          exit 0
+        fi
+        branch="chore/post-release-${TAG}"
+        git switch -c "${branch}"
+        git commit -am "chore(release): start ${NEXT}"
+        git push origin "${branch}"
+        gh pr create --base main --head "${branch}" --title "chore(release): start ${NEXT}" \
+          --body "$(printf '%s\n\n%s\n' '#### Chores' "- after \`${TAG}\`, set \`schema_url\` in \`model/manifest.yaml\` to \`${NEXT}\`")"
