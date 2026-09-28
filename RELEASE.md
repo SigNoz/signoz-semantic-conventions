@@ -21,5 +21,5 @@ The workflows run [`hack/release.sh`](hack/release.sh) for the version checks an
    git push origin v0.0.1-rc.1
    ```
 
-4. The [releaser](.github/workflows/releaser.yaml) workflow runs on the tag. It checks that the tag matches `schema_url`, runs `make yaml-lint` and `make weaver-check`, packages the registry with `weaver registry package`, and publishes the GitHub release with `manifest.yaml` and `resolved.yaml` attached and notes generated from the merged PRs.
+4. The [releaser](.github/workflows/releaser.yaml) workflow runs on the tag. It checks that the tag matches `schema_url`, packages the registry with `weaver registry package`, and publishes the GitHub release with `manifest.yaml` and `resolved.yaml` attached and notes generated from the merged PRs.
 5. The [postreleaser](.github/workflows/postreleaser.yaml) workflow opens a PR that sets `schema_url` back to an unreleased version: `0.0.1-unreleased` after `v0.0.1-rc.1`, `0.2.0-unreleased` after `v0.1.0`. Review and merge it.
