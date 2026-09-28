@@ -42,6 +42,11 @@ groups:
     The number of spans observed.
   instrument: counter
   unit: ""
+  annotations:
+    signoz:
+      policy_exceptions:
+      - metric_total_suffix
+      - namespace_not_vendor
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: operation
@@ -66,6 +71,11 @@ groups:
     exponential histogram under the same name. Values are in milliseconds.
   instrument: histogram
   unit: "ms"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - namespace_not_vendor
+      - unit_duration_seconds
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: operation
@@ -84,6 +94,11 @@ groups:
     `db.system` and is not of kind server.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
+      - namespace_not_vendor
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: db.system
@@ -103,6 +118,11 @@ groups:
     server.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
+      - namespace_not_vendor
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: db.system
@@ -122,6 +142,11 @@ groups:
     known remote endpoint.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
+      - namespace_not_vendor
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: address
@@ -143,6 +168,11 @@ groups:
     An external call is a client span with a known remote endpoint.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
+      - namespace_not_vendor
   extends: attributes.signoz.spanmetrics.common
   attributes:
   - ref: address
