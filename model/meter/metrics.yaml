@@ -85,6 +85,18 @@ groups:
   unit: "1"
   extends: attributes.signoz.meter.common
 
+- id: metric.signoz.meter.metric.datapoint.size
+  type: metric
+  metric_name: signoz.meter.metric.datapoint.size
+  stability: development
+  brief: >
+    The size of metric data points observed.
+  note: |
+    The value is always `0`.
+  instrument: counter
+  unit: "By"
+  extends: attributes.signoz.meter.common
+
 - id: metric.signoz.meter.cpu.node.allocatable.usage
   type: metric
   metric_name: signoz.meter.cpu.node.allocatable.usage
@@ -104,15 +116,3 @@ groups:
     requirement_level: required
   entity_associations:
   - k8s.node
-
-- id: metric.signoz.meter.metric.datapoint.size
-  type: metric
-  metric_name: signoz.meter.metric.datapoint.size
-  stability: development
-  brief: >
-    The size of metric data points observed.
-  note: |
-    The value is always `0`.
-  instrument: counter
-  unit: "By"
-  extends: attributes.signoz.meter.common
