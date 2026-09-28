@@ -1,0 +1,66 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  WEAVER_VERSION: 0.26.1
+  YAMLLINT_VERSION: 1.37.0
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: yamllint-install
+      run: pipx install "yamllint==${YAMLLINT_VERSION}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: yaml-lint
+      run: make yaml-lint
+    - name: weaver-check
+      run: make weaver-check
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: weaver-docs
+      run: |
+        make weaver-docs
+        git add --intent-to-add docs
+        if ! git diff --exit-code -- docs; then
+          echo "::error::docs/ is out of date. Run 'make weaver-docs' and commit the result."
+          exit 1
+        fi
