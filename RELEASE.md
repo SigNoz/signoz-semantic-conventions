@@ -9,7 +9,7 @@
 
 ## Setup
 
-The three workflows authenticate as the primus GitHub App through the `PRIMUS_APP_ID` and `PRIMUS_PRIVATE_KEY` organization secrets, so their PRs and releases trigger other workflows. The app needs write access to contents and pull requests on this repository.
+The version checks and edits live in [`hack/release.sh`](hack/release.sh) (run it with no arguments for usage); the workflows call it, then commit, open PRs or publish. The three workflows authenticate as the primus GitHub App through the `PRIMUS_APP_ID` and `PRIMUS_PRIVATE_KEY` organization secrets, so their PRs and releases trigger other workflows. The app needs write access to contents and pull requests on this repository.
 
 ## Steps
 
