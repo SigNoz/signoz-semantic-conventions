@@ -18,7 +18,7 @@ jobs:
     steps:
     - name: github-token-gen
       id: token
-      uses: actions/create-github-app-token@v3
+      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
       with:
         app-id: ${{ secrets.PRIMUS_APP_ID }}
         private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
@@ -26,7 +26,12 @@ jobs:
       uses: actions/checkout@v7
     - name: version-verify
       run: |
+        semver='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?$'
         version="$(sed -nE 's#^schema_url: https://signoz.io/schemas/otel/(.*)#\1#p' model/manifest.yaml)"
+        if [[ ! "${version}" =~ ${semver} ]]; then
+          echo "::error::schema_url version '${version}' is not a SemVer version."
+          exit 1
+        fi
         if [[ "v${version}" != "${GITHUB_REF_NAME}" ]]; then
           echo "::error::Tag ${GITHUB_REF_NAME} doesn't match schema_url version ${version} in model/manifest.yaml."
           exit 1

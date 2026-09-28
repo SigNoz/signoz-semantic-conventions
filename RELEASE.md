@@ -7,6 +7,10 @@
 - A version with a suffix such as `-rc.1` is published as a pre-release.
 - Between releases, `main` carries the next version with an `-unreleased` suffix.
 
+## Setup
+
+The three workflows authenticate as the primus GitHub App through the `PRIMUS_APP_ID` and `PRIMUS_PRIVATE_KEY` organization secrets, so their PRs and releases trigger other workflows. The app needs write access to contents and pull requests on this repository.
+
 ## Steps
 
 1. Run the [prereleaser](.github/workflows/prereleaser.yaml) workflow with the version, e.g. `0.0.1-rc.1`. It opens a `chore(release): v<version>` PR that sets `schema_url`.
