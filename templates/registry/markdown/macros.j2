@@ -58,7 +58,9 @@
 {%- endif -%}
 {%- endmacro -%}
 
+{#- `examples` may be a single value or a list. -#}
 {%- macro examples(values) -%}
+{%- if values is string or values is number or values is boolean -%}{%- set values = [values] -%}{%- endif -%}
 {%- for e in values or [] -%}
 `{{ cell(e if e is string else e | tojson) }}`{% if not loop.last %}; {% endif %}
 {%- endfor -%}
