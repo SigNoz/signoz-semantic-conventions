@@ -1,0 +1,19 @@
+groups:
+- id: registry.signoz.meter
+  type: attribute_group
+  display_name: SigNoz Meter Attributes
+  brief: >
+    Attributes that describe SigNoz meter metrics.
+  attributes:
+  - id: signoz.io/workload
+    type: string
+    stability: development
+    brief: >
+      The SigNoz workload a Kubernetes node is dedicated to.
+    note: |
+      The value of the node's `signoz.io/workload` label.
+
+      Known values: `clickhouse`, `redpanda`, `consumers`, `zookeeper`,
+      `gateway`, `signoz`.
+    examples:
+    - "clickhouse"

@@ -85,6 +85,26 @@ groups:
   unit: "1"
   extends: attributes.signoz.meter.common
 
+- id: metric.signoz.meter.cpu.node.allocatable.usage
+  type: metric
+  metric_name: signoz.meter.cpu.node.allocatable.usage
+  stability: development
+  brief: >
+    The amount of CPU allocatable on a Kubernetes node that runs SigNoz.
+  note: |
+    The value is in CPU cores and is recorded once per node every hour.
+  instrument: gauge
+  unit: "{cpu}"
+  attributes:
+  - ref: k8s.node.name
+    requirement_level: required
+  - ref: k8s.node.uid
+    requirement_level: required
+  - ref: signoz.io/workload
+    requirement_level: required
+  entity_associations:
+  - k8s.node
+
 - id: metric.signoz.meter.metric.datapoint.size
   type: metric
   metric_name: signoz.meter.metric.datapoint.size
