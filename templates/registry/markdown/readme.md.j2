@@ -3,40 +3,34 @@
 
 # SigNoz semantic conventions
 
-The attributes, entities, metrics and events in SigNoz telemetry.
+## Attributes
 
-| Area | Attributes | Entities | Metrics | Events | Spans |
-| --- | --- | --- | --- | --- | --- |
 {% for a in ctx %}
-| [`{{ a.area }}`]({{ a.area }}.md) | {{ a.attributes | length }} | {{ a.entities | length }} | {{ a.metrics | length }} | {{ a.events | length }} | {{ a.spans | length }} |
+{% for x in a.attributes %}
+- [`{{ x.key }}`]({{ a.area }}.md#{{ m.anchor(x.key) }})
+{% endfor %}
 {% endfor %}
 
 ## Metrics
 
-| Metric | Area | Instrument | Unit | Stability | Description |
-| --- | --- | --- | --- | --- | --- |
 {% for a in ctx %}
 {% for x in a.metrics %}
-| [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}) | {{ a.area }} | {{ x.instrument }} | {{ ("`" ~ x.unit ~ "`") if x.unit else "none" }} | {{ m.stability(x.stability) }} | {{ m.cell(x.brief) }} |
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
 {% endfor %}
 {% endfor %}
 
 ## Events
 
-| Event | Area | Stability | Description |
-| --- | --- | --- | --- |
 {% for a in ctx %}
 {% for x in a.events %}
-| [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}) | {{ a.area }} | {{ m.stability(x.stability) }} | {{ m.cell(x.brief) }} |
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
 {% endfor %}
 {% endfor %}
 
 ## Entities
 
-| Entity | Area | Stability | Description |
-| --- | --- | --- | --- |
 {% for a in ctx %}
 {% for x in a.entities %}
-| [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }}) | {{ a.area }} | {{ m.stability(x.stability) }} | {{ m.cell(x.brief) }} |
+- [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }})
 {% endfor %}
 {% endfor %}

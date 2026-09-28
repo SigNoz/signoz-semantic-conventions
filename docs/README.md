@@ -2,52 +2,67 @@
 
 # SigNoz semantic conventions
 
-The attributes, entities, metrics and events in SigNoz telemetry.
+## Attributes
 
-| Area | Attributes | Entities | Metrics | Events | Spans |
-| --- | --- | --- | --- | --- | --- |
-| [`audit`](audit.md) | 3 | 0 | 0 | 5 | 0 |
-| [`genai`](genai.md) | 5 | 0 | 0 | 0 | 0 |
-| [`identity`](identity.md) | 4 | 2 | 0 | 0 | 0 |
-| [`meter`](meter.md) | 2 | 0 | 7 | 0 | 0 |
-| [`resource`](resource.md) | 6 | 1 | 0 | 0 | 0 |
-| [`spanmetrics`](spanmetrics.md) | 8 | 0 | 6 | 0 | 0 |
-| [`workspace`](workspace.md) | 2 | 2 | 0 | 0 | 0 |
+- [`signoz.audit.action_category`](audit.md#signoz-audit-action-category)
+- [`signoz.audit.outcome`](audit.md#signoz-audit-outcome)
+- [`signoz.audit.verb`](audit.md#signoz-audit-verb)
+- [`signoz.gen_ai.usage.cache_read.input_tokens.cost`](genai.md#signoz-gen-ai-usage-cache-read-input-tokens-cost)
+- [`signoz.gen_ai.usage.cache_write.input_tokens.cost`](genai.md#signoz-gen-ai-usage-cache-write-input-tokens-cost)
+- [`signoz.gen_ai.usage.input_tokens.cost`](genai.md#signoz-gen-ai-usage-input-tokens-cost)
+- [`signoz.gen_ai.usage.output_tokens.cost`](genai.md#signoz-gen-ai-usage-output-tokens-cost)
+- [`signoz.gen_ai.usage.tokens.cost`](genai.md#signoz-gen-ai-usage-tokens-cost)
+- [`signoz.organization.id`](identity.md#signoz-organization-id)
+- [`signoz.principal.email`](identity.md#signoz-principal-email)
+- [`signoz.principal.id`](identity.md#signoz-principal-id)
+- [`signoz.principal.type`](identity.md#signoz-principal-type)
+- [`connector_id`](meter.md#connector-id)
+- [`signoz.io/workload`](meter.md#signoz-io-workload)
+- [`signoz.resource.id`](resource.md#signoz-resource-id)
+- [`signoz.resource.kind`](resource.md#signoz-resource-kind)
+- [`signoz.resource.object`](resource.md#signoz-resource-object)
+- [`signoz.resource.target.id`](resource.md#signoz-resource-target-id)
+- [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind)
+- [`signoz.resource.target.object`](resource.md#signoz-resource-target-object)
+- [`address`](spanmetrics.md#address)
+- [`operation`](spanmetrics.md#operation)
+- [`resource_deployment.environment`](spanmetrics.md#resource-deployment-environment)
+- [`resource_service.namespace`](spanmetrics.md#resource-service-namespace)
+- [`resource_signoz.collector.id`](spanmetrics.md#resource-signoz-collector-id)
+- [`signoz.collector.id`](spanmetrics.md#signoz-collector-id)
+- [`span.kind`](spanmetrics.md#span-kind)
+- [`status.code`](spanmetrics.md#status-code)
+- [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id)
+- [`signoz.workspace.name`](workspace.md#signoz-workspace-name)
 
 ## Metrics
 
-| Metric | Area | Instrument | Unit | Stability | Description |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.meter.cpu.node.allocatable.usage`](meter.md#signoz-meter-cpu-node-allocatable-usage) | meter | gauge | `{cpu}` | ![Development](https://img.shields.io/badge/-development-blue) | The amount of CPU allocatable on a Kubernetes node that runs SigNoz. |
-| [`signoz.meter.log.count`](meter.md#signoz-meter-log-count) | meter | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The number of log records observed. |
-| [`signoz.meter.log.size`](meter.md#signoz-meter-log-size) | meter | counter | `By` | ![Development](https://img.shields.io/badge/-development-blue) | The size of log records observed. |
-| [`signoz.meter.metric.datapoint.count`](meter.md#signoz-meter-metric-datapoint-count) | meter | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The number of metric data points observed. |
-| [`signoz.meter.metric.datapoint.size`](meter.md#signoz-meter-metric-datapoint-size) | meter | counter | `By` | ![Development](https://img.shields.io/badge/-development-blue) | The size of metric data points observed. |
-| [`signoz.meter.span.count`](meter.md#signoz-meter-span-count) | meter | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The number of spans observed. |
-| [`signoz.meter.span.size`](meter.md#signoz-meter-span-size) | meter | counter | `By` | ![Development](https://img.shields.io/badge/-development-blue) | The size of spans observed. |
-| [`signoz_calls_total`](spanmetrics.md#signoz-calls-total) | spanmetrics | counter | none | ![Development](https://img.shields.io/badge/-development-blue) | The number of spans observed. |
-| [`signoz_db_latency_count`](spanmetrics.md#signoz-db-latency-count) | spanmetrics | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The number of database calls observed. |
-| [`signoz_db_latency_sum`](spanmetrics.md#signoz-db-latency-sum) | spanmetrics | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The total duration of database calls observed. |
-| [`signoz_external_call_latency_count`](spanmetrics.md#signoz-external-call-latency-count) | spanmetrics | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The number of external calls observed. |
-| [`signoz_external_call_latency_sum`](spanmetrics.md#signoz-external-call-latency-sum) | spanmetrics | counter | `1` | ![Development](https://img.shields.io/badge/-development-blue) | The total duration of external calls observed. |
-| [`signoz_latency`](spanmetrics.md#signoz-latency) | spanmetrics | histogram | `ms` | ![Development](https://img.shields.io/badge/-development-blue) | The duration of spans observed. |
+- [`signoz.meter.cpu.node.allocatable.usage`](meter.md#signoz-meter-cpu-node-allocatable-usage)
+- [`signoz.meter.log.count`](meter.md#signoz-meter-log-count)
+- [`signoz.meter.log.size`](meter.md#signoz-meter-log-size)
+- [`signoz.meter.metric.datapoint.count`](meter.md#signoz-meter-metric-datapoint-count)
+- [`signoz.meter.metric.datapoint.size`](meter.md#signoz-meter-metric-datapoint-size)
+- [`signoz.meter.span.count`](meter.md#signoz-meter-span-count)
+- [`signoz.meter.span.size`](meter.md#signoz-meter-span-size)
+- [`signoz_calls_total`](spanmetrics.md#signoz-calls-total)
+- [`signoz_db_latency_count`](spanmetrics.md#signoz-db-latency-count)
+- [`signoz_db_latency_sum`](spanmetrics.md#signoz-db-latency-sum)
+- [`signoz_external_call_latency_count`](spanmetrics.md#signoz-external-call-latency-count)
+- [`signoz_external_call_latency_sum`](spanmetrics.md#signoz-external-call-latency-sum)
+- [`signoz_latency`](spanmetrics.md#signoz-latency)
 
 ## Events
 
-| Event | Area | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.audit.attach`](audit.md#signoz-audit-attach) | audit | ![Development](https://img.shields.io/badge/-development-blue) | Records the attachment of one SigNoz resource to another. |
-| [`signoz.audit.create`](audit.md#signoz-audit-create) | audit | ![Development](https://img.shields.io/badge/-development-blue) | Records the creation of a SigNoz resource. |
-| [`signoz.audit.delete`](audit.md#signoz-audit-delete) | audit | ![Development](https://img.shields.io/badge/-development-blue) | Records the deletion of a SigNoz resource. |
-| [`signoz.audit.detach`](audit.md#signoz-audit-detach) | audit | ![Development](https://img.shields.io/badge/-development-blue) | Records the detachment of one SigNoz resource from another. |
-| [`signoz.audit.update`](audit.md#signoz-audit-update) | audit | ![Development](https://img.shields.io/badge/-development-blue) | Records the modification of a SigNoz resource. |
+- [`signoz.audit.attach`](audit.md#signoz-audit-attach)
+- [`signoz.audit.create`](audit.md#signoz-audit-create)
+- [`signoz.audit.delete`](audit.md#signoz-audit-delete)
+- [`signoz.audit.detach`](audit.md#signoz-audit-detach)
+- [`signoz.audit.update`](audit.md#signoz-audit-update)
 
 ## Entities
 
-| Entity | Area | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.organization`](identity.md#signoz-organization) | identity | ![Development](https://img.shields.io/badge/-development-blue) | A SigNoz organization, the logical grouping of everything one SigNoz account holds. |
-| [`signoz.principal`](identity.md#signoz-principal) | identity | ![Development](https://img.shields.io/badge/-development-blue) | A principal of the SigNoz platform: an authenticated user or service account. |
-| [`signoz.resource`](resource.md#signoz-resource) | resource | ![Development](https://img.shields.io/badge/-development-blue) | A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key. |
-| [`signoz.workspace`](workspace.md#signoz-workspace) | workspace | ![Development](https://img.shields.io/badge/-development-blue) | A SigNoz workspace. |
-| [`signoz.workspace.key`](workspace.md#signoz-workspace-key) | workspace | ![Development](https://img.shields.io/badge/-development-blue) | A key of a SigNoz workspace. |
+- [`signoz.organization`](identity.md#signoz-organization)
+- [`signoz.principal`](identity.md#signoz-principal)
+- [`signoz.resource`](resource.md#signoz-resource)
+- [`signoz.workspace`](workspace.md#signoz-workspace)
+- [`signoz.workspace.key`](workspace.md#signoz-workspace-key)
