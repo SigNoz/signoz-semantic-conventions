@@ -70,12 +70,26 @@ deny contains finding if {
 	))
 }
 
+signoz_sensitive_words := {"email", "phone", "password", "token", "secret", "ssn", "credit"}
+
+# A key segment (split at `.` and `_`) or a word in the brief or note that suggests personal or secret data.
+signoz_looks_sensitive(attr) if {
+	some part in regex.split(`[._]`, lower(attr.key))
+	part in signoz_sensitive_words
+}
+
+signoz_looks_sensitive(attr) if contains(lower(attr.key), "full_name")
+
+signoz_looks_sensitive(attr) if {
+	text := concat(" ", [object.get(attr, "brief", ""), object.get(attr, "note", "")])
+	regex.match(`(?i)\b(email|phone|password|token|secret|ssn|full_name|credit)\b`, text)
+}
+
 # Keys or text that suggest personal or secret data need a warning note.
 deny contains finding if {
 	some attr in input.registry.attributes
 	note := object.get(attr, "note", "")
-	text := concat(" ", [attr.key, object.get(attr, "brief", ""), note])
-	regex.match(`(?i)\b(email|phone|password|token|secret|ssn|full_name|credit)\b`, text)
+	signoz_looks_sensitive(attr)
 	not contains(note, "[!WARNING]")
 	not signoz_excepted(attr, "pii_warning")
 	finding := signoz_attribute_finding(attr, "pii_warning", sprintf(
@@ -83,3 +97,52 @@ deny contains finding if {
 		[attr.key],
 	))
 }
+
+deny contains finding if {
+	some event in input.registry.events
+	some attr in object.get(event, "attributes", [])
+	attr.key == "event.name"
+	finding := signoz_signal_finding({"type": "event", "name": event.name}, "event_name_attribute", sprintf(
+		"Event '%s' references 'event.name'. The event name is the record's own field; drop the attribute.",
+		[event.name],
+	))
+}
+
+deny contains finding if {
+	some attr in input.registry.attributes
+	is_object(attr.type)
+	count(object.get(attr.type, "members", [])) == 0
+	finding := signoz_attribute_finding(attr, "enum_members_empty", sprintf(
+		"Enum attribute '%s' has no members.",
+		[attr.key],
+	))
+}
+
+# An array attribute's examples are lists of values, one list per example.
+signoz_example_holders contains {"key": attr.key, "type": attr.type, "examples": attr.examples} if {
+	some attr in input.registry.attributes
+	attr.examples
+}
+
+signoz_example_holders contains {"key": entry.attr.key, "type": entry.attr.type, "examples": entry.attr.examples} if {
+	some entry in signoz_signal_attributes
+	entry.attr.examples
+}
+
+deny contains finding if {
+	some holder in signoz_example_holders
+	is_string(holder.type)
+	regex.match(`\[\]\]?$`, holder.type) # string[] and template[string[]] alike
+	some example in signoz_as_array(holder.examples)
+	not is_array(example)
+	finding := {
+		"id": "examples_array_shape",
+		"message": sprintf("Attribute '%s' is a '%s'; each example must itself be a list (`- - \"a\"`).", [holder.key, holder.type]),
+		"level": "violation",
+		"context": {"attribute": holder.key},
+	}
+}
+
+signoz_as_array(value) := value if is_array(value)
+
+signoz_as_array(value) := [value] if not is_array(value)

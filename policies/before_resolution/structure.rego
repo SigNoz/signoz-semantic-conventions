@@ -65,3 +65,26 @@ signoz_has_prefix(id, prefixes) if {
 	some prefix in prefixes
 	startswith(id, prefix)
 }
+
+deny contains finding if {
+	some group in input.groups
+	group.type == "span"
+	not group.span_kind
+	finding := signoz_finding(group, "span_missing_kind", sprintf(
+		"Span '%s' has no 'span_kind'. Set one of client, server, producer, consumer or internal.",
+		[group.id],
+	))
+}
+
+# Weaver silently applies a ref's stability or deprecation to the signal, so a ref never sets them.
+deny contains finding if {
+	some group in input.groups
+	some attr in object.get(group, "attributes", [])
+	attr.ref
+	some field in {"stability", "deprecated"}
+	object.get(attr, field, null) != null
+	finding := signoz_finding(group, "ref_definition_fields", sprintf(
+		"'- ref: %s' in '%s' sets '%s'. Set it on the attribute's definition instead.",
+		[attr.ref, group.id, field],
+	))
+}

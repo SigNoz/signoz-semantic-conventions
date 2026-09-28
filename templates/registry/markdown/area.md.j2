@@ -82,14 +82,16 @@
 
 ### <a id="{{ m.anchor(x.name) }}"></a>`{{ x.name }}`
 
-{{ x.brief | trim }}
-
-- **Instrument:** {{ x.instrument }}
-- **Unit:** {{ ("`" ~ x.unit ~ "`") if x.unit else "none" }}
-- **Stability:** {{ m.stability(x.stability) }}
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `{{ x.name }}` | {{ x.instrument | capitalize }} | {{ ("`" ~ x.unit ~ "`") if x.unit else "" }} | {{ m.cell(x.brief) }} | {{ m.stability(x.stability) }} | {% for e in x.entity_associations or [] %}`{{ e.type }}`{% if not loop.last %}; {% endif %}{% endfor %} |
 {% if x.entity_associations %}
-- **Entities:** {% for e in x.entity_associations %}`{{ e.type }}`{% if not loop.last %}, {% endif %}{% endfor %}
 
+The metric SHOULD be associated with one of the following entities:
+
+{% for e in x.entity_associations %}
+- `{{ e.type }}`
+{% endfor %}
 {% endif %}
 {% if x.note %}
 
@@ -108,12 +110,16 @@
 
 ### <a id="{{ m.anchor(x.name) }}"></a>`{{ x.name }}`
 
+**Status:** {{ m.stability(x.stability) }}
+
 {{ x.brief | trim }}
-
-- **Stability:** {{ m.stability(x.stability) }}
 {% if x.entity_associations %}
-- **Entities:** {% for e in x.entity_associations %}`{{ e.type }}`{% if not loop.last %}, {% endif %}{% endfor %}
 
+The event SHOULD be associated with one of the following entities:
+
+{% for e in x.entity_associations %}
+- `{{ e.type }}`
+{% endfor %}
 {% endif %}
 {% if x.note %}
 

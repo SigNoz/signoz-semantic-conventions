@@ -17,9 +17,10 @@ deny contains finding if {
 	))
 }
 
+# Only signals: `trace.*` and other shared groups that spans extend may set it.
 deny contains finding if {
 	some group in input.groups
-	group.type != "span"
+	group.type in {"metric", "event", "entity"}
 	some attr in object.get(group, "attributes", [])
 	object.get(attr, "sampling_relevant", null) != null
 	finding := signoz_finding(group, "sampling_relevant_on_non_span", sprintf(
