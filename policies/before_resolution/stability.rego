@@ -38,3 +38,25 @@ deny contains finding if {
 		[member.id, attr.id],
 	))
 }
+
+# Weaver reads `deprecated: "text"` as reason `unspecified`; a deprecation needs a structured reason.
+signoz_deprecations contains {"what": sprintf("Group '%s'", [group.id]), "deprecated": group.deprecated, "group": group} if {
+	some group in input.groups
+	group.deprecated
+}
+
+signoz_deprecations contains {"what": sprintf("Attribute '%s'", [attr.id]), "deprecated": attr.deprecated, "group": group} if {
+	some group in input.groups
+	some attr in object.get(group, "attributes", [])
+	attr.id
+	attr.deprecated
+}
+
+deny contains finding if {
+	some d in signoz_deprecations
+	d.deprecated.reason == "unspecified"
+	finding := signoz_finding(d.group, "deprecated_unstructured", sprintf(
+		"%s has an unstructured 'deprecated'. Use a mapping with 'reason: renamed | obsoleted | uncategorized'.",
+		[d.what],
+	))
+}

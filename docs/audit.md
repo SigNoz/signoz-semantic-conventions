@@ -65,10 +65,13 @@ each side, with `signoz.resource.target.*` describing the other side.
 
 ### <a id="signoz-audit-attach"></a>`signoz.audit.attach`
 
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
+
 Records the attachment of one SigNoz resource to another.
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `signoz.resource`
+The event SHOULD be associated with one of the following entities:
+
+- `signoz.resource`
 
 Recorded twice per attachment, once from each side of the relation,
 after the operation has completed. For `attach dashboard D to alert rule
@@ -145,10 +148,13 @@ resources of the kind rather than to a single resource.
 
 ### <a id="signoz-audit-create"></a>`signoz.audit.create`
 
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
+
 Records the creation of a SigNoz resource.
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `signoz.resource`
+The event SHOULD be associated with one of the following entities:
+
+- `signoz.resource`
 
 Recorded once per creation, after the operation has completed. The
 timestamp is the time of the operation.
@@ -219,10 +225,13 @@ resources of the kind rather than to a single resource.
 
 ### <a id="signoz-audit-delete"></a>`signoz.audit.delete`
 
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
+
 Records the deletion of a SigNoz resource.
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `signoz.resource`
+The event SHOULD be associated with one of the following entities:
+
+- `signoz.resource`
 
 Recorded once per deletion, after the operation has completed. The
 timestamp is the time of the operation.
@@ -293,10 +302,13 @@ resources of the kind rather than to a single resource.
 
 ### <a id="signoz-audit-detach"></a>`signoz.audit.detach`
 
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
+
 Records the detachment of one SigNoz resource from another.
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `signoz.resource`
+The event SHOULD be associated with one of the following entities:
+
+- `signoz.resource`
 
 Recorded twice per detachment, once from each side of the relation,
 after the operation has completed. For `detach dashboard D from alert
@@ -373,10 +385,13 @@ resources of the kind rather than to a single resource.
 
 ### <a id="signoz-audit-update"></a>`signoz.audit.update`
 
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
+
 Records the modification of a SigNoz resource.
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `signoz.resource`
+The event SHOULD be associated with one of the following entities:
+
+- `signoz.resource`
 
 Recorded once per modification, after the operation has completed. The
 timestamp is the time of the operation.

@@ -7,7 +7,7 @@ paths:
 
 ## How `make weaver-check` runs them
 
-- Two weaver runs. First, without `--v2`, `before_resolution/` rules run once per model file on weaver's parsed form (`input.groups`, `input.file_format`). Then, with `--v2`, `after_resolution/` rules and the upstream `opentelemetry-weaver-packages` files pinned in the `Makefile` see the resolved registry: `input.registry` (ours, refs resolved, `extends` merged) and `input.dependencies` (every upstream definition, keyed by schema URL).
+- First a grep fails on a group `id` or `metric_name` defined twice in `model/` (weaver only warns and keeps one; rego can't see it). Then two weaver runs. First, without `--v2`, `before_resolution/` rules run once per model file on weaver's parsed form (`input.groups`, `input.file_format`). Then, with `--v2`, `after_resolution/` rules and the upstream `opentelemetry-weaver-packages` files pinned in the `Makefile` see the resolved registry: `input.registry` (ours, refs resolved, `extends` merged) and `input.dependencies` (every upstream definition, keyed by schema URL).
 - `before_resolution` rules are skipped under `--v2`. Rules about the file as written (group ids and types, inline attribute definitions, missing stability, and anything resolution loses, below) go in `before_resolution/`; everything else in `after_resolution/`.
 - Every finding fails the check, whatever its `level`, so only write rules worth failing on.
 - `after_resolution/names.rego` replaces upstream's; its header lists our two changes (`signoz_excepted` checks, and `naming_convention_attr_name` checking the full name format). When the commit pinned in the `Makefile` changes, copy it again and re-apply both.
@@ -19,7 +19,7 @@ paths:
 - A rule that live names may break checks `not signoz_excepted(obj, "<rule id>")`. The annotation reaches the resolved registry on the definition and on every signal that refs it; upstream rules never read it.
 - Resolved-run findings carry `Provenance: model/`, not the file; name the definition in the message.
 - Don't duplicate what weaver already fails on: a `ref` that sets `type`, a bare `conditionally_required` without text, a duplicate attribute id.
-- Weaver only warns (exit 0) on missing stability, `prefix`, a missing group `type`, a string attribute without examples, `deprecated: "text"`, flat `string[]` examples, `key=value` template examples and an import that matches nothing. Our rules fail on the first four; nothing catches `deprecated: "text"` or `stability`/`deprecated` on a `ref` yet.
+- Weaver only warns (exit 0) on missing stability, `prefix`, a missing group `type`, a string attribute without examples, `deprecated: "text"` (it arrives as reason `unspecified`), flat `string[]` examples, a span without `span_kind`, `key=value` template examples and an import that matches nothing. Our rules fail on all but the last two, and on `stability`/`deprecated` set on a `ref`, which weaver silently applies.
 
 ## Weaver input quirks
 

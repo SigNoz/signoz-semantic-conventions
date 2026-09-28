@@ -39,12 +39,13 @@ Known values: `clickhouse`, `redpanda`, `consumers`, `zookeeper`,
 
 ### <a id="signoz-meter-cpu-node-allocatable-usage"></a>`signoz.meter.cpu.node.allocatable.usage`
 
-The amount of CPU allocatable on a Kubernetes node that runs SigNoz.
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.cpu.node.allocatable.usage` | Gauge | `{cpu}` | The amount of CPU allocatable on a Kubernetes node that runs SigNoz. | ![Development](https://img.shields.io/badge/-development-blue) | `k8s.node` |
 
-- **Instrument:** gauge
-- **Unit:** `{cpu}`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
-- **Entities:** `k8s.node`
+The metric SHOULD be associated with one of the following entities:
+
+- `k8s.node`
 
 The value is in CPU cores and is recorded once per node every hour.
 
@@ -56,11 +57,9 @@ The value is in CPU cores and is recorded once per node every hour.
 
 ### <a id="signoz-meter-log-count"></a>`signoz.meter.log.count`
 
-The number of log records observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.log.count` | Counter | `1` | The number of log records observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 Each log record counts as one.
 
@@ -73,11 +72,9 @@ Each log record counts as one.
 
 ### <a id="signoz-meter-log-size"></a>`signoz.meter.log.size`
 
-The size of log records observed.
-
-- **Instrument:** counter
-- **Unit:** `By`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.log.size` | Counter | `By` | The size of log records observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 The size of a log record is the size of its resource attributes, its
 attributes and its body. `signoz.workspace.*` attributes are not
@@ -92,11 +89,9 @@ counted.
 
 ### <a id="signoz-meter-metric-datapoint-count"></a>`signoz.meter.metric.datapoint.count`
 
-The number of metric data points observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.metric.datapoint.count` | Counter | `1` | The number of metric data points observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 A gauge or sum data point counts as one. A histogram data point counts
 as its number of buckets plus one for its count and one each for its
@@ -114,11 +109,9 @@ Exponential histogram data points, and metrics whose name starts with
 
 ### <a id="signoz-meter-metric-datapoint-size"></a>`signoz.meter.metric.datapoint.size`
 
-The size of metric data points observed.
-
-- **Instrument:** counter
-- **Unit:** `By`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.metric.datapoint.size` | Counter | `By` | The size of metric data points observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 The value is always `0`.
 
@@ -131,11 +124,9 @@ The value is always `0`.
 
 ### <a id="signoz-meter-span-count"></a>`signoz.meter.span.count`
 
-The number of spans observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.span.count` | Counter | `1` | The number of spans observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 Each span counts as one.
 
@@ -148,11 +139,9 @@ Each span counts as one.
 
 ### <a id="signoz-meter-span-size"></a>`signoz.meter.span.size`
 
-The size of spans observed.
-
-- **Instrument:** counter
-- **Unit:** `By`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.span.size` | Counter | `By` | The size of spans observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 The size of a span is the size of its fields, its resource attributes,
 its attributes, its events and its links. `signoz.workspace.*` and

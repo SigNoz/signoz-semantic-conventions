@@ -110,11 +110,9 @@ The status code of the aggregated spans.
 
 ### <a id="signoz-calls-total"></a>`signoz_calls_total`
 
-The number of spans observed.
-
-- **Instrument:** counter
-- **Unit:** none
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_calls_total` | Counter |  | The number of spans observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
 | --- | --- | --- | --- | --- | --- |
@@ -142,11 +140,9 @@ than are tracked.
 
 ### <a id="signoz-db-latency-count"></a>`signoz_db_latency_count`
 
-The number of database calls observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_db_latency_count` | Counter | `1` | The number of database calls observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 A database call is a span that carries `db.system` and is not of kind
 server.
@@ -173,11 +169,9 @@ than are tracked.
 
 ### <a id="signoz-db-latency-sum"></a>`signoz_db_latency_sum`
 
-The total duration of database calls observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_db_latency_sum` | Counter | `1` | The total duration of database calls observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 Values are in milliseconds. A database call is a span that carries
 `db.system` and is not of kind server.
@@ -204,11 +198,9 @@ than are tracked.
 
 ### <a id="signoz-external-call-latency-count"></a>`signoz_external_call_latency_count`
 
-The number of external calls observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_external_call_latency_count` | Counter | `1` | The number of external calls observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 An external call is a client span with a known remote endpoint.
 
@@ -237,11 +229,9 @@ than are tracked.
 
 ### <a id="signoz-external-call-latency-sum"></a>`signoz_external_call_latency_sum`
 
-The total duration of external calls observed.
-
-- **Instrument:** counter
-- **Unit:** `1`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_external_call_latency_sum` | Counter | `1` | The total duration of external calls observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 Values are in milliseconds. An external call is a client span with a
 known remote endpoint.
@@ -271,11 +261,9 @@ than are tracked.
 
 ### <a id="signoz-latency"></a>`signoz_latency`
 
-The duration of spans observed.
-
-- **Instrument:** histogram
-- **Unit:** `ms`
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz_latency` | Histogram | `ms` | The duration of spans observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 Recorded as an explicit bucket histogram and, when enabled, also as an
 exponential histogram under the same name. Values are in milliseconds.
