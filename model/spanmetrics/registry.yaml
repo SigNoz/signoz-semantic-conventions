@@ -22,6 +22,10 @@ groups:
       A copy of `signoz.collector.id`.
     examples:
     - "6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - namespace_not_vendor
   - id: operation
     type: string
     stability: development
@@ -33,6 +37,11 @@ groups:
     examples:
     - "GET /api/v1/orders/{id}"
     - "overflow_operation"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - naming_convention_attr_has_namespace
+        - namespace_not_vendor
   - id: span.kind
     type:
       members:
@@ -71,6 +80,10 @@ groups:
       The kind of the aggregated spans.
     examples:
     - "SPAN_KIND_SERVER"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - namespace_not_vendor
   - id: status.code
     type:
       members:
@@ -94,6 +107,10 @@ groups:
       The status code of the aggregated spans.
     examples:
     - "STATUS_CODE_ERROR"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - namespace_not_vendor
   - id: address
     type: string
     stability: development
@@ -105,6 +122,11 @@ groups:
     examples:
     - "payments.internal:8443"
     - "oteldemo.CartService/GetCart"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - naming_convention_attr_has_namespace
+        - namespace_not_vendor
   - id: resource_service.namespace
     type: string
     stability: development
@@ -112,6 +134,10 @@ groups:
       The value of `service.namespace` on the span's Resource.
     examples:
     - "shop"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - namespace_not_vendor
   - id: resource_deployment.environment
     type: string
     stability: development
@@ -119,3 +145,7 @@ groups:
       The value of `deployment.environment` on the span's Resource.
     examples:
     - "production"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - namespace_not_vendor

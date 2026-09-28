@@ -29,6 +29,10 @@ groups:
     Each log record counts as one.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
   extends: attributes.signoz.meter.common
 
 - id: metric.signoz.meter.log.size
@@ -55,6 +59,10 @@ groups:
     Each span counts as one.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
   extends: attributes.signoz.meter.common
 
 - id: metric.signoz.meter.span.size
@@ -86,6 +94,10 @@ groups:
     `signoz` or `otelcol`, are not counted.
   instrument: counter
   unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
   extends: attributes.signoz.meter.common
 
 - id: metric.signoz.meter.metric.datapoint.size

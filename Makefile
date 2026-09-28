@@ -6,9 +6,25 @@ help: ## Display this help.
 yaml-lint: ## Lint the yaml files
 	@yamllint .
 
+# Upstream rego policies, pinned. names.rego is replaced by
+# policies/after_resolution/names.rego, which supports attribute exceptions.
+WEAVER_PACKAGES := https://github.com/open-telemetry/opentelemetry-weaver-packages.git@92eba8ea6d06c6b60a3386917858443816977810
+WEAVER_PACKAGES_POLICIES := \
+	policies/check/stability/stability.rego \
+	policies/check/stability/deprecation.rego \
+	policies/check/entity_associations/entity_associations.rego \
+	policies/check/naming_conventions/attribute_name_collisions.rego \
+	policies/check/naming_conventions/attribute_types.rego \
+	policies/check/naming_conventions/constant_name_collisions.rego \
+	policies/check/naming_conventions/enum_member_collisions.rego \
+	policies/check/naming_conventions/metric_brief_format.rego \
+	policies/check/naming_conventions/metrics_collisions.rego
+
 .PHONY: weaver-check
-weaver-check: ## Runs weaver check.
-	@weaver registry check --registry model/
+weaver-check: ## Runs weaver check with the rego policies.
+	@weaver registry check --registry model/ --policy policies/before_resolution
+	@weaver registry check --registry model/ --v2 --policy policies/after_resolution \
+		$(foreach policy,$(WEAVER_PACKAGES_POLICIES),--policy '$(WEAVER_PACKAGES)[$(policy)]')
 
 .PHONY: weaver-docs
 weaver-docs: ## Generate docs/ from the registry.

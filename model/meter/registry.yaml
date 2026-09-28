@@ -15,6 +15,11 @@ groups:
       A UUID assigned when the connector instance is created.
     examples:
     - "0b8f4a6e-2c1d-4e5f-9a7b-3c6d8e1f2a4b"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - naming_convention_attr_has_namespace
+        - namespace_not_vendor
   - id: signoz.io/workload
     type: string
     stability: development
@@ -27,3 +32,8 @@ groups:
       `gateway`, `signoz`.
     examples:
     - "clickhouse"
+    annotations:
+      signoz:
+        policy_exceptions:
+        - naming_convention_attr_has_namespace
+        - naming_convention_attr_name
