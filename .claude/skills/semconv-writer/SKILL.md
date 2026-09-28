@@ -23,7 +23,7 @@ description: Write, review and evolve OpenTelemetry-style semantic conventions f
 ## Workflow
 
 1. Frame the use case and pick the signal, broad signals first (upstream: t-shaped signals).
-2. Reuse before defining: `grep -rn "id: " model/`, then `python3 .claude/skills/semconv-writer/scripts/upstream.py attrs '<regex>'` (also `show <key>`, `metrics`, `events`, `entities`, `spans`, `namespaces`), then upstream `main` and open PRs.
+2. Reuse before defining: `grep -rn "id: " model/`, then `.claude/skills/semconv-writer/scripts/upstream.sh attrs '<regex>'` (also `show <key>`, `metrics`, `events`, `entities`, `spans`; needs weaver, yq and jq), then upstream `main` and open PRs.
 3. Name, following upstream naming and `.claude/rules/model.md`.
 4. Write the YAML, copying the shape of a file in `model/`.
 5. Validate per `.claude/rules/model.md`; ignore the `definition/2` "is not yet stable" warnings, which come from the upstream dependency.
