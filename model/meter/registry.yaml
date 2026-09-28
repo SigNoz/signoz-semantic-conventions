@@ -5,6 +5,16 @@ groups:
   brief: >
     Attributes that describe SigNoz meter metrics.
   attributes:
+  - id: connector_id
+    type: string
+    stability: development
+    brief: >
+      The identifier of the meter connector instance that produced the
+      metric.
+    note: |
+      A UUID assigned when the connector instance is created.
+    examples:
+    - "0b8f4a6e-2c1d-4e5f-9a7b-3c6d8e1f2a4b"
   - id: signoz.io/workload
     type: string
     stability: development

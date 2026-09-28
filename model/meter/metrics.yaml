@@ -4,11 +4,14 @@ groups:
   brief: >
     Attributes shared by every SigNoz meter metric.
   note: |
-    Each attribute is a resource attribute of the metered telemetry, recorded
-    under its own key with its value as a string. The attributes are
-    configurable: further resource attributes MAY be recorded the same way,
-    and an attribute is omitted when the metered telemetry does not carry it.
+    `connector_id` is set on the instrumentation scope. Every other attribute
+    is a resource attribute of the metered telemetry, recorded under its own
+    key with its value as a string. These are configurable: further resource
+    attributes MAY be recorded the same way, and an attribute is omitted when
+    the metered telemetry does not carry it.
   attributes:
+  - ref: connector_id
+    requirement_level: required
   - ref: service.name
     requirement_level: recommended
   - ref: deployment.environment
