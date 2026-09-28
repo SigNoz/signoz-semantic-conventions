@@ -3,34 +3,42 @@
 
 # SigNoz semantic conventions
 
-## Attributes
+## 🏷️ Attributes
+{% for a in ctx if a.attributes %}
 
-{% for a in ctx %}
+### [`{{ a.area }}`]({{ a.area }}.md)
+
 {% for x in a.attributes %}
-- [`{{ x.key }}`]({{ a.area }}.md#{{ m.anchor(x.key) }})
+- [`{{ x.key }}`]({{ a.area }}.md#{{ m.anchor(x.key) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
-## Metrics
+## 📈 Metrics
+{% for a in ctx if a.metrics %}
 
-{% for a in ctx %}
+### [`{{ a.area }}`]({{ a.area }}.md)
+
 {% for x in a.metrics %}
-- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
-## Events
+## ⚡ Events
+{% for a in ctx if a.events %}
 
-{% for a in ctx %}
+### [`{{ a.area }}`]({{ a.area }}.md)
+
 {% for x in a.events %}
-- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }})
+- [`{{ x.name }}`]({{ a.area }}.md#{{ m.anchor(x.name) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
 
-## Entities
+## 🧩 Entities
+{% for a in ctx if a.entities %}
 
-{% for a in ctx %}
+### [`{{ a.area }}`]({{ a.area }}.md)
+
 {% for x in a.entities %}
-- [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }})
+- [`{{ x.type }}`]({{ a.area }}.md#{{ m.anchor(x.type) }}): {{ x.brief | replace("\n", " ") | trim }}
 {% endfor %}
 {% endfor %}
