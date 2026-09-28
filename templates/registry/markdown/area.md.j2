@@ -23,10 +23,10 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
 {% for a in ctx.attributes %}
-| [`{{ a.key }}`](#{{ m.anchor(a.key) }}) | {{ m.type_name(a.type) }} | {{ a.stability }} | {{ m.cell(a.brief) }} |
+| [`{{ a.key }}`](#{{ m.anchor(a.key) }}) | {{ m.stability(a.stability) }} | {{ m.type_name(a.type) }} | {{ m.cell(a.brief) }} | {{ m.examples(a.examples) }} |
 {% endfor %}
 {% for a in ctx.attributes %}
 
@@ -34,8 +34,8 @@
 
 {{ a.brief | trim }}
 
-- **Type:** {{ m.type_name(a.type) }}
-- **Stability:** {{ a.stability }}
+- **Value Type:** {{ m.type_name(a.type) }}
+- **Stability:** {{ m.stability(a.stability) }}
 {% if a.examples %}
 - **Examples:** {{ m.examples(a.examples) }}
 {% endif %}
@@ -48,7 +48,7 @@
 | Value | Description | Stability |
 | --- | --- | --- |
 {% for v in a.type.members %}
-| `{{ v.value }}` | {{ m.cell(v.brief) }} | {{ v.stability }} |
+| `{{ v.value }}` | {{ m.cell(v.brief) }} | {{ m.stability(v.stability) }} |
 {% endfor %}
 {% endif %}
 {% endfor %}
@@ -62,7 +62,7 @@
 
 {{ e.brief | trim }}
 
-- **Stability:** {{ e.stability }}
+- **Stability:** {{ m.stability(e.stability) }}
 {% if e.note %}
 
 {{ e.note | trim }}
@@ -89,8 +89,8 @@
 {{ x.brief | trim }}
 
 - **Instrument:** {{ x.instrument }}
-- **Unit:** {% if x.unit %}`{{ x.unit }}`{% else %}none{% endif %}
-- **Stability:** {{ x.stability }}
+- **Unit:** {{ ("`" ~ x.unit ~ "`") if x.unit else "none" }}
+- **Stability:** {{ m.stability(x.stability) }}
 {% if x.entity_associations %}
 - **Entities:** {% for e in x.entity_associations %}`{{ e.type }}`{% if not loop.last %}, {% endif %}{% endfor %}
 
@@ -114,7 +114,7 @@
 
 {{ x.brief | trim }}
 
-- **Stability:** {{ x.stability }}
+- **Stability:** {{ m.stability(x.stability) }}
 {% if x.entity_associations %}
 - **Entities:** {% for e in x.entity_associations %}`{{ e.type }}`{% if not loop.last %}, {% endif %}{% endfor %}
 
@@ -139,7 +139,7 @@
 {{ x.brief | trim }}
 
 - **Kind:** {{ x.kind }}
-- **Stability:** {{ x.stability }}
+- **Stability:** {{ m.stability(x.stability) }}
 {% if x.note %}
 
 {{ x.note | trim }}

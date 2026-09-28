@@ -7,18 +7,18 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | development | Operation the principal performed on the resource. |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | string | Operation the principal performed on the resource. | `update` |
 
 ### <a id="signoz-audit-action-category"></a>`signoz.audit.action_category`
 
 Category of the audited operation.
 
-- **Type:** enum
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `configuration_changes`
 
 Values are audit event categories of IEC 62443-3-3 SR 2.8, lowercased
@@ -26,15 +26,15 @@ with words joined by underscores.
 
 | Value | Description | Stability |
 | --- | --- | --- |
-| `access_control` | A change to who may do what, such as a role assignment or a credential change. | development |
-| `configuration_changes` | A change to a metaresource or a platform setting, such as a dashboard or an alert rule change. | development |
+| `access_control` | A change to who may do what, such as a role assignment or a credential change. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `configuration_changes` | A change to a metaresource or a platform setting, such as a dashboard or an alert rule change. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ### <a id="signoz-audit-outcome"></a>`signoz.audit.outcome`
 
 Outcome of the audited operation.
 
-- **Type:** enum
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `success`
 
 The set is complete.
@@ -45,15 +45,15 @@ status code is 2xx or 3xx. A failed operation also carries the upstream
 
 | Value | Description | Stability |
 | --- | --- | --- |
-| `success` | The operation succeeded. | development |
-| `failure` | The operation failed. | development |
+| `success` | The operation succeeded. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `failure` | The operation failed. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ### <a id="signoz-audit-verb"></a>`signoz.audit.verb`
 
 Operation the principal performed on the resource.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `update`
 
 Known values: `create`, `update`, `delete`, `attach`, `detach`.
@@ -67,7 +67,7 @@ each side, with `signoz.resource.target.*` describing the other side.
 
 Records the attachment of one SigNoz resource to another.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Entities:** `signoz.resource`
 
 Recorded twice per attachment, once from each side of the relation,
@@ -79,35 +79,35 @@ timestamp is the time of the operation.
 Severity SHOULD be `INFO` (9) when `signoz.audit.outcome` is `success`
 and `ERROR` (17) when it is `failure`.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | string | Recommended | stable | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] |
-| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | int | Recommended | stable | Client port number. |
-| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | string | Opt-in | stable | The exception message. [2] |
-| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | string | Opt-in | stable | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. |
-| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | string | Conditionally required: If `signoz.audit.outcome` is `failure`. | stable | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] |
-| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | enum | Conditionally required: If the operation was served over HTTP. | stable | HTTP request method. |
-| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | int | Conditionally required: If the operation was served over HTTP. | stable | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). |
-| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | string | Conditionally required: If the operation was served over HTTP and a route matched. | stable | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. |
-| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | string | Recommended | stable | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. |
-| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | string | Recommended | stable | The actual version of the protocol used for network communication. |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | Required | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | Required | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | Required | development | Operation the principal performed on the resource. |
-| [`signoz.organization.id`](identity.md#signoz-organization-id) | string | Required | development | Organization that owns the resource the operation was performed on. |
-| [`signoz.principal.email`](identity.md#signoz-principal-email) | string | Recommended | development | Email address of the principal. [4] |
-| [`signoz.principal.id`](identity.md#signoz-principal-id) | string | Conditionally required: If the request was authenticated. | development | Unique identifier of the principal. [5] |
-| [`signoz.principal.type`](identity.md#signoz-principal-type) | string | Conditionally required: If the request was authenticated. | development | Kind of the principal. |
-| [`signoz.resource.id`](resource.md#signoz-resource-id) | string | Required | development | Unique identifier of the resource. [6] |
-| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | string | Required | development | Kind of the resource. |
-| [`signoz.resource.object`](resource.md#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
-| [`signoz.resource.target.id`](resource.md#signoz-resource-target-id) | string | Required | development | Unique identifier of the counterpart resource in a relation. |
-| [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind) | string | Required | development | Kind of the counterpart resource in a relation. |
-| [`signoz.resource.target.object`](resource.md#signoz-resource-target-object) | string | Recommended | development | Object reference of the counterpart resource in a relation. |
-| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | string | Conditionally required: If `signoz.resource.kind` is `ingestion-key`. | development | Identifier of the key that authenticated the telemetry. [7] |
-| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | string | Opt-in | stable | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] |
-| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | string | Recommended | stable | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. |
-| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | string | Recommended | stable | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] | `client.example.com`; `10.1.2.80`; `/tmp/my.sock` |
+| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | int | Client port number. | `65123` |
+| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The exception message. [2] | `Division by zero`; `Can't convert 'int' object to str implicitly` |
+| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. | `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; ``; `i`; `n`; ``; `t`; `h`; `r`; `e`; `a`; `d`; ``; `"`; `m`; `a`; `i`; `n`; `"`; ``; `j`; `a`; `v`; `a`; `.`; `l`; `a`; `n`; `g`; `.`; `R`; `u`; `n`; `t`; `i`; `m`; `e`; `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `:`; ``; `T`; `e`; `s`; `t`; ``; `e`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `B`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `1`; `3`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `A`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `9`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `a`; `i`; `n`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `5`; `)`; ``;  |
+| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If `signoz.audit.outcome` is `failure`. | string | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] | `java.net.ConnectException`; `OSError` |
+| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | string | HTTP request method. | `GET`; `POST`; `HEAD` |
+| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | int | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). | `200` |
+| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP and a route matched. | string | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. | `/users/:userID?`; `my-controller/my-action/{id?}` |
+| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. | `amqp`; `http`; `mqtt` |
+| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The actual version of the protocol used for network communication. | `1.1`; `2` |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Operation the principal performed on the resource. | `update` |
+| [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
+| [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
+| [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](resource.md#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.resource.target.id`](resource.md#signoz-resource-target-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the counterpart resource in a relation. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the counterpart resource in a relation. | `dashboard` |
+| [`signoz.resource.target.object`](resource.md#signoz-resource-target-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the counterpart resource in a relation. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65` |
+| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If `signoz.resource.kind` is `ingestion-key`. | string | Identifier of the key that authenticated the telemetry. [7] | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] | `/search` |
+| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. | `https`; `ftp`; `telnet` |
+| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. | `CERN-LineMode/2.15 libwww/2.17b3`; `Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1`; `YourApp/1.0.0 grpc-java-okhttp/1.27.2` |
 
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
@@ -143,7 +143,7 @@ resources of the kind rather than to a single resource.
 
 Records the creation of a SigNoz resource.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Entities:** `signoz.resource`
 
 Recorded once per creation, after the operation has completed. The
@@ -152,32 +152,32 @@ timestamp is the time of the operation.
 Severity SHOULD be `INFO` (9) when `signoz.audit.outcome` is `success`
 and `ERROR` (17) when it is `failure`.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | string | Recommended | stable | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] |
-| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | int | Recommended | stable | Client port number. |
-| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | string | Opt-in | stable | The exception message. [2] |
-| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | string | Opt-in | stable | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. |
-| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | string | Conditionally required: If `signoz.audit.outcome` is `failure`. | stable | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] |
-| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | enum | Conditionally required: If the operation was served over HTTP. | stable | HTTP request method. |
-| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | int | Conditionally required: If the operation was served over HTTP. | stable | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). |
-| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | string | Conditionally required: If the operation was served over HTTP and a route matched. | stable | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. |
-| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | string | Recommended | stable | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. |
-| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | string | Recommended | stable | The actual version of the protocol used for network communication. |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | Required | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | Required | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | Required | development | Operation the principal performed on the resource. |
-| [`signoz.organization.id`](identity.md#signoz-organization-id) | string | Required | development | Organization that owns the resource the operation was performed on. |
-| [`signoz.principal.email`](identity.md#signoz-principal-email) | string | Recommended | development | Email address of the principal. [4] |
-| [`signoz.principal.id`](identity.md#signoz-principal-id) | string | Conditionally required: If the request was authenticated. | development | Unique identifier of the principal. [5] |
-| [`signoz.principal.type`](identity.md#signoz-principal-type) | string | Conditionally required: If the request was authenticated. | development | Kind of the principal. |
-| [`signoz.resource.id`](resource.md#signoz-resource-id) | string | Required | development | Unique identifier of the resource. [6] |
-| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | string | Required | development | Kind of the resource. |
-| [`signoz.resource.object`](resource.md#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
-| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | string | Conditionally required: If `signoz.resource.kind` is `ingestion-key`. | development | Identifier of the key that authenticated the telemetry. [7] |
-| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | string | Opt-in | stable | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] |
-| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | string | Recommended | stable | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. |
-| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | string | Recommended | stable | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] | `client.example.com`; `10.1.2.80`; `/tmp/my.sock` |
+| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | int | Client port number. | `65123` |
+| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The exception message. [2] | `Division by zero`; `Can't convert 'int' object to str implicitly` |
+| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. | `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; ``; `i`; `n`; ``; `t`; `h`; `r`; `e`; `a`; `d`; ``; `"`; `m`; `a`; `i`; `n`; `"`; ``; `j`; `a`; `v`; `a`; `.`; `l`; `a`; `n`; `g`; `.`; `R`; `u`; `n`; `t`; `i`; `m`; `e`; `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `:`; ``; `T`; `e`; `s`; `t`; ``; `e`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `B`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `1`; `3`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `A`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `9`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `a`; `i`; `n`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `5`; `)`; ``;  |
+| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If `signoz.audit.outcome` is `failure`. | string | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] | `java.net.ConnectException`; `OSError` |
+| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | string | HTTP request method. | `GET`; `POST`; `HEAD` |
+| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | int | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). | `200` |
+| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP and a route matched. | string | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. | `/users/:userID?`; `my-controller/my-action/{id?}` |
+| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. | `amqp`; `http`; `mqtt` |
+| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The actual version of the protocol used for network communication. | `1.1`; `2` |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Operation the principal performed on the resource. | `update` |
+| [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
+| [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
+| [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](resource.md#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If `signoz.resource.kind` is `ingestion-key`. | string | Identifier of the key that authenticated the telemetry. [7] | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] | `/search` |
+| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. | `https`; `ftp`; `telnet` |
+| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. | `CERN-LineMode/2.15 libwww/2.17b3`; `Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1`; `YourApp/1.0.0 grpc-java-okhttp/1.27.2` |
 
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
@@ -213,7 +213,7 @@ resources of the kind rather than to a single resource.
 
 Records the deletion of a SigNoz resource.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Entities:** `signoz.resource`
 
 Recorded once per deletion, after the operation has completed. The
@@ -222,32 +222,32 @@ timestamp is the time of the operation.
 Severity SHOULD be `INFO` (9) when `signoz.audit.outcome` is `success`
 and `ERROR` (17) when it is `failure`.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | string | Recommended | stable | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] |
-| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | int | Recommended | stable | Client port number. |
-| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | string | Opt-in | stable | The exception message. [2] |
-| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | string | Opt-in | stable | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. |
-| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | string | Conditionally required: If `signoz.audit.outcome` is `failure`. | stable | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] |
-| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | enum | Conditionally required: If the operation was served over HTTP. | stable | HTTP request method. |
-| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | int | Conditionally required: If the operation was served over HTTP. | stable | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). |
-| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | string | Conditionally required: If the operation was served over HTTP and a route matched. | stable | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. |
-| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | string | Recommended | stable | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. |
-| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | string | Recommended | stable | The actual version of the protocol used for network communication. |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | Required | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | Required | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | Required | development | Operation the principal performed on the resource. |
-| [`signoz.organization.id`](identity.md#signoz-organization-id) | string | Required | development | Organization that owns the resource the operation was performed on. |
-| [`signoz.principal.email`](identity.md#signoz-principal-email) | string | Recommended | development | Email address of the principal. [4] |
-| [`signoz.principal.id`](identity.md#signoz-principal-id) | string | Conditionally required: If the request was authenticated. | development | Unique identifier of the principal. [5] |
-| [`signoz.principal.type`](identity.md#signoz-principal-type) | string | Conditionally required: If the request was authenticated. | development | Kind of the principal. |
-| [`signoz.resource.id`](resource.md#signoz-resource-id) | string | Required | development | Unique identifier of the resource. [6] |
-| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | string | Required | development | Kind of the resource. |
-| [`signoz.resource.object`](resource.md#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
-| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | string | Conditionally required: If `signoz.resource.kind` is `ingestion-key`. | development | Identifier of the key that authenticated the telemetry. [7] |
-| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | string | Opt-in | stable | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] |
-| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | string | Recommended | stable | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. |
-| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | string | Recommended | stable | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] | `client.example.com`; `10.1.2.80`; `/tmp/my.sock` |
+| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | int | Client port number. | `65123` |
+| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The exception message. [2] | `Division by zero`; `Can't convert 'int' object to str implicitly` |
+| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. | `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; ``; `i`; `n`; ``; `t`; `h`; `r`; `e`; `a`; `d`; ``; `"`; `m`; `a`; `i`; `n`; `"`; ``; `j`; `a`; `v`; `a`; `.`; `l`; `a`; `n`; `g`; `.`; `R`; `u`; `n`; `t`; `i`; `m`; `e`; `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `:`; ``; `T`; `e`; `s`; `t`; ``; `e`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `B`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `1`; `3`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `A`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `9`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `a`; `i`; `n`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `5`; `)`; ``;  |
+| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If `signoz.audit.outcome` is `failure`. | string | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] | `java.net.ConnectException`; `OSError` |
+| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | string | HTTP request method. | `GET`; `POST`; `HEAD` |
+| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | int | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). | `200` |
+| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP and a route matched. | string | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. | `/users/:userID?`; `my-controller/my-action/{id?}` |
+| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. | `amqp`; `http`; `mqtt` |
+| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The actual version of the protocol used for network communication. | `1.1`; `2` |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Operation the principal performed on the resource. | `update` |
+| [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
+| [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
+| [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](resource.md#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If `signoz.resource.kind` is `ingestion-key`. | string | Identifier of the key that authenticated the telemetry. [7] | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] | `/search` |
+| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. | `https`; `ftp`; `telnet` |
+| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. | `CERN-LineMode/2.15 libwww/2.17b3`; `Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1`; `YourApp/1.0.0 grpc-java-okhttp/1.27.2` |
 
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
@@ -283,7 +283,7 @@ resources of the kind rather than to a single resource.
 
 Records the detachment of one SigNoz resource from another.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Entities:** `signoz.resource`
 
 Recorded twice per detachment, once from each side of the relation,
@@ -295,35 +295,35 @@ timestamp is the time of the operation.
 Severity SHOULD be `INFO` (9) when `signoz.audit.outcome` is `success`
 and `ERROR` (17) when it is `failure`.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | string | Recommended | stable | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] |
-| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | int | Recommended | stable | Client port number. |
-| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | string | Opt-in | stable | The exception message. [2] |
-| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | string | Opt-in | stable | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. |
-| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | string | Conditionally required: If `signoz.audit.outcome` is `failure`. | stable | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] |
-| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | enum | Conditionally required: If the operation was served over HTTP. | stable | HTTP request method. |
-| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | int | Conditionally required: If the operation was served over HTTP. | stable | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). |
-| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | string | Conditionally required: If the operation was served over HTTP and a route matched. | stable | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. |
-| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | string | Recommended | stable | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. |
-| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | string | Recommended | stable | The actual version of the protocol used for network communication. |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | Required | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | Required | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | Required | development | Operation the principal performed on the resource. |
-| [`signoz.organization.id`](identity.md#signoz-organization-id) | string | Required | development | Organization that owns the resource the operation was performed on. |
-| [`signoz.principal.email`](identity.md#signoz-principal-email) | string | Recommended | development | Email address of the principal. [4] |
-| [`signoz.principal.id`](identity.md#signoz-principal-id) | string | Conditionally required: If the request was authenticated. | development | Unique identifier of the principal. [5] |
-| [`signoz.principal.type`](identity.md#signoz-principal-type) | string | Conditionally required: If the request was authenticated. | development | Kind of the principal. |
-| [`signoz.resource.id`](resource.md#signoz-resource-id) | string | Required | development | Unique identifier of the resource. [6] |
-| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | string | Required | development | Kind of the resource. |
-| [`signoz.resource.object`](resource.md#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
-| [`signoz.resource.target.id`](resource.md#signoz-resource-target-id) | string | Required | development | Unique identifier of the counterpart resource in a relation. |
-| [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind) | string | Required | development | Kind of the counterpart resource in a relation. |
-| [`signoz.resource.target.object`](resource.md#signoz-resource-target-object) | string | Recommended | development | Object reference of the counterpart resource in a relation. |
-| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | string | Conditionally required: If `signoz.resource.kind` is `ingestion-key`. | development | Identifier of the key that authenticated the telemetry. [7] |
-| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | string | Opt-in | stable | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] |
-| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | string | Recommended | stable | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. |
-| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | string | Recommended | stable | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] | `client.example.com`; `10.1.2.80`; `/tmp/my.sock` |
+| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | int | Client port number. | `65123` |
+| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The exception message. [2] | `Division by zero`; `Can't convert 'int' object to str implicitly` |
+| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. | `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; ``; `i`; `n`; ``; `t`; `h`; `r`; `e`; `a`; `d`; ``; `"`; `m`; `a`; `i`; `n`; `"`; ``; `j`; `a`; `v`; `a`; `.`; `l`; `a`; `n`; `g`; `.`; `R`; `u`; `n`; `t`; `i`; `m`; `e`; `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `:`; ``; `T`; `e`; `s`; `t`; ``; `e`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `B`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `1`; `3`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `A`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `9`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `a`; `i`; `n`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `5`; `)`; ``;  |
+| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If `signoz.audit.outcome` is `failure`. | string | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] | `java.net.ConnectException`; `OSError` |
+| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | string | HTTP request method. | `GET`; `POST`; `HEAD` |
+| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | int | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). | `200` |
+| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP and a route matched. | string | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. | `/users/:userID?`; `my-controller/my-action/{id?}` |
+| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. | `amqp`; `http`; `mqtt` |
+| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The actual version of the protocol used for network communication. | `1.1`; `2` |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Operation the principal performed on the resource. | `update` |
+| [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
+| [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
+| [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](resource.md#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.resource.target.id`](resource.md#signoz-resource-target-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the counterpart resource in a relation. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.resource.target.kind`](resource.md#signoz-resource-target-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the counterpart resource in a relation. | `dashboard` |
+| [`signoz.resource.target.object`](resource.md#signoz-resource-target-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the counterpart resource in a relation. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65` |
+| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If `signoz.resource.kind` is `ingestion-key`. | string | Identifier of the key that authenticated the telemetry. [7] | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] | `/search` |
+| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. | `https`; `ftp`; `telnet` |
+| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. | `CERN-LineMode/2.15 libwww/2.17b3`; `Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1`; `YourApp/1.0.0 grpc-java-okhttp/1.27.2` |
 
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.
@@ -359,7 +359,7 @@ resources of the kind rather than to a single resource.
 
 Records the modification of a SigNoz resource.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Entities:** `signoz.resource`
 
 Recorded once per modification, after the operation has completed. The
@@ -368,32 +368,32 @@ timestamp is the time of the operation.
 Severity SHOULD be `INFO` (9) when `signoz.audit.outcome` is `success`
 and `ERROR` (17) when it is `failure`.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | string | Recommended | stable | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] |
-| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | int | Recommended | stable | Client port number. |
-| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | string | Opt-in | stable | The exception message. [2] |
-| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | string | Opt-in | stable | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. |
-| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | string | Conditionally required: If `signoz.audit.outcome` is `failure`. | stable | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] |
-| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | enum | Conditionally required: If the operation was served over HTTP. | stable | HTTP request method. |
-| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | int | Conditionally required: If the operation was served over HTTP. | stable | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). |
-| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | string | Conditionally required: If the operation was served over HTTP and a route matched. | stable | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. |
-| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | string | Recommended | stable | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. |
-| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | string | Recommended | stable | The actual version of the protocol used for network communication. |
-| [`signoz.audit.action_category`](#signoz-audit-action-category) | enum | Required | development | Category of the audited operation. |
-| [`signoz.audit.outcome`](#signoz-audit-outcome) | enum | Required | development | Outcome of the audited operation. |
-| [`signoz.audit.verb`](#signoz-audit-verb) | string | Required | development | Operation the principal performed on the resource. |
-| [`signoz.organization.id`](identity.md#signoz-organization-id) | string | Required | development | Organization that owns the resource the operation was performed on. |
-| [`signoz.principal.email`](identity.md#signoz-principal-email) | string | Recommended | development | Email address of the principal. [4] |
-| [`signoz.principal.id`](identity.md#signoz-principal-id) | string | Conditionally required: If the request was authenticated. | development | Unique identifier of the principal. [5] |
-| [`signoz.principal.type`](identity.md#signoz-principal-type) | string | Conditionally required: If the request was authenticated. | development | Kind of the principal. |
-| [`signoz.resource.id`](resource.md#signoz-resource-id) | string | Required | development | Unique identifier of the resource. [6] |
-| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | string | Required | development | Kind of the resource. |
-| [`signoz.resource.object`](resource.md#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
-| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | string | Conditionally required: If `signoz.resource.kind` is `ingestion-key`. | development | Identifier of the key that authenticated the telemetry. [7] |
-| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | string | Opt-in | stable | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] |
-| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | string | Recommended | stable | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. |
-| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | string | Recommended | stable | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`client.address`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-address) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Client address - domain name if available without reverse DNS lookup; otherwise, IP address or UNIX domain socket name. [1] | `client.example.com`; `10.1.2.80`; `/tmp/my.sock` |
+| [`client.port`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/client.md#client-port) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | int | Client port number. | `65123` |
+| [`exception.message`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-message) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The exception message. [2] | `Division by zero`; `Can't convert 'int' object to str implicitly` |
+| [`exception.stacktrace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-stacktrace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | A stacktrace as a string in the natural representation for the language runtime. The representation is to be determined and documented by each language SIG. | `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; ``; `i`; `n`; ``; `t`; `h`; `r`; `e`; `a`; `d`; ``; `"`; `m`; `a`; `i`; `n`; `"`; ``; `j`; `a`; `v`; `a`; `.`; `l`; `a`; `n`; `g`; `.`; `R`; `u`; `n`; `t`; `i`; `m`; `e`; `E`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `:`; ``; `T`; `e`; `s`; `t`; ``; `e`; `x`; `c`; `e`; `p`; `t`; `i`; `o`; `n`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `B`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `1`; `3`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `e`; `t`; `h`; `o`; `d`; `A`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `9`; `)`; `\`; `n`; ``; `a`; `t`; ``; `c`; `o`; `m`; `.`; `e`; `x`; `a`; `m`; `p`; `l`; `e`; `.`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `m`; `a`; `i`; `n`; `(`; `G`; `e`; `n`; `e`; `r`; `a`; `t`; `e`; `T`; `r`; `a`; `c`; `e`; `.`; `j`; `a`; `v`; `a`; `:`; `5`; `)`; ``;  |
+| [`exception.type`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/exception.md#exception-type) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If `signoz.audit.outcome` is `failure`. | string | The type of the exception (its fully-qualified class name, if applicable). The dynamic type of the exception should be preferred over the static type in languages that support it. [3] | `java.net.ConnectException`; `OSError` |
+| [`http.request.method`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-request-method) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | string | HTTP request method. | `GET`; `POST`; `HEAD` |
+| [`http.response.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-response-status-code) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP. | int | [HTTP response status code](https://tools.ietf.org/html/rfc7231#section-6). | `200` |
+| [`http.route`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-route) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Conditionally Required` If the operation was served over HTTP and a route matched. | string | The matched route template for the request. This MUST be low-cardinality and include all static path segments, with dynamic path segments represented with placeholders. | `/users/:userID?`; `my-controller/my-action/{id?}` |
+| [`network.protocol.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | [OSI application layer](https://wikipedia.org/wiki/Application_layer) or non-OSI equivalent. | `amqp`; `http`; `mqtt` |
+| [`network.protocol.version`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/network.md#network-protocol-version) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The actual version of the protocol used for network communication. | `1.1`; `2` |
+| [`signoz.audit.action_category`](#signoz-audit-action-category) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Category of the audited operation. | `configuration_changes` |
+| [`signoz.audit.outcome`](#signoz-audit-outcome) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Outcome of the audited operation. | `success` |
+| [`signoz.audit.verb`](#signoz-audit-verb) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Operation the principal performed on the resource. | `update` |
+| [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
+| [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
+| [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](resource.md#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.workspace.key.id`](workspace.md#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If `signoz.resource.kind` is `ingestion-key`. | string | Identifier of the key that authenticated the telemetry. [7] | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+| [`url.path`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-path) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Opt-In` | string | The [URI path](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) component [8] | `/search` |
+| [`url.scheme`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/url.md#url-scheme) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | The [URI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1) component identifying the used protocol. | `https`; `ftp`; `telnet` |
+| [`user_agent.original`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/user-agent.md#user-agent-original) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Value of the [HTTP User-Agent](https://www.rfc-editor.org/rfc/rfc9110.html#field.user-agent) header sent by the client. | `CERN-LineMode/2.15 libwww/2.17b3`; `Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1`; `YourApp/1.0.0 grpc-java-okhttp/1.27.2` |
 
 **[1] `client.address`:** The address the request came from, without the port. The port is
 `client.port`.

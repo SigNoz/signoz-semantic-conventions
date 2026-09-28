@@ -7,21 +7,21 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.resource.id`](#signoz-resource-id) | string | development | Unique identifier of the resource. |
-| [`signoz.resource.kind`](#signoz-resource-kind) | string | development | Kind of the resource. |
-| [`signoz.resource.object`](#signoz-resource-object) | string | development | Object reference of the resource in the authorization model. |
-| [`signoz.resource.target.id`](#signoz-resource-target-id) | string | development | Unique identifier of the counterpart resource in a relation. |
-| [`signoz.resource.target.kind`](#signoz-resource-target-kind) | string | development | Kind of the counterpart resource in a relation. |
-| [`signoz.resource.target.object`](#signoz-resource-target-object) | string | development | Object reference of the counterpart resource in a relation. |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+| [`signoz.resource.id`](#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the resource. | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | string | Kind of the resource. | `ingestion-key` |
+| [`signoz.resource.object`](#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| [`signoz.resource.target.id`](#signoz-resource-target-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the counterpart resource in a relation. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.resource.target.kind`](#signoz-resource-target-kind) | ![Development](https://img.shields.io/badge/-development-blue) | string | Kind of the counterpart resource in a relation. | `dashboard` |
+| [`signoz.resource.target.object`](#signoz-resource-target-object) | ![Development](https://img.shields.io/badge/-development-blue) | string | Object reference of the counterpart resource in a relation. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65` |
 
 ### <a id="signoz-resource-id"></a>`signoz.resource.id`
 
 Unique identifier of the resource.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*`
 
 The id is unique within its kind and organization, not across kinds.
@@ -35,8 +35,8 @@ single resource, for example a list operation.
 
 Kind of the resource.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `ingestion-key`
 
 Kind values are lowercase, with words joined by hyphens.
@@ -51,8 +51,8 @@ kinds such as `ingestion-key`, `ingestion-limit`, `license`,
 
 Object reference of the resource in the authorization model.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f`
 
 The grammar is `<type>:organization/<organization id>/<kind>/<selector>`.
@@ -63,8 +63,8 @@ is replaced by its SHA-256 hash truncated to 16 hexadecimal characters.
 
 Unique identifier of the counterpart resource in a relation.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c`
 
 Set on operations that relate two resources, for example attach and
@@ -74,8 +74,8 @@ detach. Follows the same rules as `signoz.resource.id`.
 
 Kind of the counterpart resource in a relation.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `dashboard`
 
 Set on operations that relate two resources, for example attach and
@@ -90,8 +90,8 @@ Takes the same values as `signoz.resource.kind`.
 
 Object reference of the counterpart resource in a relation.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65`
 
 Set on operations that relate two resources, for example attach and
@@ -103,7 +103,7 @@ detach. Follows the same grammar as `signoz.resource.object`.
 
 A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Identified by its kind and id together: ids are unique within a kind and
 organization, not across kinds. Operations on a collection, for example
@@ -112,13 +112,13 @@ identify a single resource.
 
 **Identity**
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`signoz.resource.id`](#signoz-resource-id) | string | Required | development | Unique identifier of the resource. |
-| [`signoz.resource.kind`](#signoz-resource-kind) | string | Required | development | Kind of the resource. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`signoz.resource.id`](#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| [`signoz.resource.kind`](#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
 
 **Description**
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`signoz.resource.object`](#signoz-resource-object) | string | Recommended | development | Object reference of the resource in the authorization model. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`signoz.resource.object`](#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |

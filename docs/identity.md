@@ -7,19 +7,19 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.organization.id`](#signoz-organization-id) | string | development | Unique identifier of the organization. |
-| [`signoz.principal.email`](#signoz-principal-email) | string | development | Email address of the principal. |
-| [`signoz.principal.id`](#signoz-principal-id) | string | development | Unique identifier of the principal. |
-| [`signoz.principal.type`](#signoz-principal-type) | string | development | Kind of the principal. |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+| [`signoz.organization.id`](#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the organization. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| [`signoz.principal.email`](#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | string | Email address of the principal. | `jane.doe@example.com` |
+| [`signoz.principal.id`](#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the principal. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.type`](#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | string | Kind of the principal. | `user` |
 
 ### <a id="signoz-organization-id"></a>`signoz.organization.id`
 
 Unique identifier of the organization.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e`
 
 The value is an opaque string: a UUID today, but the format may
@@ -29,8 +29,8 @@ change.
 
 Email address of the principal.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `jane.doe@example.com`
 
 > [!WARNING]
@@ -41,8 +41,8 @@ Email address of the principal.
 
 Unique identifier of the principal.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c`
 
 Identifies a user or a service account, as indicated by
@@ -52,8 +52,8 @@ Identifies a user or a service account, as indicated by
 
 Kind of the principal.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `user`
 
 Known values: `user` (a human user of the SigNoz platform) and
@@ -66,34 +66,34 @@ key).
 
 A SigNoz organization, the logical grouping of everything one SigNoz account holds.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Identified by its id alone.
 
 **Identity**
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`signoz.organization.id`](#signoz-organization-id) | string | Required | development | Unique identifier of the organization. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`signoz.organization.id`](#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the organization. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 
 ### <a id="signoz-principal"></a>`signoz.principal`
 
 A principal of the SigNoz platform: an authenticated user or service account.
 
-- **Stability:** development
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Identified by its id alone, which is unique across principal types; the
 type is therefore descriptive rather than part of the identity.
 
 **Identity**
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`signoz.principal.id`](#signoz-principal-id) | string | Required | development | Unique identifier of the principal. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`signoz.principal.id`](#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the principal. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
 
 **Description**
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`signoz.principal.email`](#signoz-principal-email) | string | Recommended | development | Email address of the principal. |
-| [`signoz.principal.type`](#signoz-principal-type) | string | Required | development | Kind of the principal. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`signoz.principal.email`](#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. | `jane.doe@example.com` |
+| [`signoz.principal.type`](#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the principal. | `user` |

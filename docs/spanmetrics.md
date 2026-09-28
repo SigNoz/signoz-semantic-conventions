@@ -7,23 +7,23 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
-| [`address`](#address) | string | development | The remote endpoint of an external call. |
-| [`operation`](#operation) | string | development | The name of the aggregated spans. |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | development | A copy of `signoz.collector.id`. |
-| [`signoz.collector.id`](#signoz-collector-id) | string | development | The identifier of the collector instance that produced the metric. |
-| [`span.kind`](#span-kind) | enum | development | The kind of the aggregated spans. |
-| [`status.code`](#status-code) | enum | development | The status code of the aggregated spans. |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+| [`address`](#address) | ![Development](https://img.shields.io/badge/-development-blue) | string | The remote endpoint of an external call. | `payments.internal:8443`; `oteldemo.CartService/GetCart` |
+| [`operation`](#operation) | ![Development](https://img.shields.io/badge/-development-blue) | string | The name of the aggregated spans. | `GET /api/v1/orders/{id}`; `overflow_operation` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`span.kind`](#span-kind) | ![Development](https://img.shields.io/badge/-development-blue) | string | The kind of the aggregated spans. | `SPAN_KIND_SERVER` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 ### <a id="address"></a>`address`
 
 The remote endpoint of an external call.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `payments.internal:8443`; `oteldemo.CartService/GetCart`
 
 `<rpc.service>/<rpc.method>` for RPC calls, otherwise the remote host
@@ -33,8 +33,8 @@ as `host` or `host:port`, or the span's `peer.service`.
 
 The name of the aggregated spans.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `GET /api/v1/orders/{id}`; `overflow_operation`
 
 Set to `overflow_operation` when the service has more distinct span
@@ -44,32 +44,32 @@ names than are tracked.
 
 The value of `deployment.environment` on the span's Resource.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `production`
 
 ### <a id="resource-service-namespace"></a>`resource_service.namespace`
 
 The value of `service.namespace` on the span's Resource.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `shop`
 
 ### <a id="resource-signoz-collector-id"></a>`resource_signoz.collector.id`
 
 A copy of `signoz.collector.id`.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14`
 
 ### <a id="signoz-collector-id"></a>`signoz.collector.id`
 
 The identifier of the collector instance that produced the metric.
 
-- **Type:** string
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14`
 
 The collector's `service.instance.id`, or a UUID assigned when the
@@ -79,32 +79,32 @@ collector starts if it has none.
 
 The kind of the aggregated spans.
 
-- **Type:** enum
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `SPAN_KIND_SERVER`
 
 | Value | Description | Stability |
 | --- | --- | --- |
-| `SPAN_KIND_UNSPECIFIED` | The span kind is unspecified. | development |
-| `SPAN_KIND_INTERNAL` | An internal operation. | development |
-| `SPAN_KIND_SERVER` | The server side of a remote call. | development |
-| `SPAN_KIND_CLIENT` | The client side of a remote call. | development |
-| `SPAN_KIND_PRODUCER` | The producer of an asynchronous message. | development |
-| `SPAN_KIND_CONSUMER` | The consumer of an asynchronous message. | development |
+| `SPAN_KIND_UNSPECIFIED` | The span kind is unspecified. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `SPAN_KIND_INTERNAL` | An internal operation. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `SPAN_KIND_SERVER` | The server side of a remote call. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `SPAN_KIND_CLIENT` | The client side of a remote call. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `SPAN_KIND_PRODUCER` | The producer of an asynchronous message. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `SPAN_KIND_CONSUMER` | The consumer of an asynchronous message. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ### <a id="status-code"></a>`status.code`
 
 The status code of the aggregated spans.
 
-- **Type:** enum
-- **Stability:** development
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `STATUS_CODE_ERROR`
 
 | Value | Description | Stability |
 | --- | --- | --- |
-| `STATUS_CODE_UNSET` | The span status is unset. | development |
-| `STATUS_CODE_OK` | The span completed successfully. | development |
-| `STATUS_CODE_ERROR` | The span completed with an error. | development |
+| `STATUS_CODE_UNSET` | The span status is unset. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `STATUS_CODE_OK` | The span completed successfully. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `STATUS_CODE_ERROR` | The span completed with an error. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ## Metrics
 
@@ -113,21 +113,22 @@ The status code of the aggregated spans.
 The number of spans observed.
 
 - **Instrument:** counter
-- **Unit:** none- **Stability:** development
+- **Unit:** none
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | int | Conditionally required: If the span carries `http.status_code` or `http.response.status_code`. | development | OpenTelemetry has renamed this to `http.response.status_code`; SigNoz uses this name. [2] |
-| [`operation`](#operation) | string | Required | development | The name of the aggregated spans. |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [3] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [4] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`span.kind`](#span-kind) | enum | Required | development | The kind of the aggregated spans. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `http.response.status_code`. | `Conditionally Required` If the span carries `http.status_code` or `http.response.status_code`. | int | SigNoz uses this name, which OpenTelemetry has deprecated. [2] | `200` |
+| [`operation`](#operation) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The name of the aggregated spans. | `GET /api/v1/orders/{id}`; `overflow_operation` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [3] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [4] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`span.kind`](#span-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The kind of the aggregated spans. | `SPAN_KIND_SERVER` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 
@@ -144,23 +145,24 @@ than are tracked.
 The number of database calls observed.
 
 - **Instrument:** counter
-- **Unit:** `1`- **Stability:** development
+- **Unit:** `1`
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 A database call is a span that carries `db.system` and is not of kind
 server.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`db.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-name) | string | Conditionally required: If the span carries it. | development | OpenTelemetry has renamed this to `db.namespace`; SigNoz uses this name. |
-| [`db.system`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-system) | enum | Required | development | OpenTelemetry has renamed this to `db.system.name`; SigNoz uses this name. |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [2] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [3] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`db.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-name) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `db.namespace`. | `Conditionally Required` If the span carries it. | string | SigNoz uses this name, which OpenTelemetry has deprecated. | `customers`; `main` |
+| [`db.system`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-system) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `db.system.name`. | `Required` | string | SigNoz uses this name, which OpenTelemetry has deprecated. |  |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [2] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [3] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 
@@ -174,23 +176,24 @@ than are tracked.
 The total duration of database calls observed.
 
 - **Instrument:** counter
-- **Unit:** `1`- **Stability:** development
+- **Unit:** `1`
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Values are in milliseconds. A database call is a span that carries
 `db.system` and is not of kind server.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`db.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-name) | string | Conditionally required: If the span carries it. | development | OpenTelemetry has renamed this to `db.namespace`; SigNoz uses this name. |
-| [`db.system`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-system) | enum | Required | development | OpenTelemetry has renamed this to `db.system.name`; SigNoz uses this name. |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [2] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [3] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`db.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-name) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `db.namespace`. | `Conditionally Required` If the span carries it. | string | SigNoz uses this name, which OpenTelemetry has deprecated. | `customers`; `main` |
+| [`db.system`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/db.md#db-system) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `db.system.name`. | `Required` | string | SigNoz uses this name, which OpenTelemetry has deprecated. |  |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [2] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [3] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 
@@ -204,22 +207,23 @@ than are tracked.
 The number of external calls observed.
 
 - **Instrument:** counter
-- **Unit:** `1`- **Stability:** development
+- **Unit:** `1`
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 An external call is a client span with a known remote endpoint.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`address`](#address) | string | Required | development | The remote endpoint of an external call. |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | int | Conditionally required: If the span carries `http.status_code` or `http.response.status_code`. | development | OpenTelemetry has renamed this to `http.response.status_code`; SigNoz uses this name. [2] |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [3] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [4] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`address`](#address) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The remote endpoint of an external call. | `payments.internal:8443`; `oteldemo.CartService/GetCart` |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `http.response.status_code`. | `Conditionally Required` If the span carries `http.status_code` or `http.response.status_code`. | int | SigNoz uses this name, which OpenTelemetry has deprecated. [2] | `200` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [3] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [4] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 
@@ -236,23 +240,24 @@ than are tracked.
 The total duration of external calls observed.
 
 - **Instrument:** counter
-- **Unit:** `1`- **Stability:** development
+- **Unit:** `1`
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Values are in milliseconds. An external call is a client span with a
 known remote endpoint.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`address`](#address) | string | Required | development | The remote endpoint of an external call. |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | int | Conditionally required: If the span carries `http.status_code` or `http.response.status_code`. | development | OpenTelemetry has renamed this to `http.response.status_code`; SigNoz uses this name. [2] |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [3] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [4] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`address`](#address) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The remote endpoint of an external call. | `payments.internal:8443`; `oteldemo.CartService/GetCart` |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`http.status_code`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/http.md#http-status-code) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `http.response.status_code`. | `Conditionally Required` If the span carries `http.status_code` or `http.response.status_code`. | int | SigNoz uses this name, which OpenTelemetry has deprecated. [2] | `200` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [3] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [4] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 
@@ -269,23 +274,24 @@ than are tracked.
 The duration of spans observed.
 
 - **Instrument:** histogram
-- **Unit:** `ms`- **Stability:** development
+- **Unit:** `ms`
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 
 Recorded as an explicit bucket histogram and, when enabled, also as an
 exponential histogram under the same name. Values are in milliseconds.
 
-| Attribute | Type | Requirement | Stability | Description |
-| --- | --- | --- | --- | --- |
-| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | string | Recommended | development | OpenTelemetry has renamed this to `deployment.environment.name`; SigNoz uses this name. [1] |
-| [`operation`](#operation) | string | Required | development | The name of the aggregated spans. |
-| [`resource_deployment.environment`](#resource-deployment-environment) | string | Conditionally required: If the span's Resource carries `deployment.environment`. | development | The value of `deployment.environment` on the span's Resource. |
-| [`resource_service.namespace`](#resource-service-namespace) | string | Conditionally required: If the span's Resource carries `service.namespace`. | development | The value of `service.namespace` on the span's Resource. |
-| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | string | Required | development | A copy of `signoz.collector.id`. |
-| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | string | Required | stable | Logical name of the service. [2] |
-| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | string | Recommended | stable | A namespace for `service.name`. [3] |
-| [`signoz.collector.id`](#signoz-collector-id) | string | Required | development | The identifier of the collector instance that produced the metric. |
-| [`span.kind`](#span-kind) | enum | Required | development | The kind of the aggregated spans. |
-| [`status.code`](#status-code) | enum | Required | development | The status code of the aggregated spans. |
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. [1] | `staging`; `production` |
+| [`operation`](#operation) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The name of the aggregated spans. | `GET /api/v1/orders/{id}`; `overflow_operation` |
+| [`resource_deployment.environment`](#resource-deployment-environment) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `deployment.environment`. | string | The value of `deployment.environment` on the span's Resource. | `production` |
+| [`resource_service.namespace`](#resource-service-namespace) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the span's Resource carries `service.namespace`. | string | The value of `service.namespace` on the span's Resource. | `shop` |
+| [`resource_signoz.collector.id`](#resource-signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | A copy of `signoz.collector.id`. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Required` | string | Logical name of the service. [2] | `shoppingcart` |
+| [`service.namespace`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-namespace) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | A namespace for `service.name`. [3] | `Shop` |
+| [`signoz.collector.id`](#signoz-collector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the collector instance that produced the metric. | `6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14` |
+| [`span.kind`](#span-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The kind of the aggregated spans. | `SPAN_KIND_SERVER` |
+| [`status.code`](#status-code) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The status code of the aggregated spans. | `STATUS_CODE_ERROR` |
 
 **[1] `deployment.environment`:** Set to `default` when neither the span nor its Resource carries it.
 

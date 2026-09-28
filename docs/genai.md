@@ -6,20 +6,20 @@
 
 ## Attributes
 
-| Attribute | Type | Stability | Description |
-| --- | --- | --- | --- |
-| [`signoz.gen_ai.usage.cache_read.input_tokens.cost`](#signoz-gen-ai-usage-cache-read-input-tokens-cost) | double | development | The monetary cost of the input tokens served from a provider-managed cache. |
-| [`signoz.gen_ai.usage.cache_write.input_tokens.cost`](#signoz-gen-ai-usage-cache-write-input-tokens-cost) | double | development | The monetary cost of the input tokens written to a provider-managed cache. |
-| [`signoz.gen_ai.usage.input_tokens.cost`](#signoz-gen-ai-usage-input-tokens-cost) | double | development | The monetary cost of the input tokens billed at the model's standard input rate. |
-| [`signoz.gen_ai.usage.output_tokens.cost`](#signoz-gen-ai-usage-output-tokens-cost) | double | development | The monetary cost of the output tokens a model generated. |
-| [`signoz.gen_ai.usage.tokens.cost`](#signoz-gen-ai-usage-tokens-cost) | double | development | The total monetary cost of the tokens a model call used. |
+| Key | Stability | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- |
+| [`signoz.gen_ai.usage.cache_read.input_tokens.cost`](#signoz-gen-ai-usage-cache-read-input-tokens-cost) | ![Development](https://img.shields.io/badge/-development-blue) | double | The monetary cost of the input tokens served from a provider-managed cache. | `0.00003` |
+| [`signoz.gen_ai.usage.cache_write.input_tokens.cost`](#signoz-gen-ai-usage-cache-write-input-tokens-cost) | ![Development](https://img.shields.io/badge/-development-blue) | double | The monetary cost of the input tokens written to a provider-managed cache. | `0.00094` |
+| [`signoz.gen_ai.usage.input_tokens.cost`](#signoz-gen-ai-usage-input-tokens-cost) | ![Development](https://img.shields.io/badge/-development-blue) | double | The monetary cost of the input tokens billed at the model's standard input rate. | `0.00075` |
+| [`signoz.gen_ai.usage.output_tokens.cost`](#signoz-gen-ai-usage-output-tokens-cost) | ![Development](https://img.shields.io/badge/-development-blue) | double | The monetary cost of the output tokens a model generated. | `0.00159` |
+| [`signoz.gen_ai.usage.tokens.cost`](#signoz-gen-ai-usage-tokens-cost) | ![Development](https://img.shields.io/badge/-development-blue) | double | The total monetary cost of the tokens a model call used. | `0.00234`; `0.4812` |
 
 ### <a id="signoz-gen-ai-usage-cache-read-input-tokens-cost"></a>`signoz.gen_ai.usage.cache_read.input_tokens.cost`
 
 The monetary cost of the input tokens served from a provider-managed cache.
 
-- **Type:** double
-- **Stability:** development
+- **Value Type:** double
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `0.00003`
 
 `gen_ai.usage.cache_read.input_tokens` with `.cost` appended. The value
@@ -31,8 +31,8 @@ Providers price cache reads below their standard input rate.
 
 The monetary cost of the input tokens written to a provider-managed cache.
 
-- **Type:** double
-- **Stability:** development
+- **Value Type:** double
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `0.00094`
 
 `gen_ai.usage.cache_write.input_tokens` with `.cost` appended. The value
@@ -44,8 +44,8 @@ Providers price cache writes above their standard input rate.
 
 The monetary cost of the input tokens billed at the model's standard input rate.
 
-- **Type:** double
-- **Stability:** development
+- **Value Type:** double
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `0.00075`
 
 `gen_ai.usage.input_tokens` with `.cost` appended. The value SHOULD be
@@ -59,8 +59,8 @@ their own rates and are excluded here, even though
 
 The monetary cost of the output tokens a model generated.
 
-- **Type:** double
-- **Stability:** development
+- **Value Type:** double
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `0.00159`
 
 `gen_ai.usage.output_tokens` with `.cost` appended. The value SHOULD be
@@ -72,8 +72,8 @@ Reasoning tokens are part of the output and are priced with it.
 
 The total monetary cost of the tokens a model call used.
 
-- **Type:** double
-- **Stability:** development
+- **Value Type:** double
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
 - **Examples:** `0.00234`; `0.4812`
 
 The sum of the per-class costs. Upstream has no count for all classes
