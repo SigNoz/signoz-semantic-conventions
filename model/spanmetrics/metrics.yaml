@@ -1,0 +1,155 @@
+groups:
+- id: attributes.signoz.spanmetrics.common
+  type: attribute_group
+  brief: >
+    Attributes shared by every SigNoz span metric.
+  note: |
+    The dimensions are configurable: further span or resource attributes MAY
+    be recorded under their own key, with a `resource_<key>` copy when the
+    value comes from the span's Resource.
+  attributes:
+  - ref: service.name
+    requirement_level: required
+    note: |
+      Set to `overflow_service` when more distinct services are observed
+      than are tracked.
+  - ref: status.code
+    requirement_level: required
+  - ref: signoz.collector.id
+    requirement_level: required
+  - ref: resource_signoz.collector.id
+    requirement_level: required
+  - ref: service.namespace
+    requirement_level: recommended
+    note: |
+      Set to `default` when neither the span nor its Resource carries it.
+  - ref: resource_service.namespace
+    requirement_level:
+      conditionally_required: If the span's Resource carries `service.namespace`.
+  - ref: deployment.environment
+    requirement_level: recommended
+    note: |
+      Set to `default` when neither the span nor its Resource carries it.
+  - ref: resource_deployment.environment
+    requirement_level:
+      conditionally_required: If the span's Resource carries `deployment.environment`.
+
+- id: metric.signoz_calls_total
+  type: metric
+  metric_name: signoz_calls_total
+  stability: development
+  brief: >
+    The number of spans observed.
+  instrument: counter
+  unit: ""
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: operation
+    requirement_level: required
+  - ref: span.kind
+    requirement_level: required
+  - ref: http.status_code
+    requirement_level:
+      conditionally_required: If the span carries `http.status_code` or `http.response.status_code`.
+    note: |
+      The span's `http.status_code`, or its `http.response.status_code` when
+      that is absent.
+
+- id: metric.signoz_latency
+  type: metric
+  metric_name: signoz_latency
+  stability: development
+  brief: >
+    The duration of spans observed.
+  note: |
+    Recorded as an explicit bucket histogram and, when enabled, also as an
+    exponential histogram under the same name. Values are in milliseconds.
+  instrument: histogram
+  unit: "ms"
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: operation
+    requirement_level: required
+  - ref: span.kind
+    requirement_level: required
+
+- id: metric.signoz_db_latency_sum
+  type: metric
+  metric_name: signoz_db_latency_sum
+  stability: development
+  brief: >
+    The total duration of database calls observed.
+  note: |
+    Values are in milliseconds. A database call is a span that carries
+    `db.system` and is not of kind server.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: db.system
+    requirement_level: required
+  - ref: db.name
+    requirement_level:
+      conditionally_required: If the span carries it.
+
+- id: metric.signoz_db_latency_count
+  type: metric
+  metric_name: signoz_db_latency_count
+  stability: development
+  brief: >
+    The number of database calls observed.
+  note: |
+    A database call is a span that carries `db.system` and is not of kind
+    server.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: db.system
+    requirement_level: required
+  - ref: db.name
+    requirement_level:
+      conditionally_required: If the span carries it.
+
+- id: metric.signoz_external_call_latency_sum
+  type: metric
+  metric_name: signoz_external_call_latency_sum
+  stability: development
+  brief: >
+    The total duration of external calls observed.
+  note: |
+    Values are in milliseconds. An external call is a client span with a
+    known remote endpoint.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: address
+    requirement_level: required
+  - ref: http.status_code
+    requirement_level:
+      conditionally_required: If the span carries `http.status_code` or `http.response.status_code`.
+    note: |
+      The span's `http.status_code`, or its `http.response.status_code` when
+      that is absent.
+
+- id: metric.signoz_external_call_latency_count
+  type: metric
+  metric_name: signoz_external_call_latency_count
+  stability: development
+  brief: >
+    The number of external calls observed.
+  note: |
+    An external call is a client span with a known remote endpoint.
+  instrument: counter
+  unit: "1"
+  extends: attributes.signoz.spanmetrics.common
+  attributes:
+  - ref: address
+    requirement_level: required
+  - ref: http.status_code
+    requirement_level:
+      conditionally_required: If the span carries `http.status_code` or `http.response.status_code`.
+    note: |
+      The span's `http.status_code`, or its `http.response.status_code` when
+      that is absent.
