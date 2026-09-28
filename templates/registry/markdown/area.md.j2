@@ -60,23 +60,19 @@
 
 ### <a id="{{ m.anchor(e.type) }}"></a>`{{ e.type }}`
 
-{{ e.brief | trim }}
+**Status:** {{ m.stability(e.stability) }}
 
-- **Stability:** {{ m.stability(e.stability) }}
+**type:** `{{ e.type }}`
+
+**Description:** {{ e.brief | trim }}
 {% if e.note %}
 
 {{ e.note | trim }}
 {% endif %}
 
-**Identity**
+**Attributes:**
 
-{{ m.attribute_table(e.identity, here) | trim }}
-{% if e.description %}
-
-**Description**
-
-{{ m.attribute_table(e.description, here) | trim }}
-{% endif %}
+{{ m.attribute_table(e.attributes, here) | trim }}
 {% endfor %}
 {% endif %}
 {% if ctx.metrics %}

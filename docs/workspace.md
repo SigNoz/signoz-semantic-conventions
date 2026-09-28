@@ -36,24 +36,28 @@ Useful for identifying which workspace the telemetry was ingested under.
 
 ### <a id="signoz-workspace"></a>`signoz.workspace`
 
-A SigNoz workspace.
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+**type:** `signoz.workspace`
 
-**Identity**
+**Description:** A SigNoz workspace.
 
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.workspace.name`](#signoz-workspace-name) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Identifier of the workspace under which the telemetry was ingested. | `acme-prod` |
+**Attributes:**
+
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| Identity | [`signoz.workspace.name`](#signoz-workspace-name) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Identifier of the workspace under which the telemetry was ingested. | `acme-prod` |
 
 ### <a id="signoz-workspace-key"></a>`signoz.workspace.key`
 
-A key of a SigNoz workspace.
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+**type:** `signoz.workspace.key`
 
-**Identity**
+**Description:** A key of a SigNoz workspace.
 
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.workspace.key.id`](#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Identifier of the key that authenticated the telemetry. | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |
+**Attributes:**
+
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| Identity | [`signoz.workspace.key.id`](#signoz-workspace-key-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Identifier of the key that authenticated the telemetry. | `019d9a99-f8f0-7e50-8bb3-995599fa1f76` |

@@ -64,36 +64,35 @@ key).
 
 ### <a id="signoz-organization"></a>`signoz.organization`
 
-A SigNoz organization, the logical grouping of everything one SigNoz account holds.
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+**type:** `signoz.organization`
+
+**Description:** A SigNoz organization, the logical grouping of everything one SigNoz account holds.
 
 Identified by its id alone.
 
-**Identity**
+**Attributes:**
 
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.organization.id`](#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the organization. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| Identity | [`signoz.organization.id`](#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the organization. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 
 ### <a id="signoz-principal"></a>`signoz.principal`
 
-A principal of the SigNoz platform: an authenticated user or service account.
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+**type:** `signoz.principal`
+
+**Description:** A principal of the SigNoz platform: an authenticated user or service account.
 
 Identified by its id alone, which is unique across principal types; the
 type is therefore descriptive rather than part of the identity.
 
-**Identity**
+**Attributes:**
 
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.principal.id`](#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the principal. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
-
-**Description**
-
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.principal.email`](#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. | `jane.doe@example.com` |
-| [`signoz.principal.type`](#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the principal. | `user` |
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| Identity | [`signoz.principal.id`](#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the principal. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| Description | [`signoz.principal.email`](#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. | `jane.doe@example.com` |
+| Description | [`signoz.principal.type`](#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the principal. | `user` |

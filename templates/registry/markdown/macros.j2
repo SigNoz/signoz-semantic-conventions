@@ -71,7 +71,11 @@
     since those only render at the start of one. -#}
 {%- macro attribute_table(attrs, here, show_requirement=true) -%}
 {%- set noted = attrs | selectattr("note") | list -%}
-{% if show_requirement %}
+{%- set roles = attrs | selectattr("role") | list | length > 0 -%}
+{% if roles %}
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+{% elif show_requirement %}
 | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
 | --- | --- | --- | --- | --- | --- |
 {% else %}
@@ -81,7 +85,7 @@
 {% for a in attrs %}
 {%- set ns = namespace(n=0) -%}
 {%- for x in noted -%}{%- if x.key == a.key -%}{%- set ns.n = loop.index -%}{%- endif -%}{%- endfor -%}
-| {{ attr_link(a, here) }} | {{ stability(a.stability, a.deprecated) }} | {% if show_requirement %}{{ requirement(a.requirement_level) }} | {% endif %}{{ type_name(a.type) }} | {{ description(a) }}{% if ns.n %} [{{ ns.n }}]{% endif %} | {{ examples(a.examples) }} |
+| {% if roles %}{{ a.role }} | {% endif %}{{ attr_link(a, here) }} | {{ stability(a.stability, a.deprecated) }} | {% if show_requirement %}{{ requirement(a.requirement_level) }} | {% endif %}{{ type_name(a.type) }} | {{ description(a) }}{% if ns.n %} [{{ ns.n }}]{% endif %} | {{ examples(a.examples) }} |
 {% endfor %}
 {% for a in noted %}
 

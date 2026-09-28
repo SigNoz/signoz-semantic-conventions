@@ -14,8 +14,9 @@ params:
         ($r.attributes[] | {kind: "attributes", v: .}),
         ($r.metrics[] | {kind: "metrics", v: (. + {attributes: ((.attributes // []) | refine)})}),
         ($r.events[] | {kind: "events", v: (. + {attributes: ((.attributes // []) | refine)})}),
-        ($r.entities[] | {kind: "entities", v: (. + {identity: ((.identity // []) | refine),
-                                                      description: ((.description // []) | refine)})}),
+        ($r.entities[] | {kind: "entities", v: (. + {attributes: (
+            ((.identity // []) | refine | map(. + {role: "Identity"}))
+            + ((.description // []) | refine | map(. + {role: "Description"})))})}),
         ($r.spans[] | {kind: "spans", v: (. + {attributes: ((.attributes // []) | refine)})})
       ]
     | map(. + {area: (.v.provenance.path | split("/") | .[-2])})

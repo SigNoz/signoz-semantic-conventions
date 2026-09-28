@@ -101,24 +101,21 @@ detach. Follows the same grammar as `signoz.resource.object`.
 
 ### <a id="signoz-resource"></a>`signoz.resource`
 
-A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key.
+**Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+**type:** `signoz.resource`
+
+**Description:** A SigNoz platform resource: an object the platform manages, such as a dashboard, an alert rule or an ingestion key.
 
 Identified by its kind and id together: ids are unique within a kind and
 organization, not across kinds. Operations on a collection, for example
 listing all resources of a kind, use the id `*` and therefore do not
 identify a single resource.
 
-**Identity**
+**Attributes:**
 
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.resource.id`](#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
-| [`signoz.resource.kind`](#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
-
-**Description**
-
-| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
-| --- | --- | --- | --- | --- | --- |
-| [`signoz.resource.object`](#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
+| Role | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| Identity | [`signoz.resource.id`](#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
+| Identity | [`signoz.resource.kind`](#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
+| Description | [`signoz.resource.object`](#signoz-resource-object) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Object reference of the resource in the authorization model. | `telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f` |
