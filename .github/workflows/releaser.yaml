@@ -1,30 +1,33 @@
 name: releaser
 
 on:
-  push:
-    tags:
-    - "v*"
+  release:
+    types:
+    - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The published release to attach the registry to (e.g. v0.0.1-rc.1)"
+        type: string
+        required: true
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   WEAVER_VERSION: 0.26.1
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - name: github-token-gen
-      id: token
-      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-      with:
-        app-id: ${{ secrets.PRIMUS_APP_ID }}
-        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
     - name: self-checkout
       uses: actions/checkout@v7
+      with:
+        ref: ${{ github.event.release.tag_name || inputs.tag }}
     - name: release-verify
-      run: hack/release.sh verify "${GITHUB_REF_NAME}"
+      run: hack/release.sh verify "${TAG}"
     - name: weaver-install
       run: |
         cd "${RUNNER_TEMP}"
@@ -37,11 +40,8 @@ jobs:
         sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
         weaver --version
     - name: release-package
-      run: hack/release.sh package "${GITHUB_REF_NAME}" dist
-    - name: github-release
+      run: hack/release.sh package "${TAG}" dist
+    - name: github-release-upload
       env:
-        GH_TOKEN: ${{ steps.token.outputs.token }}
-      run: |
-        flags=(--verify-tag --title "${GITHUB_REF_NAME}" --generate-notes)
-        if [[ "${GITHUB_REF_NAME}" == *-* ]]; then flags+=(--prerelease); fi
-        gh release create "${GITHUB_REF_NAME}" dist/manifest.yaml dist/resolved.yaml "${flags[@]}"
+        GH_TOKEN: ${{ github.token }}
+      run: gh release upload "${TAG}" dist/manifest.yaml dist/resolved.yaml --clobber
