@@ -1,0 +1,54 @@
+name: postreleaser
+
+on:
+  release:
+    types:
+    - published
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+    - name: github-token-gen
+      id: token
+      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+      with:
+        app-id: ${{ secrets.PRIMUS_APP_ID }}
+        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
+    - name: self-checkout
+      uses: actions/checkout@v7
+      with:
+        ref: main
+        token: ${{ steps.token.outputs.token }}
+    - name: release-bump
+      id: bump
+      env:
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        next="$(hack/release.sh bump "${TAG}")"
+        echo "version=${next}" >>"${GITHUB_OUTPUT}"
+    - name: git-configure
+      if: steps.bump.outputs.version != ''
+      run: |
+        git config --global user.name "primus-bot[bot]"
+        git config --global user.email "171087277+primus-bot[bot]@users.noreply.github.com"
+    - name: postrelease-pr
+      if: steps.bump.outputs.version != ''
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+        TAG: ${{ github.event.release.tag_name }}
+        NEXT: ${{ steps.bump.outputs.version }}
+      run: |
+        if git diff --quiet; then
+          echo "schema_url is already ${NEXT}."
+          exit 0
+        fi
+        branch="chore/post-release-${TAG}"
+        git switch -c "${branch}"
+        git commit -am "chore(release): start ${NEXT}"
+        git push origin "${branch}"
+        gh pr create --base main --head "${branch}" --title "chore(release): start ${NEXT}" \
+          --body "$(printf '%s\n\n%s\n' '#### Chores' "- after \`${TAG}\`, set \`schema_url\` in \`model/manifest.yaml\` to \`${NEXT}\`")"

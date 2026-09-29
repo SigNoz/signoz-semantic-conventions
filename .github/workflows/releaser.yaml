@@ -1,0 +1,47 @@
+name: releaser
+
+on:
+  push:
+    tags:
+    - "v*"
+
+permissions:
+  contents: read
+
+env:
+  WEAVER_VERSION: 0.26.1
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: github-token-gen
+      id: token
+      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+      with:
+        app-id: ${{ secrets.PRIMUS_APP_ID }}
+        private-key: ${{ secrets.PRIMUS_PRIVATE_KEY }}
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: release-verify
+      run: hack/release.sh verify "${GITHUB_REF_NAME}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: release-package
+      run: hack/release.sh package "${GITHUB_REF_NAME}" dist
+    - name: github-release
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+      run: |
+        flags=(--verify-tag --title "${GITHUB_REF_NAME}" --generate-notes)
+        if [[ "${GITHUB_REF_NAME}" == *-* ]]; then flags+=(--prerelease); fi
+        gh release create "${GITHUB_REF_NAME}" dist/manifest.yaml dist/resolved.yaml "${flags[@]}"
