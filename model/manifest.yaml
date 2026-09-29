@@ -1,6 +1,6 @@
 name: signoz
 description: Registry of semantic conventions for SigNoz.
-schema_url: https://signoz.io/schemas/otel/0.0.1-unreleased
+schema_url: https://signoz.io/schemas/otel/0.0.1-rc.1
 stability: development
 dependencies:
 - schema_url: https://opentelemetry.io/schemas/1.44.0
