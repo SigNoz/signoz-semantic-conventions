@@ -28,6 +28,20 @@ jobs:
         ref: ${{ github.event.release.tag_name || inputs.tag }}
     - name: release-verify
       run: hack/release.sh verify "${TAG}"
+    - name: go-module-tag
+      run: |
+        # A Go module in a subdirectory is versioned by tags prefixed with its path.
+        gotag="semconv/go/${TAG}"
+        if [ ! -f semconv/go/go.mod ]; then
+          echo "${TAG} has no semconv/go/go.mod; not tagging ${gotag}."
+          exit 0
+        fi
+        if git ls-remote --exit-code --tags origin "refs/tags/${gotag}" >/dev/null; then
+          echo "${gotag} already exists."
+          exit 0
+        fi
+        git tag "${gotag}" HEAD
+        git push origin "refs/tags/${gotag}"
     - name: weaver-install
       run: |
         cd "${RUNNER_TEMP}"

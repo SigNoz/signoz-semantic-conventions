@@ -1,0 +1,73 @@
+{#- Shared helpers for the Go files. -#}
+
+{#- Go name of a key: each segment between `.`, `_`, `-` and `/` capitalized,
+    acronyms (weaver.yaml) in their listed form. signoz.resource.id -> SigNozResourceID -#}
+{%- macro go_name(key) -%}
+{%- set s = key | replace("/", ".") | replace("-", ".") | replace("_", ".") | acronym -%}
+{%- for i in range(0, s | length) -%}
+{%- if i == 0 or s[i - 1] == "." -%}
+{{ s[i] | upper }}
+{%- elif s[i] != "." -%}
+{{ s[i] }}
+{%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}
+
+{#- Enums show the type of their values. -#}
+{%- macro type_name(t) -%}
+{%- if t is mapping -%}
+enum of {% if t.members and t.members[0].value is string %}string{% else %}int{% endif %}
+{%- else -%}{{ t }}{%- endif -%}
+{%- endmacro -%}
+
+{%- macro requirement(r) -%}
+{%- if r is mapping -%}
+{%- for level, condition in r | items -%}
+{{ level | replace("_", " ") }}: {{ md(condition) }}
+{%- endfor -%}
+{%- else -%}
+{{ r | replace("_", " ") }}
+{%- endif -%}
+{%- endmacro -%}
+
+{#- `examples` may be a single value or a list. -#}
+{%- macro examples(values) -%}
+{%- if values is string or values is number or values is boolean -%}{%- set values = [values] -%}{%- endif -%}
+{%- for e in values or [] -%}
+`{{ e | tojson }}`{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+{%- endmacro -%}
+
+{#- A Go doc link for an attribute of this registry, the key for an upstream one. -#}
+{%- macro attr_ref(a) -%}
+{%- if a.provenance.path -%}
+[{{ go_name(a.key) }}Key]
+{%- else -%}
+`{{ a.key }}`
+{%- endif -%}
+{%- endmacro -%}
+
+{#- Markdown list of the attributes of a signal, with requirement levels. -#}
+{%- macro attribute_list(attrs) -%}
+{% for a in attrs | sort(attribute="key") %}
+- {{ attr_ref(a) }} ({{ requirement(a.requirement_level) }})
+{% endfor %}
+{%- endmacro -%}
+
+{%- macro deprecated(d) -%}
+{%- if d -%}
+Deprecated: {% if d.renamed_to %}use `{{ d.renamed_to }}` instead.{% elif d.note %}{{ md(d.note) }}{% else %}no replacement.{% endif %}
+{%- endif -%}
+{%- endmacro -%}
+
+{#- Markdown text with each paragraph on one line, so the comment wrapper never
+    splits an inline code span. Quotes, lists and tables keep their lines. -#}
+{%- macro md(text) -%}
+{{ (text or "") | trim | regex_replace("([^\n])\n([^\n>|-])", "$1 $2") }}
+{%- endmacro -%}
+
+{#- A Go doc comment. The comment filter can start a wrapped line with an extra
+    space after an inline code span, which gofmt would read as a code block. -#}
+{%- macro comment(text, format="go") -%}
+{{ text | comment(format=format) | regex_replace("// {2}([^ ])", "// $1") }}
+{%- endmacro -%}

@@ -64,3 +64,31 @@ jobs:
           echo "::error::docs/ is out of date. Run 'make weaver-docs' and commit the result."
           exit 1
         fi
+  go:
+    runs-on: ubuntu-latest
+    steps:
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: go-install
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: semconv/go/go.mod
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: weaver-go
+      run: |
+        make weaver-go
+        git add --intent-to-add semconv/go
+        if ! git diff --exit-code -- semconv/go; then
+          echo "::error::semconv/go/ is out of date. Run 'make weaver-go' and commit the result."
+          exit 1
+        fi
