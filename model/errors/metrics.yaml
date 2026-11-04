@@ -1,0 +1,39 @@
+groups:
+- id: metric.signoz.browser.errors
+  type: metric
+  metric_name: signoz.browser.errors
+  stability: development
+  brief: >
+    The number of frontend error records received.
+  note: |
+    Extrapolated to all sessions when `signoz.sampling.error_rate` is below
+    100.
+  instrument: counter
+  unit: "{error}"
+  attributes:
+  - ref: url.template
+    requirement_level: recommended
+  - ref: service.version
+    requirement_level: recommended
+  - ref: signoz.error.mechanism
+    requirement_level: recommended
+  - ref: signoz.error.origin
+    requirement_level: recommended
+  - ref: browser.platform
+    requirement_level: recommended
+
+- id: metric.signoz.browser.error.sessions
+  type: metric
+  metric_name: signoz.browser.error.sessions
+  stability: development
+  brief: >
+    The number of sessions in which at least one frontend error occurred.
+  note: |
+    Counts error records with `signoz.error.first_in_session` set to `true`.
+  instrument: counter
+  unit: "{session}"
+  attributes:
+  - ref: url.template
+    requirement_level: recommended
+  - ref: service.version
+    requirement_level: recommended

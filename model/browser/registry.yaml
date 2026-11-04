@@ -1,0 +1,200 @@
+groups:
+- id: registry.signoz.browser
+  type: attribute_group
+  display_name: SigNoz Browser Attributes
+  brief: >
+    Attributes that describe the browser context of a record.
+  note: |
+    Shared by every record the SigNoz browser SDK produces: errors, RUM
+    and session recordings.
+  attributes:
+  - id: signoz.tab.id
+    type: string
+    stability: development
+    brief: >
+      Identifier of the browser tab within the session.
+    note: |
+      A session spans tabs; the identifier is unique to one tab for the
+      lifetime of that tab.
+    examples:
+    - "t_8f2a1c"
+  - id: signoz.page.view_id
+    type: string
+    stability: development
+    brief: >
+      Identifier of the page view the record belongs to.
+    note: |
+      One per hard load or route change.
+    examples:
+    - "pv_01HQX8"
+  - id: signoz.page.view_seq
+    type: int
+    stability: development
+    brief: >
+      Ordinal of the page view within the session.
+    note: |
+      1-based.
+    examples:
+    - 3
+  - id: signoz.page.visibility
+    type:
+      members:
+      - id: visible
+        value: "visible"
+        stability: development
+        brief: >
+          The document is at least partially visible.
+      - id: hidden
+        value: "hidden"
+        stability: development
+        brief: >
+          The document is not visible, such as in a background tab.
+    stability: development
+    brief: >
+      Visibility state of the document at the time of the record.
+    examples:
+    - "visible"
+  - id: signoz.device.viewport
+    type: string
+    stability: development
+    brief: >
+      Viewport size of the document in CSS pixels, as `WxH`.
+    examples:
+    - "1440x900"
+  - id: signoz.device.pixel_ratio
+    type: double
+    stability: development
+    brief: >
+      Device pixel ratio of the display.
+    examples:
+    - 2.0
+  - id: signoz.sampling.session_rate
+    type: int
+    stability: development
+    brief: >
+      Percentage of sessions for which RUM data is collected.
+    note: |
+      0–100.
+    examples:
+    - 10
+  - id: signoz.sampling.session_sampled
+    type: boolean
+    stability: development
+    brief: >
+      Whether RUM data is collected for this session.
+    examples:
+    - false
+  - id: signoz.sampling.error_rate
+    type: int
+    stability: development
+    brief: >
+      Percentage of sessions whose error records are sent.
+    note: |
+      0–100; independent of `signoz.sampling.session_rate`.
+    examples:
+    - 100
+  - id: signoz.sampling.replay_mode
+    type:
+      members:
+      - id: session
+        value: "session"
+        stability: development
+        brief: >
+          The session is recorded from its start.
+      - id: on_error
+        value: "on_error"
+        stability: development
+        brief: >
+          The session is recorded only when an error occurs.
+      - id: none
+        value: "none"
+        stability: development
+        brief: >
+          The session is not recorded.
+    stability: development
+    brief: >
+      How session recording is active for this session.
+    examples:
+    - "on_error"
+  - id: signoz.sampling.replay_rate
+    type: int
+    stability: development
+    brief: >
+      Percentage of all sessions recorded from the start.
+    note: |
+      0–100.
+    examples:
+    - 0
+  - id: signoz.sampling.replay_on_error_rate
+    type: int
+    stability: development
+    brief: >
+      Percentage of all sessions recorded when an error occurs.
+    note: |
+      0–100.
+    examples:
+    - 100
+  - id: signoz.sampling.source
+    type:
+      members:
+      - id: default
+        value: "default"
+        stability: development
+        brief: >
+          Rates built into the SDK.
+      - id: config
+        value: "config"
+        stability: development
+        brief: >
+          Rates set in the SDK configuration of the application.
+      - id: remote
+        value: "remote"
+        stability: development
+        brief: >
+          Rates set remotely in SigNoz.
+      - id: sampler
+        value: "sampler"
+        stability: development
+        brief: >
+          Rates decided by a sampler the application supplies.
+    stability: development
+    brief: >
+      Origin of the sampling rates in force.
+    examples:
+    - "remote"
+  - id: signoz.sdk.config_hash
+    type: string
+    stability: development
+    brief: >
+      Hash of the resolved SDK configuration, including remote overrides.
+    examples:
+    - "c0ffee12"
+  - id: signoz.sdk.modules
+    type: string[]
+    stability: development
+    brief: >
+      SDK modules loaded on the page.
+    note: |
+      Known values: `errors`, `rum`, `replay`. Set on the Resource.
+    examples:
+    - - "errors"
+      - "replay"
+  - id: signoz.build.id
+    type: string
+    stability: development
+    brief: >
+      Identifier of the application's entry bundle.
+    note: |
+      Identical builds have identical identifiers. Set on the Resource.
+    examples:
+    - "b7c1e9d2a4f0"
+  - id: signoz.context
+    type: template[string]
+    stability: development
+    brief: >
+      Application-supplied context, one attribute per key.
+    note: |
+      At most 32 keys per record. Each value is at most 512 characters and
+      is never a nested object.
+    examples:
+    - "review"

@@ -1,0 +1,295 @@
+groups:
+- id: registry.signoz.error
+  type: attribute_group
+  display_name: SigNoz Error Attributes
+  brief: >
+    Attributes that describe an error.
+  note: |
+    Refine the upstream `exception.*` attributes with how the error was
+    captured, where it came from and what preceded it.
+  attributes:
+  - id: signoz.error.mechanism
+    type:
+      members:
+      - id: onerror
+        value: "onerror"
+        stability: development
+        brief: >
+          Uncaught exception reported by the window `error` event.
+      - id: unhandledrejection
+        value: "unhandledrejection"
+        stability: development
+        brief: >
+          Unhandled promise rejection.
+      - id: framework
+        value: "framework"
+        stability: development
+        brief: >
+          Exception caught by a framework error boundary.
+      - id: manual
+        value: "manual"
+        stability: development
+        brief: >
+          Exception reported by application code.
+      - id: http
+        value: "http"
+        stability: development
+        brief: >
+          Failed HTTP request: 4xx or 5xx status, or a network error.
+      - id: resource
+        value: "resource"
+        stability: development
+        brief: >
+          Failed load of a script, stylesheet, image, font or media element.
+      - id: csp
+        value: "csp"
+        stability: development
+        brief: >
+          Content security policy violation.
+      - id: worker
+        value: "worker"
+        stability: development
+        brief: >
+          Uncaught exception in a web or service worker.
+      - id: aborted
+        value: "aborted"
+        stability: development
+        brief: >
+          Request aborted or cancelled by navigation.
+      - id: span_event
+        value: "span_event"
+        stability: development
+        brief: >
+          Exception lifted from a span event.
+      - id: log
+        value: "log"
+        stability: development
+        brief: >
+          Exception received as an OpenTelemetry log record from a non-SigNoz SDK.
+    stability: development
+    brief: >
+      Mechanism by which the error was captured.
+    note: |
+      The set is complete.
+    examples:
+    - "onerror"
+  - id: signoz.error.handled
+    type: boolean
+    stability: development
+    brief: >
+      Whether application code caught the error.
+    note: |
+      Independent of severity.
+    examples:
+    - false
+  - id: signoz.error.origin
+    type:
+      members:
+      - id: first_party
+        value: "first_party"
+        stability: development
+        brief: >
+          Code that belongs to the application.
+      - id: third_party
+        value: "third_party"
+        stability: development
+        brief: >
+          Code loaded from a third party, such as a vendor script.
+      - id: extension
+        value: "extension"
+        stability: development
+        brief: >
+          Code injected by a browser extension.
+      - id: cross_origin
+        value: "cross_origin"
+        stability: development
+        brief: >
+          A cross-origin script whose error details the browser withheld.
+    stability: development
+    brief: >
+      Origin of the code that raised the error.
+    examples:
+    - "first_party"
+  - id: signoz.error.first_in_session
+    type: boolean
+    stability: development
+    brief: >
+      Whether this is the first error record of the session.
+    note: |
+      Across all tabs.
+    examples:
+    - true
+  - id: signoz.error.frames
+    type: string
+    stability: development
+    brief: >
+      Parsed stack frames, as a JSON array.
+    note: |
+      Elements are `{file, function, line, column, in_app}`, innermost
+      first, at most 50.
+    examples:
+    - '[{"file":"https://app.example.com/assets/app.3f2a.js","function":"renderList","line":1,"column":48213,"in_app":true}]'
+  - id: signoz.error.chain
+    type: string
+    stability: development
+    brief: >
+      Causes of the error, as a JSON array.
+    note: |
+      From `error.cause` and `AggregateError`. Elements are
+      `{type, message, stacktrace}`, at most 5.
+    examples:
+    - '[{"type":"TypeError","message":"Cannot read properties of undefined"}]'
+  - id: signoz.error.fingerprint
+    type: string
+    stability: development
+    brief: >
+      Application-supplied grouping key.
+    note: |
+      Overrides server-side grouping.
+    examples:
+    - "checkout-null-items"
+  - id: signoz.error.repeat_count
+    type: int
+    stability: development
+    brief: >
+      Number of identical errors suppressed since the previous record of the same error.
+    examples:
+    - 12
+  - id: signoz.error.preceding
+    type: string
+    stability: development
+    brief: >
+      Events preceding the error, as a JSON array.
+    note: |
+      Elements are `{t, kind, data}` with `kind` one of `navigation`,
+      `click`, `fetch`, `xhr` or `console`; at most 30 and 8 KiB. Clicks
+      carry a selector; requests carry method, URL and status, never bodies.
+
+      > [!WARNING]
+      > Console messages, URLs and selectors may contain personally
+      > identifiable information (PII).
+    examples:
+    - '[{"t":1761728043100,"kind":"click","data":{"selector":"button.review-order"}}]'
+  - id: signoz.error.resource.element
+    type: string
+    stability: development
+    brief: >
+      Tag name of the element whose resource failed to load.
+    examples:
+    - "IMG"
+  - id: signoz.error.resource.src
+    type: string
+    stability: development
+    brief: >
+      Source URL of the resource that failed to load.
+    note: |
+      Truncated at 800 characters; `data:` and `blob:` URLs are reduced to
+      the scheme.
+    examples:
+    - "https://cdn.example.com/images/42.jpg"
+  - id: signoz.error.resource.xpath
+    type: string
+    stability: development
+    brief: >
+      XPath of the element whose resource failed to load.
+    examples:
+    - '//*[@id="item-42"]/img'
+  - id: signoz.error.csp.blocked_uri
+    type: string
+    stability: development
+    brief: >
+      URI blocked by the content security policy.
+    examples:
+    - "https://evil.example"
+  - id: signoz.error.csp.directive
+    type: string
+    stability: development
+    brief: >
+      Content security policy directive that was violated.
+    examples:
+    - "script-src"
+  - id: signoz.error.framework.name
+    type:
+      members:
+      - id: react
+        value: "react"
+        stability: development
+        brief: >
+          React.
+      - id: nextjs
+        value: "nextjs"
+        stability: development
+        brief: >
+          Next.js.
+      - id: vue
+        value: "vue"
+        stability: development
+        brief: >
+          Vue.
+      - id: nuxt
+        value: "nuxt"
+        stability: development
+        brief: >
+          Nuxt.
+      - id: angular
+        value: "angular"
+        stability: development
+        brief: >
+          Angular.
+      - id: sveltekit
+        value: "sveltekit"
+        stability: development
+        brief: >
+          SvelteKit.
+    stability: development
+    brief: >
+      Framework whose error boundary captured the error.
+    examples:
+    - "react"
+  - id: signoz.error.framework.component
+    type: string
+    stability: development
+    brief: >
+      Display name of the component in which the error occurred.
+    examples:
+    - "OrderReview"
+  - id: signoz.error.worker.name
+    type: string
+    stability: development
+    brief: >
+      Name of the worker in which the error occurred.
+    examples:
+    - "image-resizer"
+  - id: signoz.source_map.ids
+    type: string
+    stability: development
+    brief: >
+      Source-map identifiers of the scripts in the stack, as a JSON object keyed by script URL.
+    note: |
+      Values are `{id, scheme}` with `scheme` one of `signoz`,
+      `sentry-debug-id` or `faro-bundle-id`.
+    examples:
+    - '{"https://app.example.com/assets/app.3f2a.js":{"id":"b7c1e9d2","scheme":"signoz"}}'
+  # signoz.replay.* live here because the error event carries them; the
+  # session-recording area adds the rest of the namespace.
+  - id: signoz.replay.id
+    type: string
+    stability: development
+    brief: >
+      Identifier of the session recording active when the record was produced.
+    examples:
+    - "rp_7f3a"
+  - id: signoz.replay.offset_ms
+    type: int
+    stability: development
+    brief: >
+      Offset of the record from the first captured frame of the recording, in milliseconds.
+    examples:
+    - 68211
+  - id: signoz.replay.trigger
+    type: boolean
+    stability: development
+    brief: >
+      Whether this record started the upload of an on-error recording.
+    examples:
+    - true

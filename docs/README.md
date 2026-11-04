@@ -10,6 +10,50 @@
 - [`signoz.audit.outcome`](audit.md#signoz-audit-outcome): Outcome of the audited operation.
 - [`signoz.audit.verb`](audit.md#signoz-audit-verb): Operation the principal performed on the resource.
 
+### [`browser`](browser.md)
+
+- [`signoz.build.id`](browser.md#signoz-build-id): Identifier of the application's entry bundle.
+- [`signoz.context`](browser.md#signoz-context): Application-supplied context, one attribute per key.
+- [`signoz.device.pixel_ratio`](browser.md#signoz-device-pixel-ratio): Device pixel ratio of the display.
+- [`signoz.device.viewport`](browser.md#signoz-device-viewport): Viewport size of the document in CSS pixels, as `WxH`.
+- [`signoz.page.view_id`](browser.md#signoz-page-view-id): Identifier of the page view the record belongs to.
+- [`signoz.page.view_seq`](browser.md#signoz-page-view-seq): Ordinal of the page view within the session.
+- [`signoz.page.visibility`](browser.md#signoz-page-visibility): Visibility state of the document at the time of the record.
+- [`signoz.sampling.error_rate`](browser.md#signoz-sampling-error-rate): Percentage of sessions whose error records are sent.
+- [`signoz.sampling.replay_mode`](browser.md#signoz-sampling-replay-mode): How session recording is active for this session.
+- [`signoz.sampling.replay_on_error_rate`](browser.md#signoz-sampling-replay-on-error-rate): Percentage of all sessions recorded when an error occurs.
+- [`signoz.sampling.replay_rate`](browser.md#signoz-sampling-replay-rate): Percentage of all sessions recorded from the start.
+- [`signoz.sampling.session_rate`](browser.md#signoz-sampling-session-rate): Percentage of sessions for which RUM data is collected.
+- [`signoz.sampling.session_sampled`](browser.md#signoz-sampling-session-sampled): Whether RUM data is collected for this session.
+- [`signoz.sampling.source`](browser.md#signoz-sampling-source): Origin of the sampling rates in force.
+- [`signoz.sdk.config_hash`](browser.md#signoz-sdk-config-hash): Hash of the resolved SDK configuration, including remote overrides.
+- [`signoz.sdk.modules`](browser.md#signoz-sdk-modules): SDK modules loaded on the page.
+- [`signoz.tab.id`](browser.md#signoz-tab-id): Identifier of the browser tab within the session.
+
+### [`errors`](errors.md)
+
+- [`signoz.error.chain`](errors.md#signoz-error-chain): Causes of the error, as a JSON array.
+- [`signoz.error.csp.blocked_uri`](errors.md#signoz-error-csp-blocked-uri): URI blocked by the content security policy.
+- [`signoz.error.csp.directive`](errors.md#signoz-error-csp-directive): Content security policy directive that was violated.
+- [`signoz.error.fingerprint`](errors.md#signoz-error-fingerprint): Application-supplied grouping key.
+- [`signoz.error.first_in_session`](errors.md#signoz-error-first-in-session): Whether this is the first error record of the session.
+- [`signoz.error.frames`](errors.md#signoz-error-frames): Parsed stack frames, as a JSON array.
+- [`signoz.error.framework.component`](errors.md#signoz-error-framework-component): Display name of the component in which the error occurred.
+- [`signoz.error.framework.name`](errors.md#signoz-error-framework-name): Framework whose error boundary captured the error.
+- [`signoz.error.handled`](errors.md#signoz-error-handled): Whether application code caught the error.
+- [`signoz.error.mechanism`](errors.md#signoz-error-mechanism): Mechanism by which the error was captured.
+- [`signoz.error.origin`](errors.md#signoz-error-origin): Origin of the code that raised the error.
+- [`signoz.error.preceding`](errors.md#signoz-error-preceding): Events preceding the error, as a JSON array.
+- [`signoz.error.repeat_count`](errors.md#signoz-error-repeat-count): Number of identical errors suppressed since the previous record of the same error.
+- [`signoz.error.resource.element`](errors.md#signoz-error-resource-element): Tag name of the element whose resource failed to load.
+- [`signoz.error.resource.src`](errors.md#signoz-error-resource-src): Source URL of the resource that failed to load.
+- [`signoz.error.resource.xpath`](errors.md#signoz-error-resource-xpath): XPath of the element whose resource failed to load.
+- [`signoz.error.worker.name`](errors.md#signoz-error-worker-name): Name of the worker in which the error occurred.
+- [`signoz.replay.id`](errors.md#signoz-replay-id): Identifier of the session recording active when the record was produced.
+- [`signoz.replay.offset_ms`](errors.md#signoz-replay-offset-ms): Offset of the record from the first captured frame of the recording, in milliseconds.
+- [`signoz.replay.trigger`](errors.md#signoz-replay-trigger): Whether this record started the upload of an on-error recording.
+- [`signoz.source_map.ids`](errors.md#signoz-source-map-ids): Source-map identifiers of the scripts in the stack, as a JSON object keyed by script URL.
+
 ### [`genai`](genai.md)
 
 - [`signoz.gen_ai.usage.cache_read.input_tokens.cost`](genai.md#signoz-gen-ai-usage-cache-read-input-tokens-cost): The monetary cost of the input tokens served from a provider-managed cache.
@@ -57,6 +101,11 @@
 
 ## 📈 Metrics
 
+### [`errors`](errors.md)
+
+- [`signoz.browser.error.sessions`](errors.md#signoz-browser-error-sessions): The number of sessions in which at least one frontend error occurred.
+- [`signoz.browser.errors`](errors.md#signoz-browser-errors): The number of frontend error records received.
+
 ### [`meter`](meter.md)
 
 - [`signoz.meter.cpu.node.allocatable.usage`](meter.md#signoz-meter-cpu-node-allocatable-usage): The amount of CPU allocatable on a Kubernetes node that runs SigNoz.
@@ -85,6 +134,10 @@
 - [`signoz.audit.delete`](audit.md#signoz-audit-delete): Records the deletion of a SigNoz resource.
 - [`signoz.audit.detach`](audit.md#signoz-audit-detach): Records the detachment of one SigNoz resource from another.
 - [`signoz.audit.update`](audit.md#signoz-audit-update): Records the modification of a SigNoz resource.
+
+### [`errors`](errors.md)
+
+- [`signoz.error.exception`](errors.md#signoz-error-exception): Records an error or exception raised in an application.
 
 ## 🧩 Entities
 

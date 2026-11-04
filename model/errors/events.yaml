@@ -1,0 +1,239 @@
+groups:
+- id: attributes.signoz.error.common
+  type: attribute_group
+  brief: >
+    Attributes shared by every error record SigNoz SDKs produce.
+  note: |
+    `service.*`, `deployment.environment.name`, `telemetry.sdk.*`,
+    `signoz.build.id` and `signoz.sdk.modules` are set on the OpenTelemetry
+    Resource; every other attribute is set on the log record.
+  attributes:
+  - ref: exception.type
+    requirement_level:
+      conditionally_required: If `exception.message` is not set, recommended otherwise.
+    note: |
+      The error class name; `String`, `Object` or `Number` when a non-Error
+      value was thrown. When the outer error is a generic wrapper, the type
+      of its first `error.cause`.
+  - ref: exception.message
+    requirement_level:
+      conditionally_required: If `exception.type` is not set, recommended otherwise.
+    note: |
+      Truncated at 1,024 characters.
+
+      > [!WARNING]
+      > Exception messages may contain user-supplied data.
+  - ref: exception.stacktrace
+    requirement_level: recommended
+    note: |
+      The stack trace as reported by the JavaScript engine, unsymbolicated
+      and truncated at 8,192 characters. Absent for the `http`, `resource`,
+      `csp` and `aborted` mechanisms.
+  - ref: error.type
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `http`, `aborted`, `resource` or `csp`.
+    note: |
+      The HTTP status code, `network_error`, `timeout`, the DOM event type,
+      or `csp`.
+  - ref: signoz.error.mechanism
+    requirement_level: required
+  - ref: signoz.error.handled
+    requirement_level: required
+  - ref: signoz.error.origin
+    requirement_level: required
+  - ref: signoz.error.first_in_session
+    requirement_level: required
+  - ref: signoz.error.frames
+    requirement_level: recommended
+  - ref: signoz.error.chain
+    requirement_level: recommended
+  - ref: signoz.error.fingerprint
+    requirement_level: opt_in
+  - ref: signoz.error.repeat_count
+    requirement_level: recommended
+  - ref: signoz.error.preceding
+    requirement_level: recommended
+  - ref: signoz.source_map.ids
+    requirement_level: required
+  - ref: signoz.error.resource.element
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `resource`.
+  - ref: signoz.error.resource.src
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `resource`.
+  - ref: signoz.error.resource.xpath
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `resource`.
+  - ref: signoz.error.csp.blocked_uri
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `csp`.
+  - ref: signoz.error.csp.directive
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `csp`.
+  - ref: signoz.error.framework.name
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `framework`.
+  - ref: signoz.error.framework.component
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `framework`.
+  - ref: signoz.error.worker.name
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `worker`.
+  - ref: http.request.method
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `http` or `aborted`.
+  - ref: http.response.status_code
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `http` or `aborted` and a response was received.
+  - ref: server.address
+    requirement_level:
+      conditionally_required: If `signoz.error.mechanism` is `http` or `aborted`.
+  - ref: code.file.path
+    requirement_level: recommended
+    note: |
+      Of the top stack frame, before symbolication.
+  - ref: code.function.name
+    requirement_level: recommended
+    note: |
+      Of the top stack frame, before symbolication.
+  - ref: code.line.number
+    requirement_level: recommended
+    note: |
+      Of the top stack frame, before symbolication.
+  - ref: code.column.number
+    requirement_level: recommended
+    note: |
+      Of the top stack frame, before symbolication.
+  - ref: signoz.replay.id
+    requirement_level:
+      conditionally_required: If a recording is active in the tab.
+  - ref: signoz.replay.offset_ms
+    requirement_level:
+      conditionally_required: If a recording is active in the tab.
+  - ref: signoz.replay.trigger
+    requirement_level:
+      conditionally_required: If `signoz.sampling.replay_mode` is `on_error`.
+  - ref: session.id
+    requirement_level: required
+  - ref: session.previous_id
+    requirement_level:
+      conditionally_required: On the first record after a session rollover.
+  - ref: user.id
+    requirement_level: opt_in
+    note: |
+      Set only when the application provides it.
+
+      > [!WARNING]
+      > This attribute contains personally identifiable information (PII).
+  - ref: signoz.tab.id
+    requirement_level: required
+  - ref: signoz.page.view_id
+    requirement_level:
+      conditionally_required: If the RUM module is loaded.
+  - ref: signoz.page.view_seq
+    requirement_level:
+      conditionally_required: If the RUM module is loaded.
+  - ref: signoz.page.visibility
+    requirement_level: recommended
+  - ref: url.full
+    requirement_level: required
+    note: |
+      The query and fragment are redacted.
+
+      > [!WARNING]
+      > Path segments may contain personally identifiable information (PII).
+  - ref: url.path
+    requirement_level: required
+  - ref: url.template
+    requirement_level:
+      conditionally_required: If a router integration is installed.
+  - ref: user_agent.original
+    requirement_level: required
+  - ref: browser.brands
+    requirement_level: recommended
+    note: |
+      Set only where the browser exposes User-Agent Client Hints.
+  - ref: browser.platform
+    requirement_level: recommended
+    note: |
+      Set only where the browser exposes User-Agent Client Hints.
+  - ref: browser.mobile
+    requirement_level: recommended
+    note: |
+      Set only where the browser exposes User-Agent Client Hints.
+  - ref: browser.language
+    requirement_level: recommended
+    note: |
+      Set only where the browser exposes User-Agent Client Hints.
+  - ref: signoz.device.viewport
+    requirement_level: required
+  - ref: signoz.device.pixel_ratio
+    requirement_level: opt_in
+  - ref: network.connection.type
+    requirement_level: opt_in
+    note: |
+      Set only where the browser exposes the Network Information API.
+  - ref: network.connection.subtype
+    requirement_level: opt_in
+    note: |
+      Set only where the browser exposes the Network Information API.
+  - ref: signoz.sampling.session_rate
+    requirement_level: required
+  - ref: signoz.sampling.session_sampled
+    requirement_level: required
+  - ref: signoz.sampling.error_rate
+    requirement_level: required
+  - ref: signoz.sampling.replay_mode
+    requirement_level:
+      conditionally_required: If the replay module is loaded.
+  - ref: signoz.sampling.replay_rate
+    requirement_level:
+      conditionally_required: If the replay module is loaded.
+  - ref: signoz.sampling.replay_on_error_rate
+    requirement_level:
+      conditionally_required: If the replay module is loaded.
+  - ref: signoz.sampling.source
+    requirement_level: required
+  - ref: signoz.sdk.config_hash
+    requirement_level: required
+  - ref: signoz.context
+    requirement_level: opt_in
+  - ref: service.name
+    requirement_level: required
+  - ref: service.version
+    requirement_level: required
+    note: |
+      The release of the application.
+  - ref: deployment.environment.name
+    requirement_level: required
+  - ref: telemetry.sdk.name
+    requirement_level: required
+  - ref: telemetry.sdk.version
+    requirement_level: required
+  - ref: telemetry.sdk.language
+    requirement_level: required
+  - ref: signoz.build.id
+    requirement_level: required
+  - ref: signoz.sdk.modules
+    requirement_level: required
+
+- id: event.signoz.error.exception
+  type: event
+  name: signoz.error.exception
+  stability: development
+  extends: attributes.signoz.error.common
+  brief: >
+    Records an error or exception raised in an application.
+  note: |
+    On the wire the log record's event name is `exception`, the OpenTelemetry
+    exception event this convention refines. Instrumentations MAY use the
+    upstream `<operation>.exception` event name where one exists, such as
+    `http.client.request.exception`. The kind of error is
+    `signoz.error.mechanism`.
+
+    The body is a one-line summary of the error.
+
+    Severity SHOULD be `ERROR` (17) for the `onerror`, `unhandledrejection`,
+    `framework`, `manual` and `worker` mechanisms, `WARN` (13) for `http`
+    and `resource`, `INFO` (9) for `csp` and `DEBUG` (5) for `aborted`.
+    Application code MAY override it.
