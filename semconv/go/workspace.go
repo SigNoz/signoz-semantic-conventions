@@ -2,7 +2,7 @@
 
 package semconv
 
-// SigNozWorkspaceKeyIDKey is the attribute key for `signoz.workspace.key.id`.
+// SigNozWorkspaceKeyIDKey is the attribute key for "signoz.workspace.key.id".
 // Identifier of the key that authenticated the telemetry.
 //
 // Useful for identifying which key the telemetry was ingested under.
@@ -12,7 +12,7 @@ package semconv
 //   - Examples: `"019d9a99-f8f0-7e50-8bb3-995599fa1f76"`
 const SigNozWorkspaceKeyIDKey = "signoz.workspace.key.id"
 
-// SigNozWorkspaceNameKey is the attribute key for `signoz.workspace.name`.
+// SigNozWorkspaceNameKey is the attribute key for "signoz.workspace.name".
 // Identifier of the workspace under which the telemetry was ingested.
 //
 // Useful for identifying which workspace the telemetry was ingested under.
@@ -22,7 +22,7 @@ const SigNozWorkspaceKeyIDKey = "signoz.workspace.key.id"
 //   - Examples: `"acme-prod"`
 const SigNozWorkspaceNameKey = "signoz.workspace.name"
 
-// SigNozWorkspaceEntityType is the type of the `signoz.workspace` entity. A
+// SigNozWorkspaceEntityType is the type of the "signoz.workspace" entity. A
 // SigNoz workspace.
 //
 // Stability: development
@@ -32,8 +32,8 @@ const SigNozWorkspaceNameKey = "signoz.workspace.name"
 //   - [SigNozWorkspaceNameKey] (required)
 const SigNozWorkspaceEntityType = "signoz.workspace"
 
-// SigNozWorkspaceKeyEntityType is the type of the `signoz.workspace.key` entity.
-// A key of a SigNoz workspace.
+// SigNozWorkspaceKeyEntityType is the type of the "signoz.workspace.key"
+// entity. A key of a SigNoz workspace.
 //
 // Stability: development
 //

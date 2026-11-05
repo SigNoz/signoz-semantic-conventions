@@ -2,7 +2,7 @@
 
 package semconv
 
-// SigNozOrganizationIDKey is the attribute key for `signoz.organization.id`.
+// SigNozOrganizationIDKey is the attribute key for "signoz.organization.id".
 // Unique identifier of the organization.
 //
 // The value is an opaque string: a UUID today, but the format may change.
@@ -12,7 +12,7 @@ package semconv
 //   - Examples: `"58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e"`
 const SigNozOrganizationIDKey = "signoz.organization.id"
 
-// SigNozPrincipalEmailKey is the attribute key for `signoz.principal.email`.
+// SigNozPrincipalEmailKey is the attribute key for "signoz.principal.email".
 // Email address of the principal.
 //
 // > [!WARNING]
@@ -24,7 +24,7 @@ const SigNozOrganizationIDKey = "signoz.organization.id"
 //   - Examples: `"jane.doe@example.com"`
 const SigNozPrincipalEmailKey = "signoz.principal.email"
 
-// SigNozPrincipalIDKey is the attribute key for `signoz.principal.id`. Unique
+// SigNozPrincipalIDKey is the attribute key for "signoz.principal.id". Unique
 // identifier of the principal.
 //
 // Identifies a user or a service account, as indicated by
@@ -35,7 +35,7 @@ const SigNozPrincipalEmailKey = "signoz.principal.email"
 //   - Examples: `"7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c"`
 const SigNozPrincipalIDKey = "signoz.principal.id"
 
-// SigNozPrincipalTypeKey is the attribute key for `signoz.principal.type`. Kind
+// SigNozPrincipalTypeKey is the attribute key for "signoz.principal.type". Kind
 // of the principal.
 //
 // Known values: `user` (a human user of the SigNoz platform) and
@@ -46,7 +46,7 @@ const SigNozPrincipalIDKey = "signoz.principal.id"
 //   - Examples: `"user"`
 const SigNozPrincipalTypeKey = "signoz.principal.type"
 
-// SigNozOrganizationEntityType is the type of the `signoz.organization` entity.
+// SigNozOrganizationEntityType is the type of the "signoz.organization" entity.
 // A SigNoz organization, the logical grouping of everything one SigNoz account
 // holds.
 //
@@ -59,7 +59,7 @@ const SigNozPrincipalTypeKey = "signoz.principal.type"
 //   - [SigNozOrganizationIDKey] (required)
 const SigNozOrganizationEntityType = "signoz.organization"
 
-// SigNozPrincipalEntityType is the type of the `signoz.principal` entity. A
+// SigNozPrincipalEntityType is the type of the "signoz.principal" entity. A
 // principal of the SigNoz platform: an authenticated user or service account.
 //
 // Identified by its id alone, which is unique across principal types; the type

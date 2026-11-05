@@ -3,7 +3,7 @@
 package semconv
 
 // SigNozAuditActionCategoryKey is the attribute key for
-// `signoz.audit.action_category`. Category of the audited operation.
+// "signoz.audit.action_category". Category of the audited operation.
 //
 // Values are audit event categories of IEC 62443-3-3 SR 2.8, lowercased with
 // words joined by underscores.
@@ -24,14 +24,14 @@ const (
 	SigNozAuditActionCategoryConfigurationChanges = "configuration_changes"
 )
 
-// SigNozAuditOutcomeKey is the attribute key for `signoz.audit.outcome`. Outcome
-// of the audited operation.
+// SigNozAuditOutcomeKey is the attribute key for "signoz.audit.outcome".
+// Outcome of the audited operation.
 //
 // The set is complete.
 //
 // An operation served over HTTP counts as a success when the response status
-// code is 2xx or 3xx. A failed operation also carries the upstream `exception.*`
-// attributes describing the failure.
+// code is 2xx or 3xx. A failed operation also carries the upstream
+// `exception.*` attributes describing the failure.
 //
 //   - Type: enum of string
 //   - Stability: development
@@ -46,8 +46,8 @@ const (
 	SigNozAuditOutcomeFailure = "failure"
 )
 
-// SigNozAuditVerbKey is the attribute key for `signoz.audit.verb`. Operation the
-// principal performed on the resource.
+// SigNozAuditVerbKey is the attribute key for "signoz.audit.verb". Operation
+// the principal performed on the resource.
 //
 // Known values: `create`, `update`, `delete`, `attach`, `detach`.
 //
@@ -59,7 +59,7 @@ const (
 //   - Examples: `"update"`
 const SigNozAuditVerbKey = "signoz.audit.verb"
 
-// SigNozAuditAttachEventName is the name of the `signoz.audit.attach` event.
+// SigNozAuditAttachEventName is the name of the "signoz.audit.attach" event.
 // Records the attachment of one SigNoz resource to another.
 //
 // Recorded twice per attachment, once from each side of the relation, after the
@@ -80,8 +80,8 @@ const SigNozAuditVerbKey = "signoz.audit.verb"
 //   - `exception.stacktrace` (opt in)
 //   - `exception.type` (conditionally required: If `signoz.audit.outcome` is
 //     `failure`.)
-//   - `http.request.method` (conditionally required: If the operation was served
-//     over HTTP.)
+//   - `http.request.method` (conditionally required: If the operation was
+//     served over HTTP.)
 //   - `http.response.status_code` (conditionally required: If the operation was
 //     served over HTTP.)
 //   - `http.route` (conditionally required: If the operation was served over
@@ -110,7 +110,7 @@ const SigNozAuditVerbKey = "signoz.audit.verb"
 //   - `user_agent.original` (recommended)
 const SigNozAuditAttachEventName = "signoz.audit.attach"
 
-// SigNozAuditCreateEventName is the name of the `signoz.audit.create` event.
+// SigNozAuditCreateEventName is the name of the "signoz.audit.create" event.
 // Records the creation of a SigNoz resource.
 //
 // Recorded once per creation, after the operation has completed. The timestamp
@@ -129,8 +129,8 @@ const SigNozAuditAttachEventName = "signoz.audit.attach"
 //   - `exception.stacktrace` (opt in)
 //   - `exception.type` (conditionally required: If `signoz.audit.outcome` is
 //     `failure`.)
-//   - `http.request.method` (conditionally required: If the operation was served
-//     over HTTP.)
+//   - `http.request.method` (conditionally required: If the operation was
+//     served over HTTP.)
 //   - `http.response.status_code` (conditionally required: If the operation was
 //     served over HTTP.)
 //   - `http.route` (conditionally required: If the operation was served over
@@ -156,7 +156,7 @@ const SigNozAuditAttachEventName = "signoz.audit.attach"
 //   - `user_agent.original` (recommended)
 const SigNozAuditCreateEventName = "signoz.audit.create"
 
-// SigNozAuditDeleteEventName is the name of the `signoz.audit.delete` event.
+// SigNozAuditDeleteEventName is the name of the "signoz.audit.delete" event.
 // Records the deletion of a SigNoz resource.
 //
 // Recorded once per deletion, after the operation has completed. The timestamp
@@ -175,8 +175,8 @@ const SigNozAuditCreateEventName = "signoz.audit.create"
 //   - `exception.stacktrace` (opt in)
 //   - `exception.type` (conditionally required: If `signoz.audit.outcome` is
 //     `failure`.)
-//   - `http.request.method` (conditionally required: If the operation was served
-//     over HTTP.)
+//   - `http.request.method` (conditionally required: If the operation was
+//     served over HTTP.)
 //   - `http.response.status_code` (conditionally required: If the operation was
 //     served over HTTP.)
 //   - `http.route` (conditionally required: If the operation was served over
@@ -202,7 +202,7 @@ const SigNozAuditCreateEventName = "signoz.audit.create"
 //   - `user_agent.original` (recommended)
 const SigNozAuditDeleteEventName = "signoz.audit.delete"
 
-// SigNozAuditDetachEventName is the name of the `signoz.audit.detach` event.
+// SigNozAuditDetachEventName is the name of the "signoz.audit.detach" event.
 // Records the detachment of one SigNoz resource from another.
 //
 // Recorded twice per detachment, once from each side of the relation, after the
@@ -224,8 +224,8 @@ const SigNozAuditDeleteEventName = "signoz.audit.delete"
 //   - `exception.stacktrace` (opt in)
 //   - `exception.type` (conditionally required: If `signoz.audit.outcome` is
 //     `failure`.)
-//   - `http.request.method` (conditionally required: If the operation was served
-//     over HTTP.)
+//   - `http.request.method` (conditionally required: If the operation was
+//     served over HTTP.)
 //   - `http.response.status_code` (conditionally required: If the operation was
 //     served over HTTP.)
 //   - `http.route` (conditionally required: If the operation was served over
@@ -254,7 +254,7 @@ const SigNozAuditDeleteEventName = "signoz.audit.delete"
 //   - `user_agent.original` (recommended)
 const SigNozAuditDetachEventName = "signoz.audit.detach"
 
-// SigNozAuditUpdateEventName is the name of the `signoz.audit.update` event.
+// SigNozAuditUpdateEventName is the name of the "signoz.audit.update" event.
 // Records the modification of a SigNoz resource.
 //
 // Recorded once per modification, after the operation has completed. The
@@ -273,8 +273,8 @@ const SigNozAuditDetachEventName = "signoz.audit.detach"
 //   - `exception.stacktrace` (opt in)
 //   - `exception.type` (conditionally required: If `signoz.audit.outcome` is
 //     `failure`.)
-//   - `http.request.method` (conditionally required: If the operation was served
-//     over HTTP.)
+//   - `http.request.method` (conditionally required: If the operation was
+//     served over HTTP.)
 //   - `http.response.status_code` (conditionally required: If the operation was
 //     served over HTTP.)
 //   - `http.route` (conditionally required: If the operation was served over

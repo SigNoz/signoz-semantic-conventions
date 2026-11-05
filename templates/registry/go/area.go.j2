@@ -5,7 +5,7 @@ package semconv
 {% for a in ctx.attributes %}
 {% set name = m.go_name(a.key) %}
 {% set doc %}
-{{ name }}Key is the attribute key for `{{ a.key }}`. {{ m.md(a.brief) }}
+{{ name }}Key is the attribute key for "{{ a.key }}". {{ m.md(a.brief) }}
 {% if a.note %}
 
 {{ m.md(a.note) }}
@@ -45,7 +45,7 @@ const (
 {% for e in ctx.events %}
 {% set name = m.go_name(e.name) %}
 {% set doc %}
-{{ name }}EventName is the name of the `{{ e.name }}` event. {{ m.md(e.brief) }}
+{{ name }}EventName is the name of the "{{ e.name }}" event. {{ m.md(e.brief) }}
 {% if e.note %}
 
 {{ m.md(e.note) }}
@@ -70,7 +70,7 @@ const {{ name }}EventName = {{ e.name | tojson }}
 {% for x in ctx.metrics %}
 {% set name = m.go_name(x.name) %}
 {% set doc %}
-{{ name }}Name is the name of the `{{ x.name }}` metric. {{ m.md(x.brief) }}
+{{ name }}Name is the name of the "{{ x.name }}" metric. {{ m.md(x.brief) }}
 {% if x.note %}
 
 {{ m.md(x.note) }}
@@ -95,17 +95,17 @@ Attributes:
 const {{ name }}Name = {{ x.name | tojson }}
 {% if x.unit %}
 
-// {{ name }}Unit is the unit of the `{{ x.name }}` metric.
+{{ m.comment(name ~ "Unit is the unit of the \"" ~ x.name ~ "\" metric.") }}
 const {{ name }}Unit = {{ x.unit | tojson }}
 {% endif %}
 
-// {{ name }}Description is the description of the `{{ x.name }}` metric.
+{{ m.comment(name ~ "Description is the description of the \"" ~ x.name ~ "\" metric.") }}
 const {{ name }}Description = {{ x.brief | trim | replace("\n", " ") | tojson }}
 {% endfor %}
 {% for e in ctx.entities %}
 {% set name = m.go_name(e.type) %}
 {% set doc %}
-{{ name }}EntityType is the type of the `{{ e.type }}` entity. {{ m.md(e.brief) }}
+{{ name }}EntityType is the type of the "{{ e.type }}" entity. {{ m.md(e.brief) }}
 {% if e.note %}
 
 {{ m.md(e.note) }}

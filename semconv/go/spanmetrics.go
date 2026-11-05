@@ -2,7 +2,7 @@
 
 package semconv
 
-// AddressKey is the attribute key for `address`. The remote endpoint of an
+// AddressKey is the attribute key for "address". The remote endpoint of an
 // external call.
 //
 // `<rpc.service>/<rpc.method>` for RPC calls, otherwise the remote host as
@@ -13,11 +13,11 @@ package semconv
 //   - Examples: `"payments.internal:8443"`, `"oteldemo.CartService/GetCart"`
 const AddressKey = "address"
 
-// OperationKey is the attribute key for `operation`. The name of the aggregated
+// OperationKey is the attribute key for "operation". The name of the aggregated
 // spans.
 //
-// Set to `overflow_operation` when the service has more distinct span names than
-// are tracked.
+// Set to `overflow_operation` when the service has more distinct span names
+// than are tracked.
 //
 //   - Type: string
 //   - Stability: development
@@ -25,7 +25,7 @@ const AddressKey = "address"
 const OperationKey = "operation"
 
 // ResourceDeploymentEnvironmentKey is the attribute key for
-// `resource_deployment.environment`. The value of `deployment.environment` on
+// "resource_deployment.environment". The value of `deployment.environment` on
 // the span's Resource.
 //
 //   - Type: string
@@ -34,7 +34,7 @@ const OperationKey = "operation"
 const ResourceDeploymentEnvironmentKey = "resource_deployment.environment"
 
 // ResourceServiceNamespaceKey is the attribute key for
-// `resource_service.namespace`. The value of `service.namespace` on the span's
+// "resource_service.namespace". The value of `service.namespace` on the span's
 // Resource.
 //
 //   - Type: string
@@ -43,14 +43,14 @@ const ResourceDeploymentEnvironmentKey = "resource_deployment.environment"
 const ResourceServiceNamespaceKey = "resource_service.namespace"
 
 // ResourceSigNozCollectorIDKey is the attribute key for
-// `resource_signoz.collector.id`. A copy of `signoz.collector.id`.
+// "resource_signoz.collector.id". A copy of `signoz.collector.id`.
 //
 //   - Type: string
 //   - Stability: development
 //   - Examples: `"6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14"`
 const ResourceSigNozCollectorIDKey = "resource_signoz.collector.id"
 
-// SigNozCollectorIDKey is the attribute key for `signoz.collector.id`. The
+// SigNozCollectorIDKey is the attribute key for "signoz.collector.id". The
 // identifier of the collector instance that produced the metric.
 //
 // The collector's `service.instance.id`, or a UUID assigned when the collector
@@ -61,7 +61,7 @@ const ResourceSigNozCollectorIDKey = "resource_signoz.collector.id"
 //   - Examples: `"6f1c2b7e-4d3a-4b8f-9e21-5a0c7d9b3e14"`
 const SigNozCollectorIDKey = "signoz.collector.id"
 
-// SpanKindKey is the attribute key for `span.kind`. The kind of the aggregated
+// SpanKindKey is the attribute key for "span.kind". The kind of the aggregated
 // spans.
 //
 //   - Type: enum of string
@@ -71,7 +71,8 @@ const SpanKindKey = "span.kind"
 
 // Values of [SpanKindKey].
 const (
-	// SpanKindUnspecified is "SPAN_KIND_UNSPECIFIED". The span kind is unspecified.
+	// SpanKindUnspecified is "SPAN_KIND_UNSPECIFIED". The span kind is
+	// unspecified.
 	SpanKindUnspecified = "SPAN_KIND_UNSPECIFIED"
 	// SpanKindInternal is "SPAN_KIND_INTERNAL". An internal operation.
 	SpanKindInternal = "SPAN_KIND_INTERNAL"
@@ -87,7 +88,7 @@ const (
 	SpanKindConsumer = "SPAN_KIND_CONSUMER"
 )
 
-// StatusCodeKey is the attribute key for `status.code`. The status code of the
+// StatusCodeKey is the attribute key for "status.code". The status code of the
 // aggregated spans.
 //
 //   - Type: enum of string
@@ -105,7 +106,7 @@ const (
 	StatusCodeError = "STATUS_CODE_ERROR"
 )
 
-// SigNozCallsTotalName is the name of the `signoz_calls_total` metric. The
+// SigNozCallsTotalName is the name of the "signoz_calls_total" metric. The
 // number of spans observed.
 //
 //   - Instrument: counter
@@ -130,10 +131,11 @@ const (
 //   - [StatusCodeKey] (required)
 const SigNozCallsTotalName = "signoz_calls_total"
 
-// SigNozCallsTotalDescription is the description of the `signoz_calls_total` metric.
+// SigNozCallsTotalDescription is the description of the "signoz_calls_total"
+// metric.
 const SigNozCallsTotalDescription = "The number of spans observed."
 
-// SigNozDBLatencyCountName is the name of the `signoz_db_latency_count` metric.
+// SigNozDBLatencyCountName is the name of the "signoz_db_latency_count" metric.
 // The number of database calls observed.
 //
 // A database call is a span that carries `db.system` and is not of kind server.
@@ -158,17 +160,18 @@ const SigNozCallsTotalDescription = "The number of spans observed."
 //   - [StatusCodeKey] (required)
 const SigNozDBLatencyCountName = "signoz_db_latency_count"
 
-// SigNozDBLatencyCountUnit is the unit of the `signoz_db_latency_count` metric.
+// SigNozDBLatencyCountUnit is the unit of the "signoz_db_latency_count" metric.
 const SigNozDBLatencyCountUnit = "1"
 
-// SigNozDBLatencyCountDescription is the description of the `signoz_db_latency_count` metric.
+// SigNozDBLatencyCountDescription is the description of the
+// "signoz_db_latency_count" metric.
 const SigNozDBLatencyCountDescription = "The number of database calls observed."
 
-// SigNozDBLatencySumName is the name of the `signoz_db_latency_sum` metric. The
+// SigNozDBLatencySumName is the name of the "signoz_db_latency_sum" metric. The
 // total duration of database calls observed.
 //
-// Values are in milliseconds. A database call is a span that carries `db.system`
-// and is not of kind server.
+// Values are in milliseconds. A database call is a span that carries
+// `db.system` and is not of kind server.
 //
 //   - Instrument: counter
 //   - Unit: `1`
@@ -190,14 +193,15 @@ const SigNozDBLatencyCountDescription = "The number of database calls observed."
 //   - [StatusCodeKey] (required)
 const SigNozDBLatencySumName = "signoz_db_latency_sum"
 
-// SigNozDBLatencySumUnit is the unit of the `signoz_db_latency_sum` metric.
+// SigNozDBLatencySumUnit is the unit of the "signoz_db_latency_sum" metric.
 const SigNozDBLatencySumUnit = "1"
 
-// SigNozDBLatencySumDescription is the description of the `signoz_db_latency_sum` metric.
+// SigNozDBLatencySumDescription is the description of the
+// "signoz_db_latency_sum" metric.
 const SigNozDBLatencySumDescription = "The total duration of database calls observed."
 
 // SigNozExternalCallLatencyCountName is the name of the
-// `signoz_external_call_latency_count` metric. The number of external calls
+// "signoz_external_call_latency_count" metric. The number of external calls
 // observed.
 //
 // An external call is a client span with a known remote endpoint.
@@ -223,14 +227,16 @@ const SigNozDBLatencySumDescription = "The total duration of database calls obse
 //   - [StatusCodeKey] (required)
 const SigNozExternalCallLatencyCountName = "signoz_external_call_latency_count"
 
-// SigNozExternalCallLatencyCountUnit is the unit of the `signoz_external_call_latency_count` metric.
+// SigNozExternalCallLatencyCountUnit is the unit of the
+// "signoz_external_call_latency_count" metric.
 const SigNozExternalCallLatencyCountUnit = "1"
 
-// SigNozExternalCallLatencyCountDescription is the description of the `signoz_external_call_latency_count` metric.
+// SigNozExternalCallLatencyCountDescription is the description of the
+// "signoz_external_call_latency_count" metric.
 const SigNozExternalCallLatencyCountDescription = "The number of external calls observed."
 
 // SigNozExternalCallLatencySumName is the name of the
-// `signoz_external_call_latency_sum` metric. The total duration of external
+// "signoz_external_call_latency_sum" metric. The total duration of external
 // calls observed.
 //
 // Values are in milliseconds. An external call is a client span with a known
@@ -257,13 +263,15 @@ const SigNozExternalCallLatencyCountDescription = "The number of external calls 
 //   - [StatusCodeKey] (required)
 const SigNozExternalCallLatencySumName = "signoz_external_call_latency_sum"
 
-// SigNozExternalCallLatencySumUnit is the unit of the `signoz_external_call_latency_sum` metric.
+// SigNozExternalCallLatencySumUnit is the unit of the
+// "signoz_external_call_latency_sum" metric.
 const SigNozExternalCallLatencySumUnit = "1"
 
-// SigNozExternalCallLatencySumDescription is the description of the `signoz_external_call_latency_sum` metric.
+// SigNozExternalCallLatencySumDescription is the description of the
+// "signoz_external_call_latency_sum" metric.
 const SigNozExternalCallLatencySumDescription = "The total duration of external calls observed."
 
-// SigNozLatencyName is the name of the `signoz_latency` metric. The duration of
+// SigNozLatencyName is the name of the "signoz_latency" metric. The duration of
 // spans observed.
 //
 // Recorded as an explicit bucket histogram and, when enabled, also as an
@@ -289,8 +297,8 @@ const SigNozExternalCallLatencySumDescription = "The total duration of external 
 //   - [StatusCodeKey] (required)
 const SigNozLatencyName = "signoz_latency"
 
-// SigNozLatencyUnit is the unit of the `signoz_latency` metric.
+// SigNozLatencyUnit is the unit of the "signoz_latency" metric.
 const SigNozLatencyUnit = "ms"
 
-// SigNozLatencyDescription is the description of the `signoz_latency` metric.
+// SigNozLatencyDescription is the description of the "signoz_latency" metric.
 const SigNozLatencyDescription = "The duration of spans observed."

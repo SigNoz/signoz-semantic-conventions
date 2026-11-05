@@ -13,10 +13,15 @@
 {%- endfor -%}
 {%- endmacro -%}
 
+{#- Registry type of an enum value: string, int or double. -#}
+{%- macro value_type(v) -%}
+{%- if v is string -%}string{%- elif v is integer -%}int{%- else -%}double{%- endif -%}
+{%- endmacro -%}
+
 {#- Enums show the type of their values. -#}
 {%- macro type_name(t) -%}
 {%- if t is mapping -%}
-enum of {% if t.members and t.members[0].value is string %}string{% else %}int{% endif %}
+enum of {{ value_type(t.members[0].value) }}
 {%- else -%}{{ t }}{%- endif -%}
 {%- endmacro -%}
 
@@ -66,8 +71,12 @@ Deprecated: {% if d.renamed_to %}use `{{ d.renamed_to }}` instead.{% elif d.note
 {{ (text or "") | trim | regex_replace("([^\n])\n([^\n>|-])", "$1 $2") }}
 {%- endmacro -%}
 
-{#- A Go doc comment. The comment filter can start a wrapped line with an extra
-    space after an inline code span, which gofmt would read as a code block. -#}
+{#- A Go doc comment. After an inline code span, the comment filter can start a
+    wrapped line with the punctuation that followed the span, which is moved
+    back to the end of the previous line, or with an extra space, which gofmt
+    would read as a code block. -#}
 {%- macro comment(text, format="go") -%}
-{{ text | comment(format=format) | regex_replace("// {2}([^ ])", "// $1") }}
+{{ text | comment(format=format)
+   | regex_replace("\n(\t?)// ([.,;:!?)]) ", "$2\n$1// ")
+   | regex_replace("// {2}([^ ])", "// $1") }}
 {%- endmacro -%}

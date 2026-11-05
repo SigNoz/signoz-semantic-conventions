@@ -43,7 +43,7 @@ comment_formats:
     shortcut_reference_link: true
     trim: true
     word_wrap:
-      line_length: 80
+      line_length: 79
   go_1tab:
     format: markdown
     prefix: "\t// "
@@ -51,7 +51,7 @@ comment_formats:
     shortcut_reference_link: true
     trim: true
     word_wrap:
-      line_length: 80
+      line_length: 79
 default_comment_format: go
 # Words written in capitals in Go names, applied to each segment of a key.
 acronyms:

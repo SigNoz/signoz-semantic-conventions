@@ -2,7 +2,7 @@
 
 package semconv
 
-// SigNozResourceIDKey is the attribute key for `signoz.resource.id`. Unique
+// SigNozResourceIDKey is the attribute key for "signoz.resource.id". Unique
 // identifier of the resource.
 //
 // The id is unique within its kind and organization, not across kinds. Its
@@ -17,8 +17,8 @@ package semconv
 //   - Examples: `"3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c"`, `"*"`
 const SigNozResourceIDKey = "signoz.resource.id"
 
-// SigNozResourceKindKey is the attribute key for `signoz.resource.kind`. Kind of
-// the resource.
+// SigNozResourceKindKey is the attribute key for "signoz.resource.kind". Kind
+// of the resource.
 //
 // Kind values are lowercase, with words joined by hyphens.
 //
@@ -33,7 +33,7 @@ const SigNozResourceIDKey = "signoz.resource.id"
 //   - Examples: `"ingestion-key"`
 const SigNozResourceKindKey = "signoz.resource.kind"
 
-// SigNozResourceObjectKey is the attribute key for `signoz.resource.object`.
+// SigNozResourceObjectKey is the attribute key for "signoz.resource.object".
 // Object reference of the resource in the authorization model.
 //
 // The grammar is `<type>:organization/<organization id>/<kind>/<selector>`. For
@@ -46,8 +46,9 @@ const SigNozResourceKindKey = "signoz.resource.kind"
 //     `"telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/logs/2c26b46b68ffc68f"`
 const SigNozResourceObjectKey = "signoz.resource.object"
 
-// SigNozResourceTargetIDKey is the attribute key for `signoz.resource.target.id`
-// . Unique identifier of the counterpart resource in a relation.
+// SigNozResourceTargetIDKey is the attribute key for
+// "signoz.resource.target.id". Unique identifier of the counterpart resource in
+// a relation.
 //
 // Set on operations that relate two resources, for example attach and detach.
 // Follows the same rules as `signoz.resource.id`.
@@ -58,7 +59,8 @@ const SigNozResourceObjectKey = "signoz.resource.object"
 const SigNozResourceTargetIDKey = "signoz.resource.target.id"
 
 // SigNozResourceTargetKindKey is the attribute key for
-// `signoz.resource.target.kind`. Kind of the counterpart resource in a relation.
+// "signoz.resource.target.kind". Kind of the counterpart resource in a
+// relation.
 //
 // Set on operations that relate two resources, for example attach and detach:
 // `attach dashboard D to alert rule R` records R as the target. Relations emit
@@ -74,7 +76,7 @@ const SigNozResourceTargetIDKey = "signoz.resource.target.id"
 const SigNozResourceTargetKindKey = "signoz.resource.target.kind"
 
 // SigNozResourceTargetObjectKey is the attribute key for
-// `signoz.resource.target.object`. Object reference of the counterpart resource
+// "signoz.resource.target.object". Object reference of the counterpart resource
 // in a relation.
 //
 // Set on operations that relate two resources, for example attach and detach.
@@ -86,9 +88,9 @@ const SigNozResourceTargetKindKey = "signoz.resource.target.kind"
 //     `"telemetryresource:organization/58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e/traces/9f86d081884c7d65"`
 const SigNozResourceTargetObjectKey = "signoz.resource.target.object"
 
-// SigNozResourceEntityType is the type of the `signoz.resource` entity. A SigNoz
-// platform resource: an object the platform manages, such as a dashboard, an
-// alert rule or an ingestion key.
+// SigNozResourceEntityType is the type of the "signoz.resource" entity. A
+// SigNoz platform resource: an object the platform manages, such as a
+// dashboard, an alert rule or an ingestion key.
 //
 // Identified by its kind and id together: ids are unique within a kind and
 // organization, not across kinds. Operations on a collection, for example

@@ -9,8 +9,10 @@
 //
 //	import semconv "github.com/SigNoz/signoz-semantic-conventions/semconv/go"
 //
-// The constants are untyped, so an attribute key can be used both as a string
-// and as an attribute.Key from go.opentelemetry.io/otel/attribute.
+// All constants are untyped, so an attribute key can be used both as a string
+// and as an attribute.Key from go.opentelemetry.io/otel/attribute, and an enum
+// value can be wrapped in whatever type the importing service uses.
+//
 // Attributes that SigNoz references from OpenTelemetry are not repeated here;
 // use go.opentelemetry.io/otel/semconv for those.
 package semconv

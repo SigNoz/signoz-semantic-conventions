@@ -44,7 +44,7 @@ import semconv "github.com/SigNoz/signoz-semantic-conventions/semconv/go"
 attrs.PutStr(semconv.SigNozAuditOutcomeKey, semconv.SigNozAuditOutcomeSuccess)
 ```
 
-The constants are untyped, so a key works both as a `string` and as an OpenTelemetry `attribute.Key`. Attributes referenced from OpenTelemetry are not repeated; use [`go.opentelemetry.io/otel/semconv`](https://pkg.go.dev/go.opentelemetry.io/otel/semconv) for those.
+All constants are untyped, so a key works both as a `string` and as an OpenTelemetry `attribute.Key`, and an enum value can be wrapped in whatever type your service uses. Attributes referenced from OpenTelemetry are not repeated; use [`go.opentelemetry.io/otel/semconv`](https://pkg.go.dev/go.opentelemetry.io/otel/semconv) for those.
 
 ## Contributing
 

@@ -3,11 +3,11 @@
 package semconv
 
 // SigNozGenAIUsageCacheReadInputTokensCostKey is the attribute key for
-// `signoz.gen_ai.usage.cache_read.input_tokens.cost`. The monetary cost of the
+// "signoz.gen_ai.usage.cache_read.input_tokens.cost". The monetary cost of the
 // input tokens served from a provider-managed cache.
 //
-// `gen_ai.usage.cache_read.input_tokens` with `.cost` appended. The value SHOULD
-// be included in `signoz.gen_ai.usage.tokens.cost`.
+// `gen_ai.usage.cache_read.input_tokens` with `.cost` appended. The value
+// SHOULD be included in `signoz.gen_ai.usage.tokens.cost`.
 //
 // Providers price cache reads below their standard input rate.
 //
@@ -17,7 +17,7 @@ package semconv
 const SigNozGenAIUsageCacheReadInputTokensCostKey = "signoz.gen_ai.usage.cache_read.input_tokens.cost"
 
 // SigNozGenAIUsageCacheWriteInputTokensCostKey is the attribute key for
-// `signoz.gen_ai.usage.cache_write.input_tokens.cost`. The monetary cost of the
+// "signoz.gen_ai.usage.cache_write.input_tokens.cost". The monetary cost of the
 // input tokens written to a provider-managed cache.
 //
 // `gen_ai.usage.cache_write.input_tokens` with `.cost` appended. The value
@@ -31,8 +31,8 @@ const SigNozGenAIUsageCacheReadInputTokensCostKey = "signoz.gen_ai.usage.cache_r
 const SigNozGenAIUsageCacheWriteInputTokensCostKey = "signoz.gen_ai.usage.cache_write.input_tokens.cost"
 
 // SigNozGenAIUsageInputTokensCostKey is the attribute key for
-// `signoz.gen_ai.usage.input_tokens.cost`. The monetary cost of the input tokens
-// billed at the model's standard input rate.
+// "signoz.gen_ai.usage.input_tokens.cost". The monetary cost of the input
+// tokens billed at the model's standard input rate.
 //
 // `gen_ai.usage.input_tokens` with `.cost` appended. The value SHOULD be
 // included in `signoz.gen_ai.usage.tokens.cost`.
@@ -47,7 +47,7 @@ const SigNozGenAIUsageCacheWriteInputTokensCostKey = "signoz.gen_ai.usage.cache_
 const SigNozGenAIUsageInputTokensCostKey = "signoz.gen_ai.usage.input_tokens.cost"
 
 // SigNozGenAIUsageOutputTokensCostKey is the attribute key for
-// `signoz.gen_ai.usage.output_tokens.cost`. The monetary cost of the output
+// "signoz.gen_ai.usage.output_tokens.cost". The monetary cost of the output
 // tokens a model generated.
 //
 // `gen_ai.usage.output_tokens` with `.cost` appended. The value SHOULD be
@@ -61,7 +61,7 @@ const SigNozGenAIUsageInputTokensCostKey = "signoz.gen_ai.usage.input_tokens.cos
 const SigNozGenAIUsageOutputTokensCostKey = "signoz.gen_ai.usage.output_tokens.cost"
 
 // SigNozGenAIUsageTokensCostKey is the attribute key for
-// `signoz.gen_ai.usage.tokens.cost`. The total monetary cost of the tokens a
+// "signoz.gen_ai.usage.tokens.cost". The total monetary cost of the tokens a
 // model call used.
 //
 // The sum of the per-class costs. Upstream has no count for all classes
