@@ -32,3 +32,10 @@ weaver-check: ## Runs weaver check with the rego policies.
 weaver-docs: ## Generate docs/ from the registry.
 	@rm -rf docs
 	@weaver registry generate --registry model/ --v2 --quiet markdown docs
+
+.PHONY: weaver-go
+weaver-go: ## Generate the Go module in semconv/go/ from the registry.
+	@rm -rf semconv/go
+	@weaver registry generate --registry model/ --v2 --quiet go semconv/go
+	@gofmt -w semconv/go
+	@cd semconv/go && go vet ./...

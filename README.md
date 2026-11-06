@@ -30,11 +30,27 @@ dependencies:
 
 Each release also carries the resolved registry (`resolved.yaml`) for tools that read it directly. [RELEASE.md](RELEASE.md) describes how versions and releases work.
 
+### Go
+
+The Go module in [`semconv/go`](semconv/go) holds the names the registry defines: attribute keys and their enum values, event names, metric names and units, and entity types, one file per area. Each release `v<version>` tags it as `semconv/go/v<version>`:
+
+```sh
+go get github.com/SigNoz/signoz-semantic-conventions/semconv/go@v<version>
+```
+
+```go
+import semconv "github.com/SigNoz/signoz-semantic-conventions/semconv/go"
+
+attrs.PutStr(semconv.SigNozAuditOutcomeKey, semconv.SigNozAuditOutcomeSuccess)
+```
+
+All constants are untyped, so a key works both as a `string` and as an OpenTelemetry `attribute.Key`, and an enum value can be wrapped in whatever type your service uses. Attributes referenced from OpenTelemetry are not repeated; use [`go.opentelemetry.io/otel/semconv`](https://pkg.go.dev/go.opentelemetry.io/otel/semconv) for those.
+
 ## Contributing
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).
 
-Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check` and `make weaver-docs`, and commit the regenerated `docs/` with your change. CI runs the same checks.
+Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check`, `make weaver-docs` and `make weaver-go`, and commit the regenerated `docs/` and `semconv/go/` with your change. CI runs the same checks.
 
 ## License
 
