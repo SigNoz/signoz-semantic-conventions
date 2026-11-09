@@ -12,6 +12,9 @@ groups:
   attributes:
   - ref: deployment.status
     requirement_level: recommended
+    examples:
+    - succeeded
+    - failed
   - ref: deployment.id
     requirement_level: recommended
   - ref: vcs.ref.head.revision
