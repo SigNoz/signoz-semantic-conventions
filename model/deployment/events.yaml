@@ -6,10 +6,16 @@ groups:
   brief: >
     A deployment of a service.
   note: |
-    `service.name` and `service.version` are required on the Resource, with
-    `deployment.environment.name` recommended. Severity is `INFO` (9) for
-    `succeeded` and `ERROR` (17) for `failed`.
+    `service.name`, `service.version` and `deployment.environment.name` are set
+    on the OpenTelemetry Resource; every other attribute is set on the log
+    record. Severity is `INFO` (9) for `succeeded` and `ERROR` (17) for `failed`.
   attributes:
+  - ref: service.name
+    requirement_level: required
+  - ref: service.version
+    requirement_level: required
+  - ref: deployment.environment.name
+    requirement_level: recommended
   - ref: deployment.status
     requirement_level: recommended
     examples:
