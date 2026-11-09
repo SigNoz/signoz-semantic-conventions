@@ -17,9 +17,9 @@ The event SHOULD be associated with one of the following entities:
 - `service`
 - `deployment`
 
-`service.name`, `service.version` and `deployment.environment.name` are
-set on the Resource. Severity is `INFO` (9) for `succeeded` and `ERROR`
-(17) for `failed`.
+`service.name` and `service.version` are required on the Resource, with
+`deployment.environment.name` recommended. Severity is `INFO` (9) for
+`succeeded` and `ERROR` (17) for `failed`.
 
 | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
 | --- | --- | --- | --- | --- | --- |

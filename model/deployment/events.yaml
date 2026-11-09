@@ -6,9 +6,9 @@ groups:
   brief: >
     A deployment of a service.
   note: |
-    `service.name`, `service.version` and `deployment.environment.name` are
-    set on the Resource. Severity is `INFO` (9) for `succeeded` and `ERROR`
-    (17) for `failed`.
+    `service.name` and `service.version` are required on the Resource, with
+    `deployment.environment.name` recommended. Severity is `INFO` (9) for
+    `succeeded` and `ERROR` (17) for `failed`.
   attributes:
   - ref: deployment.status
     requirement_level: recommended
