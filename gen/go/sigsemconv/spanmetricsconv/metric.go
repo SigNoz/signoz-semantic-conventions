@@ -18,17 +18,29 @@ import (
 type SpanKindAttr string
 
 var (
-	// SpanKindUnspecified is the span kind is unspecified.
+	// SpanKindUnspecified is the "SPAN_KIND_UNSPECIFIED" value of SpanKindAttr.
+	//
+	// The span kind is unspecified.
 	SpanKindUnspecified SpanKindAttr = "SPAN_KIND_UNSPECIFIED"
-	// SpanKindInternal is an internal operation.
+	// SpanKindInternal is the "SPAN_KIND_INTERNAL" value of SpanKindAttr.
+	//
+	// An internal operation.
 	SpanKindInternal SpanKindAttr = "SPAN_KIND_INTERNAL"
-	// SpanKindServer is the server side of a remote call.
+	// SpanKindServer is the "SPAN_KIND_SERVER" value of SpanKindAttr.
+	//
+	// The server side of a remote call.
 	SpanKindServer SpanKindAttr = "SPAN_KIND_SERVER"
-	// SpanKindClient is the client side of a remote call.
+	// SpanKindClient is the "SPAN_KIND_CLIENT" value of SpanKindAttr.
+	//
+	// The client side of a remote call.
 	SpanKindClient SpanKindAttr = "SPAN_KIND_CLIENT"
-	// SpanKindProducer is the producer of an asynchronous message.
+	// SpanKindProducer is the "SPAN_KIND_PRODUCER" value of SpanKindAttr.
+	//
+	// The producer of an asynchronous message.
 	SpanKindProducer SpanKindAttr = "SPAN_KIND_PRODUCER"
-	// SpanKindConsumer is the consumer of an asynchronous message.
+	// SpanKindConsumer is the "SPAN_KIND_CONSUMER" value of SpanKindAttr.
+	//
+	// The consumer of an asynchronous message.
 	SpanKindConsumer SpanKindAttr = "SPAN_KIND_CONSUMER"
 )
 
@@ -37,11 +49,17 @@ var (
 type StatusCodeAttr string
 
 var (
-	// StatusCodeUnset is the span status is unset.
+	// StatusCodeUnset is the "STATUS_CODE_UNSET" value of StatusCodeAttr.
+	//
+	// The span status is unset.
 	StatusCodeUnset StatusCodeAttr = "STATUS_CODE_UNSET"
-	// StatusCodeOk is the span completed successfully.
+	// StatusCodeOk is the "STATUS_CODE_OK" value of StatusCodeAttr.
+	//
+	// The span completed successfully.
 	StatusCodeOk StatusCodeAttr = "STATUS_CODE_OK"
-	// StatusCodeError is the span completed with an error.
+	// StatusCodeError is the "STATUS_CODE_ERROR" value of StatusCodeAttr.
+	//
+	// The span completed with an error.
 	StatusCodeError StatusCodeAttr = "STATUS_CODE_ERROR"
 )
 
@@ -646,10 +664,10 @@ func (DBLatencyCountObservable) AttrServiceNamespace(val string) attribute.KeyVa
 // "signoz_db_latency_sum" semantic conventions. It represents the total duration
 // of database calls observed.
 type DBLatencySum struct {
-	metric.Int64Counter
+	metric.Float64Counter
 }
 
-var newDBLatencySumOpts = []metric.Int64CounterOption{
+var newDBLatencySumOpts = []metric.Float64CounterOption{
 	metric.WithDescription("The total duration of database calls observed."),
 	metric.WithUnit("1"),
 }
@@ -657,11 +675,11 @@ var newDBLatencySumOpts = []metric.Int64CounterOption{
 // NewDBLatencySum returns a new DBLatencySum instrument.
 func NewDBLatencySum(
 	m metric.Meter,
-	opt ...metric.Int64CounterOption,
+	opt ...metric.Float64CounterOption,
 ) (DBLatencySum, error) {
 	// Check if the meter is nil.
 	if m == nil {
-		return DBLatencySum{noop.Int64Counter{}}, nil
+		return DBLatencySum{noop.Float64Counter{}}, nil
 	}
 
 	if len(opt) == 0 {
@@ -670,19 +688,19 @@ func NewDBLatencySum(
 		opt = append(opt[:len(opt):len(opt)], newDBLatencySumOpts...)
 	}
 
-	i, err := m.Int64Counter(
+	i, err := m.Float64Counter(
 		"signoz_db_latency_sum",
 		opt...,
 	)
 	if err != nil {
-		return DBLatencySum{noop.Int64Counter{}}, err
+		return DBLatencySum{noop.Float64Counter{}}, err
 	}
 	return DBLatencySum{i}, nil
 }
 
 // Inst returns the underlying metric instrument.
-func (m DBLatencySum) Inst() metric.Int64Counter {
-	return m.Int64Counter
+func (m DBLatencySum) Inst() metric.Float64Counter {
+	return m.Float64Counter
 }
 
 // Name returns the semantic convention name of the instrument.
@@ -719,7 +737,7 @@ func (DBLatencySum) Description() string {
 // `db.system` and is not of kind server.
 func (m DBLatencySum) Add(
 	ctx context.Context,
-	incr int64,
+	incr float64,
 	dbSystem string,
 	resourceSigNozCollectorId string,
 	serviceName string,
@@ -727,11 +745,11 @@ func (m DBLatencySum) Add(
 	statusCode StatusCodeAttr,
 	attrs ...attribute.KeyValue,
 ) {
-	if !m.Int64Counter.Enabled(ctx) {
+	if !m.Float64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
+		m.Float64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("db.system", dbSystem),
 			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
@@ -758,19 +776,19 @@ func (m DBLatencySum) Add(
 		),
 	)
 
-	m.Int64Counter.Add(ctx, incr, *o...)
+	m.Float64Counter.Add(ctx, incr, *o...)
 }
 
 // AddSet adds incr to the existing count for set.
 //
 // Values are in milliseconds. A database call is a span that carries
 // `db.system` and is not of kind server.
-func (m DBLatencySum) AddSet(ctx context.Context, incr int64, set attribute.Set) {
-	if !m.Int64Counter.Enabled(ctx) {
+func (m DBLatencySum) AddSet(ctx context.Context, incr float64, set attribute.Set) {
+	if !m.Float64Counter.Enabled(ctx) {
 		return
 	}
 	if set.Len() == 0 {
-		m.Int64Counter.Add(ctx, incr)
+		m.Float64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -778,7 +796,7 @@ func (m DBLatencySum) AddSet(ctx context.Context, incr int64, set attribute.Set)
 	defer metricpool.PutAddOptions(o)
 
 	*o = append(*o, metric.WithAttributeSet(set))
-	m.Int64Counter.Add(ctx, incr, *o...)
+	m.Float64Counter.Add(ctx, incr, *o...)
 }
 
 // AttrDBName returns an optional attribute for the "db.name" semantic
@@ -818,10 +836,10 @@ func (DBLatencySum) AttrServiceNamespace(val string) attribute.KeyValue {
 // conforming to the "signoz_db_latency_sum" semantic conventions. It represents
 // the total duration of database calls observed.
 type DBLatencySumObservable struct {
-	metric.Int64ObservableCounter
+	metric.Float64ObservableCounter
 }
 
-var newDBLatencySumObservableOpts = []metric.Int64ObservableCounterOption{
+var newDBLatencySumObservableOpts = []metric.Float64ObservableCounterOption{
 	metric.WithDescription("The total duration of database calls observed."),
 	metric.WithUnit("1"),
 }
@@ -829,11 +847,11 @@ var newDBLatencySumObservableOpts = []metric.Int64ObservableCounterOption{
 // NewDBLatencySumObservable returns a new DBLatencySumObservable instrument.
 func NewDBLatencySumObservable(
 	m metric.Meter,
-	opt ...metric.Int64ObservableCounterOption,
+	opt ...metric.Float64ObservableCounterOption,
 ) (DBLatencySumObservable, error) {
 	// Check if the meter is nil.
 	if m == nil {
-		return DBLatencySumObservable{noop.Int64ObservableCounter{}}, nil
+		return DBLatencySumObservable{noop.Float64ObservableCounter{}}, nil
 	}
 
 	if len(opt) == 0 {
@@ -842,19 +860,19 @@ func NewDBLatencySumObservable(
 		opt = append(opt[:len(opt):len(opt)], newDBLatencySumObservableOpts...)
 	}
 
-	i, err := m.Int64ObservableCounter(
+	i, err := m.Float64ObservableCounter(
 		"signoz_db_latency_sum",
 		opt...,
 	)
 	if err != nil {
-		return DBLatencySumObservable{noop.Int64ObservableCounter{}}, err
+		return DBLatencySumObservable{noop.Float64ObservableCounter{}}, err
 	}
 	return DBLatencySumObservable{i}, nil
 }
 
 // Inst returns the underlying metric instrument.
-func (m DBLatencySumObservable) Inst() metric.Int64ObservableCounter {
-	return m.Int64ObservableCounter
+func (m DBLatencySumObservable) Inst() metric.Float64ObservableCounter {
+	return m.Float64ObservableCounter
 }
 
 // Name returns the semantic convention name of the instrument.
@@ -1237,10 +1255,10 @@ func (ExternalCallLatencyCountObservable) AttrServiceNamespace(val string) attri
 // conforming to the "signoz_external_call_latency_sum" semantic conventions. It
 // represents the total duration of external calls observed.
 type ExternalCallLatencySum struct {
-	metric.Int64Counter
+	metric.Float64Counter
 }
 
-var newExternalCallLatencySumOpts = []metric.Int64CounterOption{
+var newExternalCallLatencySumOpts = []metric.Float64CounterOption{
 	metric.WithDescription("The total duration of external calls observed."),
 	metric.WithUnit("1"),
 }
@@ -1248,11 +1266,11 @@ var newExternalCallLatencySumOpts = []metric.Int64CounterOption{
 // NewExternalCallLatencySum returns a new ExternalCallLatencySum instrument.
 func NewExternalCallLatencySum(
 	m metric.Meter,
-	opt ...metric.Int64CounterOption,
+	opt ...metric.Float64CounterOption,
 ) (ExternalCallLatencySum, error) {
 	// Check if the meter is nil.
 	if m == nil {
-		return ExternalCallLatencySum{noop.Int64Counter{}}, nil
+		return ExternalCallLatencySum{noop.Float64Counter{}}, nil
 	}
 
 	if len(opt) == 0 {
@@ -1261,19 +1279,19 @@ func NewExternalCallLatencySum(
 		opt = append(opt[:len(opt):len(opt)], newExternalCallLatencySumOpts...)
 	}
 
-	i, err := m.Int64Counter(
+	i, err := m.Float64Counter(
 		"signoz_external_call_latency_sum",
 		opt...,
 	)
 	if err != nil {
-		return ExternalCallLatencySum{noop.Int64Counter{}}, err
+		return ExternalCallLatencySum{noop.Float64Counter{}}, err
 	}
 	return ExternalCallLatencySum{i}, nil
 }
 
 // Inst returns the underlying metric instrument.
-func (m ExternalCallLatencySum) Inst() metric.Int64Counter {
-	return m.Int64Counter
+func (m ExternalCallLatencySum) Inst() metric.Float64Counter {
+	return m.Float64Counter
 }
 
 // Name returns the semantic convention name of the instrument.
@@ -1310,7 +1328,7 @@ func (ExternalCallLatencySum) Description() string {
 // known remote endpoint.
 func (m ExternalCallLatencySum) Add(
 	ctx context.Context,
-	incr int64,
+	incr float64,
 	address string,
 	resourceSigNozCollectorId string,
 	serviceName string,
@@ -1318,11 +1336,11 @@ func (m ExternalCallLatencySum) Add(
 	statusCode StatusCodeAttr,
 	attrs ...attribute.KeyValue,
 ) {
-	if !m.Int64Counter.Enabled(ctx) {
+	if !m.Float64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
+		m.Float64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("address", address),
 			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
@@ -1349,19 +1367,19 @@ func (m ExternalCallLatencySum) Add(
 		),
 	)
 
-	m.Int64Counter.Add(ctx, incr, *o...)
+	m.Float64Counter.Add(ctx, incr, *o...)
 }
 
 // AddSet adds incr to the existing count for set.
 //
 // Values are in milliseconds. An external call is a client span with a
 // known remote endpoint.
-func (m ExternalCallLatencySum) AddSet(ctx context.Context, incr int64, set attribute.Set) {
-	if !m.Int64Counter.Enabled(ctx) {
+func (m ExternalCallLatencySum) AddSet(ctx context.Context, incr float64, set attribute.Set) {
+	if !m.Float64Counter.Enabled(ctx) {
 		return
 	}
 	if set.Len() == 0 {
-		m.Int64Counter.Add(ctx, incr)
+		m.Float64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -1369,7 +1387,7 @@ func (m ExternalCallLatencySum) AddSet(ctx context.Context, incr int64, set attr
 	defer metricpool.PutAddOptions(o)
 
 	*o = append(*o, metric.WithAttributeSet(set))
-	m.Int64Counter.Add(ctx, incr, *o...)
+	m.Float64Counter.Add(ctx, incr, *o...)
 }
 
 // AttrHTTPStatusCode returns an optional attribute for the "http.status_code"
@@ -1410,10 +1428,10 @@ func (ExternalCallLatencySum) AttrServiceNamespace(val string) attribute.KeyValu
 // conforming to the "signoz_external_call_latency_sum" semantic conventions. It
 // represents the total duration of external calls observed.
 type ExternalCallLatencySumObservable struct {
-	metric.Int64ObservableCounter
+	metric.Float64ObservableCounter
 }
 
-var newExternalCallLatencySumObservableOpts = []metric.Int64ObservableCounterOption{
+var newExternalCallLatencySumObservableOpts = []metric.Float64ObservableCounterOption{
 	metric.WithDescription("The total duration of external calls observed."),
 	metric.WithUnit("1"),
 }
@@ -1422,11 +1440,11 @@ var newExternalCallLatencySumObservableOpts = []metric.Int64ObservableCounterOpt
 // ExternalCallLatencySumObservable instrument.
 func NewExternalCallLatencySumObservable(
 	m metric.Meter,
-	opt ...metric.Int64ObservableCounterOption,
+	opt ...metric.Float64ObservableCounterOption,
 ) (ExternalCallLatencySumObservable, error) {
 	// Check if the meter is nil.
 	if m == nil {
-		return ExternalCallLatencySumObservable{noop.Int64ObservableCounter{}}, nil
+		return ExternalCallLatencySumObservable{noop.Float64ObservableCounter{}}, nil
 	}
 
 	if len(opt) == 0 {
@@ -1435,19 +1453,19 @@ func NewExternalCallLatencySumObservable(
 		opt = append(opt[:len(opt):len(opt)], newExternalCallLatencySumObservableOpts...)
 	}
 
-	i, err := m.Int64ObservableCounter(
+	i, err := m.Float64ObservableCounter(
 		"signoz_external_call_latency_sum",
 		opt...,
 	)
 	if err != nil {
-		return ExternalCallLatencySumObservable{noop.Int64ObservableCounter{}}, err
+		return ExternalCallLatencySumObservable{noop.Float64ObservableCounter{}}, err
 	}
 	return ExternalCallLatencySumObservable{i}, nil
 }
 
 // Inst returns the underlying metric instrument.
-func (m ExternalCallLatencySumObservable) Inst() metric.Int64ObservableCounter {
-	return m.Int64ObservableCounter
+func (m ExternalCallLatencySumObservable) Inst() metric.Float64ObservableCounter {
+	return m.Float64ObservableCounter
 }
 
 // Name returns the semantic convention name of the instrument.

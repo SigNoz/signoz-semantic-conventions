@@ -277,25 +277,19 @@ func (LogCount) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // Each log record counts as one.
 func (m LogCount) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -305,10 +299,7 @@ func (m LogCount) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -413,13 +404,6 @@ func (LogCountObservable) Description() string {
 	return "The number of log records observed."
 }
 
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (LogCountObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
-}
-
 // AttrDeploymentEnvironment returns an optional attribute for the
 // "deployment.environment" semantic convention. It represents the deprecated,
 // use `deployment.environment.name` instead.
@@ -501,9 +485,6 @@ func (LogSize) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // The size of a log record is the size of its resource attributes, its
@@ -512,16 +493,13 @@ func (LogSize) Description() string {
 func (m LogSize) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -531,10 +509,7 @@ func (m LogSize) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -641,13 +616,6 @@ func (LogSizeObservable) Description() string {
 	return "The size of log records observed."
 }
 
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (LogSizeObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
-}
-
 // AttrDeploymentEnvironment returns an optional attribute for the
 // "deployment.environment" semantic convention. It represents the deprecated,
 // use `deployment.environment.name` instead.
@@ -729,9 +697,6 @@ func (MetricDatapointCount) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // A gauge or sum data point counts as one. A histogram data point counts
@@ -743,16 +708,13 @@ func (MetricDatapointCount) Description() string {
 func (m MetricDatapointCount) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -762,10 +724,7 @@ func (m MetricDatapointCount) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -876,13 +835,6 @@ func (MetricDatapointCountObservable) Description() string {
 	return "The number of metric data points observed."
 }
 
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (MetricDatapointCountObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
-}
-
 // AttrDeploymentEnvironment returns an optional attribute for the
 // "deployment.environment" semantic convention. It represents the deprecated,
 // use `deployment.environment.name` instead.
@@ -964,25 +916,19 @@ func (MetricDatapointSize) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // The value is always `0`.
 func (m MetricDatapointSize) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -992,10 +938,7 @@ func (m MetricDatapointSize) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -1101,13 +1044,6 @@ func (MetricDatapointSizeObservable) Description() string {
 	return "The size of metric data points observed."
 }
 
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (MetricDatapointSizeObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
-}
-
 // AttrDeploymentEnvironment returns an optional attribute for the
 // "deployment.environment" semantic convention. It represents the deprecated,
 // use `deployment.environment.name` instead.
@@ -1189,25 +1125,19 @@ func (SpanCount) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // Each span counts as one.
 func (m SpanCount) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -1217,10 +1147,7 @@ func (m SpanCount) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -1325,13 +1252,6 @@ func (SpanCountObservable) Description() string {
 	return "The number of spans observed."
 }
 
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (SpanCountObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
-}
-
 // AttrDeploymentEnvironment returns an optional attribute for the
 // "deployment.environment" semantic convention. It represents the deprecated,
 // use `deployment.environment.name` instead.
@@ -1413,9 +1333,6 @@ func (SpanSize) Description() string {
 
 // Add adds incr to the existing count for attrs.
 //
-// The connectorId is the identifier of the meter connector instance that
-// produced the metric.
-//
 // All additional attrs passed are included in the recorded value.
 //
 // The size of a span is the size of its fields, its resource attributes,
@@ -1424,16 +1341,13 @@ func (SpanSize) Description() string {
 func (m SpanSize) Add(
 	ctx context.Context,
 	incr int64,
-	connectorId string,
 	attrs ...attribute.KeyValue,
 ) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
 	}
 	if len(attrs) == 0 {
-		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("connector_id", connectorId),
-		))
+		m.Int64Counter.Add(ctx, incr)
 		return
 	}
 
@@ -1443,10 +1357,7 @@ func (m SpanSize) Add(
 	*o = append(
 		*o,
 		metric.WithAttributes(
-			append(
-				attrs[:len(attrs):len(attrs)],
-				attribute.String("connector_id", connectorId),
-			)...,
+			attrs...,
 		),
 	)
 
@@ -1551,13 +1462,6 @@ func (SpanSizeObservable) Unit() string {
 // Description returns the semantic convention description of the instrument
 func (SpanSizeObservable) Description() string {
 	return "The size of spans observed."
-}
-
-// AttrConnectorID returns a required attribute for the "connector_id" semantic
-// convention. It represents the identifier of the meter connector instance that
-// produced the metric.
-func (SpanSizeObservable) AttrConnectorID(val string) attribute.KeyValue {
-	return attribute.String("connector_id", val)
 }
 
 // AttrDeploymentEnvironment returns an optional attribute for the
