@@ -32,3 +32,15 @@ weaver-check: ## Runs weaver check with the rego policies.
 weaver-docs: ## Generate docs/ from the registry.
 	@rm -rf docs
 	@weaver registry generate --registry model/ --v2 --quiet markdown docs
+
+.PHONY: weaver-gen
+weaver-gen: weaver-go ## Generate gen/ from the registry.
+
+# A template that has nothing to render for an area leaves an empty file, so
+# empty files are deleted after generating.
+.PHONY: weaver-go
+weaver-go: ## Generate gen/go/ from the registry.
+	@rm -rf gen/go/sigsemconv
+	@weaver registry generate --registry model/ --quiet go gen/go/sigsemconv
+	@find gen/go/sigsemconv -empty -delete
+	@gofmt -w gen/go/sigsemconv

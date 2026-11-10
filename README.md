@@ -30,6 +30,22 @@ dependencies:
 
 Each release also carries the resolved registry (`resolved.yaml`) for tools that read it directly. [RELEASE.md](RELEASE.md) describes how versions and releases work.
 
+### In code
+
+The names are also generated as code, installed from a release tag.
+
+Go:
+
+```sh
+go get github.com/SigNoz/signoz-semantic-conventions/gen/go@v<version>
+```
+
+```go
+import "github.com/SigNoz/signoz-semantic-conventions/gen/go/sigsemconv"
+
+span.SetAttributes(sigsemconv.SigNozWorkspaceName("acme-prod"))
+```
+
 ## Contributing
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).
