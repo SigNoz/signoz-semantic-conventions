@@ -1,6 +1,6 @@
 module github.com/SigNoz/signoz-semantic-conventions/gen/go
 
-go 1.24.0
+go 1.25.0
 
 require (
 	go.opentelemetry.io/otel v1.40.0
