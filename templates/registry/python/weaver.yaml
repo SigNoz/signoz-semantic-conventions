@@ -1,0 +1,93 @@
+# Renders gen/python/sigsemconv/ from the resolved registry.
+#
+# Adapted from the OpenTelemetry Python templates (Apache-2.0):
+# https://github.com/open-telemetry/opentelemetry-python/tree/5546285fc885858ce580350563e861681aa642fb/scripts/semconv/templates/registry
+# Differences from upstream: definitions are grouped by area (the directory
+# under model/ each one lives in) where upstream groups by root namespace,
+# there is no separate package for unstable definitions, and events get name
+# constants.
+params:
+  # Group every definition by its area. Attributes annotated with
+  # code_generation.exclude are left out.
+  areas_filter: &areas >
+    .groups
+    | map(. + {area: (.lineage.provenance.path | split("/") | .[1])})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric")) | sort_by(.metric_name)),
+        events: (map(select(.type == "event")) | sort_by(.name))
+      })
+  # The registry version, and the same version as Python spells it:
+  # 0.0.1-rc.1 is 0.0.1rc1, and 0.0.1-unreleased is 0.0.1.dev0.
+  version_filter: &version >
+    .groups[0].lineage.provenance.schema_url as $url
+    | ($url | split("/") | .[-1]) as $version
+    | ($version | split("-")) as $parts
+    | {
+        schema_url: $url,
+        version: $version,
+        python_version: (
+          if ($parts | length) == 1 then $version
+          elif $parts[1] == "unreleased" then $parts[0] + ".dev0"
+          else $parts[0] + ($parts[1:] | join("") | sub("^alpha"; "a") | sub("^beta"; "b") | gsub("\\."; ""))
+          end
+        )
+      }
+templates:
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: __init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: attributes/__init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: metrics/__init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: events/__init__.py
+- pattern: version.py.j2
+  filter: *version
+  application_mode: single
+  file_name: version/__init__.py
+- pattern: schemas.py.j2
+  filter: *version
+  application_mode: single
+  file_name: schemas.py
+- pattern: semantic_attributes.j2
+  filter: *areas
+  application_mode: each
+  file_name: "attributes/{{ ctx.area }}_attributes.py"
+- pattern: semantic_metrics.j2
+  filter: *areas
+  application_mode: each
+  file_name: "metrics/{{ ctx.area }}_metrics.py"
+- pattern: semantic_events.j2
+  filter: *areas
+  application_mode: each
+  file_name: "events/{{ ctx.area }}_events.py"
+text_maps:
+  py_instrument_to_factory:
+    counter: counter
+    histogram: histogram
+    updowncounter: up_down_counter
+    gauge: observable_gauge
+  py_instrument_to_type:
+    counter: Counter
+    histogram: Histogram
+    updowncounter: UpDownCounter
+    gauge: ObservableGauge
+whitespace_control:
+  trim_blocks: true
+  lstrip_blocks: true
+  keep_trailing_newline: true

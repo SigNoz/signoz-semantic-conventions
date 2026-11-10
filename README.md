@@ -46,6 +46,18 @@ import "github.com/SigNoz/signoz-semantic-conventions/gen/go/sigsemconv"
 span.SetAttributes(sigsemconv.SigNozWorkspaceName("acme-prod"))
 ```
 
+Python:
+
+```sh
+pip install "sigsemconv @ git+https://github.com/SigNoz/signoz-semantic-conventions@v<version>#subdirectory=gen/python"
+```
+
+```python
+from sigsemconv.attributes.workspace_attributes import SIGNOZ_WORKSPACE_NAME
+
+span.set_attribute(SIGNOZ_WORKSPACE_NAME, "acme-prod")
+```
+
 ## Contributing
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).

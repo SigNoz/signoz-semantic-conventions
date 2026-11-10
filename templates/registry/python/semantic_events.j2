@@ -1,0 +1,14 @@
+{%- import 'common.j2' as c -%}
+{#- An area with no events renders an empty file, which the make target deletes. -#}
+{%- if ctx.events | length > 0 -%}
+{{ c.file_header() }}
+
+from typing import Final
+{% for event in ctx.events %}
+
+{{ c.const_name(event.name) }}: Final = "{{ event.name }}"
+"""
+{{ c.docstring(event) }}
+"""
+{% endfor %}
+{%- endif -%}
