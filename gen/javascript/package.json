@@ -1,6 +1,6 @@
 {
   "name": "sigsemconv",
-  "version": "0.0.1-unreleased",
+  "version": "0.0.1",
   "description": "SigNoz Semantic Conventions",
   "license": "AGPL-3.0-only",
   "homepage": "https://github.com/SigNoz/signoz-semantic-conventions",
