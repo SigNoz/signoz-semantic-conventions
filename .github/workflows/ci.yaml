@@ -16,6 +16,7 @@ concurrency:
 env:
   WEAVER_VERSION: 0.26.1
   YAMLLINT_VERSION: 1.37.0
+  RUFF_VERSION: 0.17.4
 
 jobs:
   check:
@@ -64,3 +65,59 @@ jobs:
           echo "::error::docs/ is out of date. Run 'make weaver-docs' and commit the result."
           exit 1
         fi
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: go-install
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: gen/go/go.mod
+        cache-dependency-path: gen/go/go.sum
+    - name: ruff-install
+      run: pipx install "ruff==${RUFF_VERSION}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: weaver-gen
+      run: |
+        make weaver-gen
+        git add --intent-to-add gen
+        if ! git diff --exit-code -- gen; then
+          echo "::error::gen/ is out of date. Run 'make weaver-gen' and commit the result."
+          exit 1
+        fi
+    - name: go-test
+      working-directory: gen/go
+      run: |
+        go vet ./...
+        go test ./...
+    - name: python-test
+      run: |
+        python3 -m venv "${RUNNER_TEMP}/venv"
+        "${RUNNER_TEMP}/venv/bin/pip" install --quiet ./gen/python
+        "${RUNNER_TEMP}/venv/bin/python" -c '
+        import importlib, pkgutil, sigsemconv
+        for module in pkgutil.walk_packages(sigsemconv.__path__, "sigsemconv."):
+            importlib.import_module(module.name)
+        '
+    - name: javascript-test
+      run: |
+        node --input-type=module -e '
+        import { createRequire } from "node:module";
+        const esm = await import("./gen/javascript/sigsemconv/index.mjs");
+        const cjs = createRequire(import.meta.url)("./gen/javascript/sigsemconv/index.cjs");
+        const names = Object.keys(esm).sort();
+        if (names.length === 0 || names.join() !== Object.keys(cjs).sort().join()) {
+          throw new Error("the ES module and CommonJS exports differ");
+        }
+        '
