@@ -20,7 +20,7 @@ params:
   scope_attributes:
   - connector_id
   # Group every definition of this registry by its area; definitions imported
-  # from another registry are left out. Deprecated definitions and attributes
+  # from another registry are left out. Deprecated definitions and definitions
   # annotated with code_generation.exclude are left out. root_namespace is the
   # prefix dropped from metric and attribute names inside an area's metric
   # package: "signoz.<area>" when every metric in the area starts with it,
@@ -28,15 +28,15 @@ params:
   # defines is given the plain type of its values, so its members are not
   # copied into the metric package.
   areas_filter: &areas >
-    (.groups | map(select(.lineage.provenance.path | startswith("model/")))) as $groups
+    (.groups | map(select(.lineage.provenance.path | test("://") | not))) as $groups
     | ([$groups[] | select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[].name]) as $own
     | $groups
-    | map(. + {area: (.lineage.provenance.path | split("/") | .[1])})
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
     | group_by(.area)
     | map(
         .[0].area as $area
         | (
-            map(select(.type == "metric" and .deprecated == null))
+            map(select(.type == "metric" and .deprecated == null and .annotations.code_generation.exclude != true))
             | map(. + {attributes: ((.attributes // [])
               | map(select(.name as $name | $scope_attributes | index($name) | not))
               | map(
@@ -61,11 +61,11 @@ params:
               | sort_by(.name)
             ),
             metrics: $metrics,
-            events: (map(select(.type == "event" and .deprecated == null)) | sort_by(.name))
+            events: (map(select(.type == "event" and .deprecated == null and .annotations.code_generation.exclude != true)) | sort_by(.name))
           }
       )
   version_filter: &version >
-    [.groups[] | .lineage.provenance | select(.path | startswith("model/")) | .schema_url][0]
+    [.groups[] | .lineage.provenance | select(.path | test("://") | not) | .schema_url][0]
     | {schema_url: ., version: (split("/") | .[-1])}
 templates:
 - pattern: doc.go.j2

@@ -1,3 +1,4 @@
+{#- Adapted from open-telemetry/opentelemetry-go, semconv/templates/registry/go/helpers.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
 {%- macro repl(text) -%}
 {#- Copied from semconvgen: https://github.com/open-telemetry/opentelemetry-go-build-tools/blob/3e69152c51c56213b65c0fc6e5954293b522103c/semconvgen/generator.go#L419-L426 -#}
 {{ text | replace("RedisDatabase", "RedisDB") | replace("IPTCP", "TCP") | replace("IPUDP", "UDP") | replace("Lineno", "LineNumber") }}
