@@ -18,7 +18,7 @@
         "types": "./sigsemconv/index.d.mts",
         "default": "./sigsemconv/index.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/index.d.cts",
         "default": "./sigsemconv/index.cjs"
       }
@@ -28,7 +28,7 @@
         "types": "./sigsemconv/audit.d.mts",
         "default": "./sigsemconv/audit.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/audit.d.cts",
         "default": "./sigsemconv/audit.cjs"
       }
@@ -38,7 +38,7 @@
         "types": "./sigsemconv/genai.d.mts",
         "default": "./sigsemconv/genai.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/genai.d.cts",
         "default": "./sigsemconv/genai.cjs"
       }
@@ -48,7 +48,7 @@
         "types": "./sigsemconv/identity.d.mts",
         "default": "./sigsemconv/identity.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/identity.d.cts",
         "default": "./sigsemconv/identity.cjs"
       }
@@ -58,7 +58,7 @@
         "types": "./sigsemconv/meter.d.mts",
         "default": "./sigsemconv/meter.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/meter.d.cts",
         "default": "./sigsemconv/meter.cjs"
       }
@@ -68,7 +68,7 @@
         "types": "./sigsemconv/resource.d.mts",
         "default": "./sigsemconv/resource.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/resource.d.cts",
         "default": "./sigsemconv/resource.cjs"
       }
@@ -78,7 +78,7 @@
         "types": "./sigsemconv/spanmetrics.d.mts",
         "default": "./sigsemconv/spanmetrics.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/spanmetrics.d.cts",
         "default": "./sigsemconv/spanmetrics.cjs"
       }
@@ -88,7 +88,7 @@
         "types": "./sigsemconv/workspace.d.mts",
         "default": "./sigsemconv/workspace.mjs"
       },
-      "require": {
+      "default": {
         "types": "./sigsemconv/workspace.d.cts",
         "default": "./sigsemconv/workspace.cjs"
       }
