@@ -40,4 +40,4 @@ paths:
 
 ## Before committing
 
-Run `make yaml-lint weaver-check weaver-docs` and commit the regenerated `docs/`.
+Run `make yaml-lint weaver-check weaver-docs weaver-gen` and commit the regenerated `docs/` and `gen/`.

@@ -6,6 +6,7 @@
 #   hack/release.sh prepare <version>    Check <version> and set it in model/manifest.yaml.
 #   hack/release.sh verify <tag>         Check <tag> is v<version> for the version in model/manifest.yaml.
 #   hack/release.sh package <tag> <dir>  Package the registry for release <tag> into <dir>.
+#   hack/release.sh gotag <tag>          Tag HEAD as gen/go/<tag>, the Go module tag of release <tag>, and push it.
 #   hack/release.sh bump <tag>           After release <tag>, set the next unreleased version; print it.
 set -euo pipefail
 
@@ -66,6 +67,23 @@ case "${1:-}" in
       die "weaver registry package failed:"$'\n'"${out}"
     fi
     ;;
+  gotag)
+    tag="${2:?usage: hack/release.sh gotag <tag>}"
+    check_tag "${tag}"
+    # Go resolves versions of a module in a subdirectory from tags prefixed with its path.
+    gotag="gen/go/${tag}"
+    # The releaser checks out the release tag, so HEAD is the release commit.
+    head="$(git rev-parse HEAD)"
+    # The last line is the commit an annotated tag points at, or the tag itself.
+    existing="$(git ls-remote --tags origin "refs/tags/${gotag}" "refs/tags/${gotag}^{}" | tail -n 1 | cut -f 1)"
+    if [[ -n "${existing}" ]]; then
+      [[ "${existing}" == "${head}" ]] || die "tag ${gotag} is on ${existing}, not on the release commit ${head}"
+      echo "release: tag ${gotag} already exists; nothing to push" >&2
+      exit 0
+    fi
+    git tag "${gotag}"
+    git push origin "refs/tags/${gotag}"
+    ;;
   bump)
     tag="${2:?usage: hack/release.sh bump <tag>}"
     check_tag "${tag}"
@@ -87,7 +105,7 @@ case "${1:-}" in
     echo "${next}"
     ;;
   *)
-    sed -n '4,9s/^# \{0,1\}//p' "$0"
+    sed -n '4,10s/^# \{0,1\}//p' "$0"
     exit 1
     ;;
 esac

@@ -1,7 +1,7 @@
 ---
 paths:
 - "docs/**"
-- "templates/**"
+- "templates/registry/markdown/**"
 ---
 
 # Docs

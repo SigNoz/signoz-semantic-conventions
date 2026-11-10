@@ -74,7 +74,7 @@ span.setAttribute(ATTR_SIGNOZ_WORKSPACE_NAME, 'acme-prod');
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).
 
-Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check` and `make weaver-docs`, and commit the regenerated `docs/` with your change. CI runs the same checks.
+Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check`, `make weaver-docs` and `make weaver-gen`, and commit the regenerated `docs/` and `gen/` with your change. `make weaver-gen` also needs [Go](https://go.dev/dl/) and [ruff](https://docs.astral.sh/ruff/). CI runs the same checks.
 
 ## License
 
