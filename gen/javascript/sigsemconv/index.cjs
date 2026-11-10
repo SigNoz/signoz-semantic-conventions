@@ -4,21 +4,21 @@
 
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 /**
  * The schema URL that matches the version of the semantic conventions that
  * this package defines.
  */
-exports.SCHEMA_URL = 'https://signoz.io/schemas/otel/0.0.1-unreleased';
+const SCHEMA_URL = 'https://signoz.io/schemas/otel/0.0.1-unreleased';
 
-Object.assign(
-  exports,
-  require('./audit.cjs'),
-  require('./genai.cjs'),
-  require('./identity.cjs'),
-  require('./meter.cjs'),
-  require('./resource.cjs'),
-  require('./spanmetrics.cjs'),
-  require('./workspace.cjs'),
-);
+module.exports = {
+  SCHEMA_URL,
+  ...require('./audit.cjs'),
+  ...require('./genai.cjs'),
+  ...require('./identity.cjs'),
+  ...require('./meter.cjs'),
+  ...require('./resource.cjs'),
+  ...require('./spanmetrics.cjs'),
+  ...require('./workspace.cjs'),
+};
+
+Object.defineProperty(module.exports, '__esModule', { value: true });

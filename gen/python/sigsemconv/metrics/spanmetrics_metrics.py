@@ -8,7 +8,6 @@ SIGNOZ_CALLS_TOTAL: Final = "signoz_calls_total"
 """
 The number of spans observed.
 Instrument: counter
-Unit: 
 """
 
 

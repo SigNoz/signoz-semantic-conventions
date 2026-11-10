@@ -1,3 +1,4 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/common.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
 {%- macro file_header() -%}
 # Code generated from semantic convention specification. DO NOT EDIT.
 {%- endmacro -%}
@@ -10,12 +11,14 @@
 {%- if str[-1:] == '.' -%}{{ remove_trailing_dots(str[:-1]) }}{%- else -%}{{ str }}{%- endif -%}
 {%- endmacro -%}
 
+{#- Text for a multi-line docstring. -#}
 {%- macro comment_with_prefix(str, prefix) -%}
-{{remove_trailing_dots(str | trim(' \n')) | comment_with_prefix(prefix) | replace("\\", "\\\\")}}
+{{remove_trailing_dots(str | trim(' \n')) | comment_with_prefix(prefix) | replace("\\", "\\\\") | replace('"""', '\\"\\"\\"')}}
 {%- endmacro %}
 
-{%- macro deprecated_note_or_empty(attribute) -%}
-{% if attribute is deprecated %}{{ attribute.deprecated.note }}{% else %}{{""}}{% endif %}
+{#- Text for a string or docstring that opens and closes on one line. -#}
+{%- macro quoted(str) -%}
+{{remove_trailing_dots(str | trim(' \n')) | comment_with_prefix("") | replace("\\", "\\\\") | replace('"', '\\"')}}
 {%- endmacro %}
 
 {#- A constant name. "/" separates words like "." does (signoz.io/workload). -#}

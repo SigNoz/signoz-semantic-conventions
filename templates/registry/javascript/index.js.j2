@@ -8,8 +8,6 @@
 {% if format == "cjs" %}
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 {% endif %}
 /**
  * The schema URL that matches the version of the semantic conventions that
@@ -18,18 +16,21 @@ Object.defineProperty(exports, '__esModule', { value: true });
 {% if format == "mjs" %}
 export const SCHEMA_URL = '{{ ctx.schema_url }}';
 {% elif format == "cjs" %}
-exports.SCHEMA_URL = '{{ ctx.schema_url }}';
+const SCHEMA_URL = '{{ ctx.schema_url }}';
 {% else %}
 export declare const SCHEMA_URL: '{{ ctx.schema_url }}';
 {% endif %}
 
 {% if format == "cjs" %}
-Object.assign(
-  exports,
+{# Spreading each require lets Node see the names when an ES module imports this file. #}
+module.exports = {
+  SCHEMA_URL,
 {% for area in ctx.areas %}
-  require('./{{ area }}.cjs'),
+  ...require('./{{ area }}.cjs'),
 {% endfor %}
-);
+};
+
+Object.defineProperty(module.exports, '__esModule', { value: true });
 {% else %}
 {% for area in ctx.areas %}
 export * from './{{ area }}.{{ ext }}';

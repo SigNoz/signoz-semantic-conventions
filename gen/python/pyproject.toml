@@ -9,7 +9,7 @@ description = "SigNoz Semantic Conventions"
 license = "AGPL-3.0-only"
 requires-python = ">=3.10"
 dependencies = [
-  "opentelemetry-api >= 1.12",
+  "opentelemetry-api >= 1.17",
   "typing-extensions >= 4.5.0",
 ]
 

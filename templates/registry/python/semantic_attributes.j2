@@ -1,3 +1,4 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/semantic_attributes.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
 {%- import 'common.j2' as c -%}
 {#- An area with no attributes renders an empty file, which the make target deletes. -#}
 {%- if ctx.attributes | length > 0 -%}
@@ -24,12 +25,12 @@ from typing_extensions import deprecated
 
 
 {% if attribute is deprecated %}
-@deprecated("The attribute {{ attribute.name }} is deprecated - {{ c.comment_with_prefix(attribute.deprecated.note, "") }}")
+@deprecated("The attribute {{ attribute.name }} is deprecated - {{ c.quoted(attribute.deprecated.note) }}")
 {% endif %}
 class {{ attribute.name | replace("/", ".") | pascal_case | replace("Signoz", "SigNoz") }}Values(Enum):
 {% for member in attribute.type.members %}
     {{ c.const_name(member.id) }} = {{ member.value | print_member_value }}
-    """{% if member.deprecated %}Deprecated: {{ c.comment_with_prefix(member.deprecated.note, "") }}{% else %}{{ c.comment_with_prefix(member.brief or member.id, "") }}{% endif %}."""
+    """{% if member.deprecated %}Deprecated: {{ c.quoted(member.deprecated.note) }}{% else %}{{ c.quoted(member.brief or member.id) }}{% endif %}."""
 {% endfor %}
 {% endfor %}
 {%- endif -%}
