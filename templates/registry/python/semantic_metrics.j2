@@ -1,3 +1,4 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/semantic_metrics.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
 {%- import 'common.j2' as c -%}
 {#- An area with no metrics renders an empty file, which the make target deletes. -#}
 {%- if ctx.metrics | length > 0 -%}
@@ -32,7 +33,7 @@ CallbackT = (
 
 {{ const_name }}: Final = "{{ metric.metric_name }}"
 """
-{{ c.docstring(metric, "Instrument: " ~ metric.instrument ~ "\nUnit: " ~ metric.unit) }}
+{{ c.docstring(metric, "Instrument: " ~ metric.instrument ~ ("\nUnit: " ~ metric.unit if metric.unit else "")) }}
 """
 
 
@@ -42,14 +43,14 @@ def create_{{ const_name | lower }}(meter: Meter, callbacks: Sequence[CallbackT]
 def create_{{ const_name | lower }}(meter: Meter) -> {{ metric.instrument | map_text("py_instrument_to_type") }}:
 {% endif %}
 {% if c.str_or_empty(metric.brief) | length %}
-    """{{ c.comment_with_prefix(metric.brief, "") }}"""
+    """{{ c.quoted(metric.brief) }}"""
 {% endif %}
     return meter.create_{{ metric.instrument | map_text("py_instrument_to_factory") }}(
         name={{ const_name }},
 {% if metric.instrument == "gauge" %}
         callbacks=callbacks,
 {% endif %}
-        description="{{ c.str_or_empty(metric.brief | trim) | replace('\n', ' ') | replace('"', '\\"') }}",
+        description="{{ c.str_or_empty(metric.brief | trim) | replace('\n', ' ') | replace('\\', '\\\\') | replace('"', '\\"') }}",
         unit="{{ metric.unit }}",
     )
 
