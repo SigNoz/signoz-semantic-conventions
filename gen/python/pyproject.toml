@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sigsemconv"
+dynamic = ["version"]
+description = "SigNoz Semantic Conventions"
+license = "AGPL-3.0-only"
+requires-python = ">=3.10"
+dependencies = [
+  "opentelemetry-api >= 1.17",
+  "typing-extensions >= 4.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/SigNoz/signoz-semantic-conventions"
+Repository = "https://github.com/SigNoz/signoz-semantic-conventions"
+
+[tool.hatch.version]
+path = "sigsemconv/version/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sigsemconv"]

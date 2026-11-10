@@ -1,0 +1,38 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/common.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
+{%- macro file_header() -%}
+# Code generated from semantic convention specification. DO NOT EDIT.
+{%- endmacro -%}
+
+{%- macro str_or_empty(str) -%}
+{% if str is none %}{{""}}{% else %}{{str}}{% endif %}
+{%- endmacro %}
+
+{%- macro remove_trailing_dots(str) -%}
+{%- if str[-1:] == '.' -%}{{ remove_trailing_dots(str[:-1]) }}{%- else -%}{{ str }}{%- endif -%}
+{%- endmacro -%}
+
+{#- Text for a multi-line docstring. -#}
+{%- macro comment_with_prefix(str, prefix) -%}
+{{remove_trailing_dots(str | trim(' \n')) | comment_with_prefix(prefix) | replace("\\", "\\\\") | replace('"""', '\\"\\"\\"')}}
+{%- endmacro %}
+
+{#- Text for a string or docstring that opens and closes on one line. -#}
+{%- macro quoted(str) -%}
+{{remove_trailing_dots(str | trim(' \n')) | comment_with_prefix("") | replace("\\", "\\\\") | replace('"', '\\"')}}
+{%- endmacro %}
+
+{#- A constant name. "/" separates words like "." does (signoz.io/workload). -#}
+{%- macro const_name(name) -%}
+{{ name | replace("/", ".") | screaming_snake_case }}
+{%- endmacro -%}
+
+{#- The docstring body for an attribute, metric or event. -#}
+{%- macro docstring(obj, extra="") -%}
+{%- if obj is deprecated -%}
+Deprecated: {{ comment_with_prefix(obj.deprecated.note, "") }}.
+{%- else -%}
+{{ comment_with_prefix(obj.brief, "") }}.
+{%- if extra %}{{ "\n" ~ extra }}{% endif -%}
+{%- if str_or_empty(obj.note) | length %}{{ "\nNote: " }}{{ comment_with_prefix(obj.note, "") }}.{% endif -%}
+{%- endif -%}
+{%- endmacro -%}

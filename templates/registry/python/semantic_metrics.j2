@@ -1,0 +1,58 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/semantic_metrics.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
+{%- import 'common.j2' as c -%}
+{#- An area with no metrics renders an empty file, which the make target deletes. -#}
+{%- if ctx.metrics | length > 0 -%}
+{%- set has_gauge = ctx.metrics | selectattr("instrument", "equalto", "gauge") | list | count > 0 -%}
+{%- set ns = namespace(imports=["Meter"]) -%}
+{%- for i in ["counter", "histogram", "updowncounter"] -%}
+{%- if ctx.metrics | selectattr("instrument", "equalto", i) | list | count > 0 -%}
+{%- set ns.imports = ns.imports + [i | map_text("py_instrument_to_type")] -%}
+{%- endif -%}
+{%- endfor -%}
+{%- if has_gauge -%}
+{%- set ns.imports = ns.imports + ["CallbackOptions", "ObservableGauge", "Observation"] -%}
+{%- endif -%}
+{{ c.file_header() }}
+
+{% if has_gauge %}
+from collections.abc import Callable, Generator, Iterable, Sequence
+{% endif %}
+from typing import Final
+
+from opentelemetry.metrics import {{ ns.imports | sort | join(", ") }}
+{% if has_gauge %}
+
+# pylint: disable=invalid-name
+CallbackT = (
+    Callable[[CallbackOptions], Iterable[Observation]]
+    | Generator[Iterable[Observation], CallbackOptions, None]
+)
+{% endif %}
+{% for metric in ctx.metrics %}
+{% set const_name = c.const_name(metric.metric_name) %}
+
+{{ const_name }}: Final = "{{ metric.metric_name }}"
+"""
+{{ c.docstring(metric, "Instrument: " ~ metric.instrument ~ ("\nUnit: " ~ metric.unit if metric.unit else "")) }}
+"""
+
+
+{% if metric.instrument == "gauge" %}
+def create_{{ const_name | lower }}(meter: Meter, callbacks: Sequence[CallbackT] | None) -> {{ metric.instrument | map_text("py_instrument_to_type") }}:
+{% else %}
+def create_{{ const_name | lower }}(meter: Meter) -> {{ metric.instrument | map_text("py_instrument_to_type") }}:
+{% endif %}
+{% if c.str_or_empty(metric.brief) | length %}
+    """{{ c.quoted(metric.brief) }}"""
+{% endif %}
+    return meter.create_{{ metric.instrument | map_text("py_instrument_to_factory") }}(
+        name={{ const_name }},
+{% if metric.instrument == "gauge" %}
+        callbacks=callbacks,
+{% endif %}
+        description="{{ c.str_or_empty(metric.brief | trim) | replace('\n', ' ') | replace('\\', '\\\\') | replace('"', '\\"') }}",
+        unit="{{ metric.unit }}",
+    )
+
+{% endfor %}
+{%- endif -%}
