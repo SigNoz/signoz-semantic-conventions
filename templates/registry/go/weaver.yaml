@@ -3,8 +3,9 @@
 # Adapted from the OpenTelemetry Go templates (Apache-2.0):
 # https://github.com/open-telemetry/opentelemetry-go/tree/ddde884740c01b3ab3d1110557fcd3b87886c758/semconv/templates/registry/go
 # Differences from upstream: definitions are grouped by area (the directory
-# under model/ each one lives in) where upstream groups by root namespace, and
-# events get name constants.
+# under model/ each one lives in) where upstream groups by root namespace,
+# events get name constants, and a metric package has typed enums only for the
+# enum attributes this registry defines.
 params:
   # The Go module the generated packages belong to.
   module: github.com/SigNoz/signoz-semantic-conventions/gen/go
@@ -12,14 +13,26 @@ params:
   # annotated with code_generation.exclude are left out. root_namespace is the
   # prefix dropped from metric and attribute names inside an area's metric
   # package: "signoz.<area>" when every metric in the area starts with it,
-  # otherwise "signoz".
+  # otherwise "signoz". On a metric, an enum attribute that another registry
+  # defines is given the plain type of its values, so its members are not
+  # copied into the metric package.
   areas_filter: &areas >
-    .groups
+    ([.groups[] | select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[].name]) as $own
+    | .groups
     | map(. + {area: (.lineage.provenance.path | split("/") | .[1])})
     | group_by(.area)
     | map(
         .[0].area as $area
-        | (map(select(.type == "metric" and .deprecated == null)) | sort_by(.metric_name)) as $metrics
+        | (
+            map(select(.type == "metric" and .deprecated == null))
+            | map(. + {attributes: ((.attributes // []) | map(
+                if (.type | type) == "object" and (.name as $name | $own | index($name) | not)
+                then . + {type: (.type.members[0].value | if type == "string" then "string" elif type == "boolean" then "boolean" elif . == floor then "int" else "double" end)}
+                else .
+                end
+              ))})
+            | sort_by(.metric_name)
+          ) as $metrics
         | {
             area: $area,
             root_namespace: (
