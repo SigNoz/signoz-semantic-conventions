@@ -14,4 +14,5 @@ paths:
 - The templates follow the OpenTelemetry templates for each language, linked at the top of each `weaver.yaml`. Keep them close to upstream, and list every difference in that header comment.
 - Go names write the words under `acronyms` in `templates/registry/go/weaver.yaml` in a fixed casing (`ID`, `SigNoz`). The list holds only what the registry's names use: when a new name contains an acronym that isn't listed, add it.
 - The version in the generated code comes from `schema_url` in `model/manifest.yaml`, so a version change regenerates `gen/`.
+- `hack/test-go.sh`, `hack/test-python.sh` and `hack/test-javascript.sh` each install the generated package into a throwaway project and use it as a consumer would. CI runs all three; a new language gets its own script.
 - Nothing is published to a package registry. Consumers install from the release tag; Go resolves the module in `gen/go` from the tag `gen/go/v<version>`.

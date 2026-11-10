@@ -98,18 +98,8 @@ jobs:
           exit 1
         fi
     - name: go-test
-      working-directory: gen/go
-      run: |
-        go vet ./...
-        go test ./...
+      run: hack/test-go.sh
     - name: python-test
-      run: |
-        python3 -m venv "${RUNNER_TEMP}/venv"
-        "${RUNNER_TEMP}/venv/bin/pip" install --quiet ./gen/python
-        "${RUNNER_TEMP}/venv/bin/python" -c '
-        import importlib, pkgutil, sigsemconv
-        for module in pkgutil.walk_packages(sigsemconv.__path__, "sigsemconv."):
-            importlib.import_module(module.name)
-        '
+      run: hack/test-python.sh
     - name: javascript-test
       run: hack/test-javascript.sh
