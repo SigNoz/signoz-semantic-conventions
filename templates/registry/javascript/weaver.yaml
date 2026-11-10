@@ -1,0 +1,67 @@
+# Renders gen/javascript/ from the resolved registry.
+#
+# Adapted from the OpenTelemetry JavaScript templates (Apache-2.0):
+# https://github.com/open-telemetry/opentelemetry-js/tree/ee0bd33cac8bb245a3d83fc2b8ba0b07534b8efd/scripts/semconv/templates/registry
+# Differences from upstream: the templates write JavaScript and its type
+# declarations where upstream writes TypeScript to compile, definitions are
+# grouped by area (the directory under model/ each one lives in) where upstream
+# writes one file per kind, and there is no separate entry point for unstable
+# definitions.
+params:
+  # Group every definition by its area, once per file format. Attributes
+  # annotated with code_generation.exclude are left out.
+  areas_filter: &areas >
+    .groups
+    | map(. + {area: (.lineage.provenance.path | split("/") | .[1])})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric")) | sort_by(.metric_name)),
+        events: (map(select(.type == "event")) | sort_by(.name))
+      })
+    | map(. as $area | ("mjs", "cjs", "d.mts", "d.cts") as $format | $area + {format: $format})
+  # The registry version and the names of the areas.
+  package_filter: &package >
+    {
+      schema_url: .groups[0].lineage.provenance.schema_url,
+      version: (.groups[0].lineage.provenance.schema_url | split("/") | .[-1]),
+      areas: (.groups | map(.lineage.provenance.path | split("/") | .[1]) | unique)
+    }
+  index_filter: &index >
+    {
+      schema_url: .groups[0].lineage.provenance.schema_url,
+      areas: (.groups | map(.lineage.provenance.path | split("/") | .[1]) | unique)
+    }
+    | . as $index | ("mjs", "cjs", "d.mts", "d.cts") as $format | $index + {format: $format}
+templates:
+- pattern: package.json.j2
+  filter: *package
+  application_mode: single
+  file_name: package.json
+- pattern: index.js.j2
+  filter: *index
+  application_mode: each
+  file_name: "sigsemconv/index.{{ ctx.format }}"
+- pattern: area.js.j2
+  filter: *areas
+  application_mode: each
+  file_name: "sigsemconv/{{ ctx.area }}.{{ ctx.format }}"
+comment_formats:
+  jsdoc:
+    format: markdown
+    header: '/**'
+    prefix: ' * '
+    footer: ' */'
+    trim: true
+    indent_first_level_list_items: true
+    escape_backslashes: true
+default_comment_format: jsdoc
+whitespace_control:
+  trim_blocks: true
+  lstrip_blocks: true
+  keep_trailing_newline: true

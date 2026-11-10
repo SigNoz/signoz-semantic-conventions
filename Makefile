@@ -37,7 +37,7 @@ weaver-docs: ## Generate docs/ from the registry.
 	@weaver registry generate --registry model/ --v2 --quiet markdown docs
 
 .PHONY: weaver-gen
-weaver-gen: weaver-go weaver-python ## Generate gen/ from the registry.
+weaver-gen: weaver-go weaver-python weaver-javascript ## Generate gen/ from the registry.
 
 # A template that has nothing to render for an area leaves an empty file, so
 # empty files are deleted after generating.
@@ -55,3 +55,8 @@ weaver-python: ## Generate gen/python/ from the registry.
 	@find gen/python/sigsemconv -empty -delete
 	@touch gen/python/sigsemconv/py.typed
 	@$(RUFF) format --quiet gen/python/sigsemconv
+
+.PHONY: weaver-javascript
+weaver-javascript: ## Generate gen/javascript/ from the registry.
+	@rm -rf gen/javascript
+	@weaver registry generate --registry model/ --quiet javascript gen/javascript

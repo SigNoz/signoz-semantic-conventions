@@ -58,6 +58,18 @@ from sigsemconv.attributes.workspace_attributes import SIGNOZ_WORKSPACE_NAME
 span.set_attribute(SIGNOZ_WORKSPACE_NAME, "acme-prod")
 ```
 
+JavaScript and TypeScript:
+
+```sh
+pnpm add "SigNoz/signoz-semantic-conventions#v<version>&path:/gen/javascript"
+```
+
+```js
+import { ATTR_SIGNOZ_WORKSPACE_NAME } from 'sigsemconv';
+
+span.setAttribute(ATTR_SIGNOZ_WORKSPACE_NAME, 'acme-prod');
+```
+
 ## Contributing
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).

@@ -1,0 +1,44 @@
+{
+  "name": "sigsemconv",
+  "version": "{{ ctx.version }}",
+  "description": "SigNoz Semantic Conventions",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/SigNoz/signoz-semantic-conventions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SigNoz/signoz-semantic-conventions.git",
+    "directory": "gen/javascript"
+  },
+  "main": "./sigsemconv/index.cjs",
+  "module": "./sigsemconv/index.mjs",
+  "types": "./sigsemconv/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./sigsemconv/index.d.mts",
+        "default": "./sigsemconv/index.mjs"
+      },
+      "require": {
+        "types": "./sigsemconv/index.d.cts",
+        "default": "./sigsemconv/index.cjs"
+      }
+    },
+{% for area in ctx.areas %}
+    "./{{ area }}": {
+      "import": {
+        "types": "./sigsemconv/{{ area }}.d.mts",
+        "default": "./sigsemconv/{{ area }}.mjs"
+      },
+      "require": {
+        "types": "./sigsemconv/{{ area }}.d.cts",
+        "default": "./sigsemconv/{{ area }}.cjs"
+      }
+    },
+{% endfor %}
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "sigsemconv"
+  ],
+  "sideEffects": false
+}

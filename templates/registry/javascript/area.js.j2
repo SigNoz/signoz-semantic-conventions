@@ -1,0 +1,65 @@
+{%- import 'docstring.j2' as d %}
+{#-
+  One template renders all four files of an area: the ES module (mjs), the
+  CommonJS module (cjs) and the type declarations of each (d.mts, d.cts).
+-#}
+{% set format = ctx.format %}
+{#- A constant name. "/" separates words like "." does (signoz.io/workload). -#}
+{% macro const_name(name) -%}
+{{ name | replace("/", ".") | screaming_snake_case }}
+{%- endmacro %}
+{#- A string constant, in the syntax of the file being rendered. -#}
+{% macro const(name, literal) -%}
+{% if format == "mjs" -%}
+export const {{ name }} = {{ literal }};
+{%- elif format == "cjs" -%}
+exports.{{ name }} = {{ literal }};
+{%- else -%}
+export declare const {{ name }}: {{ literal }};
+{%- endif %}
+{%- endmacro %}
+{#- A template attribute: a function from the key suffix to the full name. -#}
+{% macro template_const(name, prefix) -%}
+{% if format == "mjs" -%}
+export const {{ name }} = (key) => `{{ prefix }}.${key}`;
+{%- elif format == "cjs" -%}
+exports.{{ name }} = (key) => `{{ prefix }}.${key}`;
+{%- else -%}
+export declare const {{ name }}: (key: string) => string;
+{%- endif %}
+{%- endmacro %}
+//----------------------------------------------------------------------------
+// Code generated from semantic convention specification. DO NOT EDIT.
+//----------------------------------------------------------------------------
+{% if format == "cjs" %}
+
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+{% endif %}
+{% for attribute in ctx.attributes %}
+
+{{ d.docstring(attribute, "attribute") }}
+{% if attribute.type is not template_type %}
+{{ const("ATTR_" ~ const_name(attribute.name), "'" ~ attribute.name ~ "'") }}
+{% else %}
+{{ template_const("ATTR_" ~ const_name(attribute.name), attribute.name) }}
+{% endif %}
+{% if attribute.type is mapping %}
+{% for member in attribute.type.members | sort(attribute='value') %}
+
+{{ d.docstring_enum_value(member, attribute, const_name(attribute.name)) }}
+{{ const(const_name(attribute.name) ~ "_VALUE_" ~ const_name(member.id), member.value | print_member_value) }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% for metric in ctx.metrics %}
+
+{{ d.docstring(metric, "metric") }}
+{{ const("METRIC_" ~ const_name(metric.metric_name), "'" ~ metric.metric_name ~ "'") }}
+{% endfor %}
+{% for event in ctx.events %}
+
+{{ d.docstring(event, "event") }}
+{{ const("EVENT_" ~ const_name(event.name), "'" ~ event.name ~ "'") }}
+{% endfor %}
