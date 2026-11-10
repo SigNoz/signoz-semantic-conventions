@@ -1,0 +1,152 @@
+# Renders gen/go/sigsemconv/ from the resolved registry.
+#
+# Adapted from the OpenTelemetry Go templates (Apache-2.0):
+# https://github.com/open-telemetry/opentelemetry-go/tree/ddde884740c01b3ab3d1110557fcd3b87886c758/semconv/templates/registry/go
+# Differences from upstream:
+# - Definitions are grouped by area (the directory under model/ each one lives
+#   in) where upstream groups by root namespace.
+# - Events get name constants.
+# - A metric package has typed enums only for the enum attributes this
+#   registry defines, and leaves out instrumentation scope attributes.
+# - Names treat "_" after a dropped prefix and "/" as separators
+#   (signoz_calls_total, signoz.io/workload), and spell SigNoz as an acronym.
+# - doc.go, schema.go and the metricpool package come from templates here;
+#   upstream writes them with a separate tool. instrument_test.go is dropped.
+params:
+  # The Go module the generated packages belong to.
+  module: github.com/SigNoz/signoz-semantic-conventions/gen/go
+  # Attributes that are set on the instrumentation scope, not on each data
+  # point. They are left out of the metric instruments.
+  scope_attributes:
+  - connector_id
+  # Group every definition of this registry by its area; definitions imported
+  # from another registry are left out. Deprecated definitions and definitions
+  # annotated with code_generation.exclude are left out. root_namespace is the
+  # prefix dropped from metric and attribute names inside an area's metric
+  # package: "signoz.<area>" when every metric in the area starts with it,
+  # otherwise "signoz". On a metric, an enum attribute that another registry
+  # defines is given the plain type of its values, so its members are not
+  # copied into the metric package.
+  areas_filter: &areas >
+    (.groups | map(select(.lineage.provenance.path | test("://") | not))) as $groups
+    | ([$groups[] | select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[].name]) as $own
+    | $groups
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
+    | group_by(.area)
+    | map(
+        .[0].area as $area
+        | (
+            map(select(.type == "metric" and .deprecated == null and .annotations.code_generation.exclude != true))
+            | map(. + {attributes: ((.attributes // [])
+              | map(select(.name as $name | $scope_attributes | index($name) | not))
+              | map(
+                if (.type | type) == "object" and (.name as $name | $own | index($name) | not)
+                then . + {type: (.type.members[0].value | if type == "string" then "string" elif type == "boolean" then "boolean" elif . == floor then "int" else "double" end)}
+                else .
+                end
+              ))})
+            | sort_by(.metric_name)
+          ) as $metrics
+        | {
+            area: $area,
+            root_namespace: (
+              if ($metrics | length) > 0 and ($metrics | all(.metric_name | startswith("signoz." + $area + ".")))
+              then "signoz." + $area
+              else "signoz"
+              end
+            ),
+            attributes: (
+              map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+              | map(select(.deprecated == null and .annotations.code_generation.exclude != true))
+              | sort_by(.name)
+            ),
+            metrics: $metrics,
+            events: (map(select(.type == "event" and .deprecated == null and .annotations.code_generation.exclude != true)) | sort_by(.name))
+          }
+      )
+  version_filter: &version >
+    [.groups[] | .lineage.provenance | select(.path | test("://") | not) | .schema_url][0]
+    | {schema_url: ., version: (split("/") | .[-1])}
+templates:
+- pattern: doc.go.j2
+  filter: *version
+  application_mode: single
+  file_name: doc.go
+- pattern: schema.go.j2
+  filter: *version
+  application_mode: single
+  file_name: schema.go
+- pattern: attribute_group.go.j2
+  filter: *areas
+  application_mode: each
+  file_name: "{{ ctx.area }}.go"
+- pattern: metric.go.j2
+  filter: *areas
+  application_mode: each
+  file_name: "{{ ctx.area }}conv/metric.go"
+- pattern: metric_test.go.j2
+  filter: *areas
+  application_mode: single
+  file_name: metric_test.go
+- pattern: metricpool.go.j2
+  filter: .
+  application_mode: single
+  file_name: internal/metricpool/pool.go
+comment_formats:
+  go:
+    format: markdown
+    prefix: "// "
+    indent_first_level_list_items: true
+    shortcut_reference_link: true
+    trim: true
+    word_wrap:
+      line_length: 80
+  go_1tab:
+    format: markdown
+    prefix: "	// "
+    indent_first_level_list_items: true
+    shortcut_reference_link: true
+    trim: true
+    word_wrap:
+      line_length: 80
+default_comment_format: go
+text_maps:
+  attribute_type_method:
+    string: String
+    string[]: StringSlice
+    int: Int
+    int64: Int64
+    int[]: IntSlice
+    double: Float64
+    float64: Float64
+    double[]: FloatSlice
+    boolean: Bool
+    boolean[]: BoolSlice
+  attribute_type_value:
+    string: string
+    string[]: "...string"
+    int: int
+    int[]: "...int"
+    double: float64
+    double[]: "...float64"
+    boolean: bool
+    boolean[]: "...bool"
+  # The Go instrument for a metric, where the default (Int64, or Float64 for
+  # the units s and ms) is wrong.
+  instrument:
+    signoz.meter.cpu.node.allocatable.usage: Float64Gauge
+    signoz_db_latency_sum: Float64Counter
+    signoz_external_call_latency_sum: Float64Counter
+  custom_bucket_boundaries: {}
+# Words written in a fixed casing in Go names. Only the ones the registry's
+# names use are listed; add one when a new name needs it.
+acronyms:
+- AI
+- CPU
+- DB
+- HTTP
+- ID
+- IO
+- K8S
+- SigNoz
+- UID
