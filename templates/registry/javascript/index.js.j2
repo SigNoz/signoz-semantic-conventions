@@ -1,0 +1,38 @@
+{#- Renders the four index files, one per format, that re-export every area. -#}
+{% set format = ctx.format %}
+{% set ext = "cjs" if format in ["cjs", "d.cts"] else "mjs" %}
+//----------------------------------------------------------------------------
+// Code generated from semantic convention specification. DO NOT EDIT.
+//----------------------------------------------------------------------------
+
+{% if format == "cjs" %}
+'use strict';
+
+{% endif %}
+/**
+ * The schema URL that matches the version of the semantic conventions that
+ * this package defines.
+ */
+{% if format == "mjs" %}
+export const SCHEMA_URL = '{{ ctx.schema_url }}';
+{% elif format == "cjs" %}
+const SCHEMA_URL = '{{ ctx.schema_url }}';
+{% else %}
+export declare const SCHEMA_URL: '{{ ctx.schema_url }}';
+{% endif %}
+
+{% if format == "cjs" %}
+{# Spreading each require lets Node see the names when an ES module imports this file. #}
+module.exports = {
+  SCHEMA_URL,
+{% for area in ctx.areas %}
+  ...require('./{{ area }}.cjs'),
+{% endfor %}
+};
+
+Object.defineProperty(module.exports, '__esModule', { value: true });
+{% else %}
+{% for area in ctx.areas %}
+export * from './{{ area }}.{{ ext }}';
+{% endfor %}
+{% endif %}

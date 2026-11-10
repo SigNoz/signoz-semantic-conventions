@@ -1,0 +1,105 @@
+# Renders gen/javascript/ from the resolved registry.
+#
+# Adapted from the OpenTelemetry JavaScript templates (Apache-2.0):
+# https://github.com/open-telemetry/opentelemetry-js/tree/ee0bd33cac8bb245a3d83fc2b8ba0b07534b8efd/scripts/semconv/templates/registry
+# Differences from upstream: the templates write JavaScript and its type
+# declarations where upstream writes TypeScript to compile, definitions are
+# grouped by area (the directory under model/ each one lives in) where upstream
+# writes one file per kind, there is no separate entry point for unstable
+# definitions, and a "*/" in a description is escaped.
+params:
+  # The three filters below start with the same expression, so that the area
+  # files, the index and package.json always agree on the areas. It groups
+  # every definition of this registry by its area. Definitions imported from
+  # another registry and definitions annotated with code_generation.exclude
+  # are left out, and so is an area that has nothing left to render.
+  #
+  # One entry per area and file format.
+  areas_filter: &areas >
+    .groups
+    | map(select(.lineage.provenance.path | test("://") | not))
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        schema_url: .[0].lineage.provenance.schema_url,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric" and .annotations.code_generation.exclude != true)) | sort_by(.metric_name)),
+        events: (map(select(.type == "event" and .annotations.code_generation.exclude != true)) | sort_by(.name))
+      })
+    | map(select((.attributes | length) + (.metrics | length) + (.events | length) > 0))
+    | map(. as $area | ("mjs", "cjs", "d.mts", "d.cts") as $format | $area + {format: $format})
+  # The registry version and the names of the areas.
+  package_filter: &package >
+    .groups
+    | map(select(.lineage.provenance.path | test("://") | not))
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        schema_url: .[0].lineage.provenance.schema_url,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric" and .annotations.code_generation.exclude != true)) | sort_by(.metric_name)),
+        events: (map(select(.type == "event" and .annotations.code_generation.exclude != true)) | sort_by(.name))
+      })
+    | map(select((.attributes | length) + (.metrics | length) + (.events | length) > 0))
+    | {
+        schema_url: .[0].schema_url,
+        version: (.[0].schema_url | split("/") | .[-1]),
+        areas: map(.area)
+      }
+  # The schema URL and the names of the areas, once per file format.
+  index_filter: &index >
+    .groups
+    | map(select(.lineage.provenance.path | test("://") | not))
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        schema_url: .[0].lineage.provenance.schema_url,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric" and .annotations.code_generation.exclude != true)) | sort_by(.metric_name)),
+        events: (map(select(.type == "event" and .annotations.code_generation.exclude != true)) | sort_by(.name))
+      })
+    | map(select((.attributes | length) + (.metrics | length) + (.events | length) > 0))
+    | {schema_url: .[0].schema_url, areas: map(.area)}
+    | . as $index | ("mjs", "cjs", "d.mts", "d.cts") as $format | $index + {format: $format}
+templates:
+- pattern: package.json.j2
+  filter: *package
+  application_mode: single
+  file_name: package.json
+- pattern: index.js.j2
+  filter: *index
+  application_mode: each
+  file_name: "sigsemconv/index.{{ ctx.format }}"
+- pattern: area.js.j2
+  filter: *areas
+  application_mode: each
+  file_name: "sigsemconv/{{ ctx.area }}.{{ ctx.format }}"
+comment_formats:
+  # The templates write the opening and closing lines themselves, so that they
+  # can escape a "*/" in the text, which would otherwise end the comment.
+  jsdoc:
+    format: markdown
+    prefix: ' * '
+    trim: true
+    indent_first_level_list_items: true
+    escape_backslashes: true
+default_comment_format: jsdoc
+whitespace_control:
+  trim_blocks: true
+  lstrip_blocks: true
+  keep_trailing_newline: true
