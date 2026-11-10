@@ -30,14 +30,8 @@ var (
 	{%- set m_value = '"' + m.value + '"' -%}
 	{%- else -%}
 	{%- set m_value = m.value -%}
-	{%- endif -%}
-
-	{%- if m.brief is defined %}
-	{%- set m_brief = m.brief -%}
-	{%- else %}
-	{%- set m_brief = "standardized value " + m_value + ' of ' + name + 'Attr.' -%}
 	{%- endif %}
-{{ h.prefix_brief(m_brief, m_name ~ " is ") | comment(format="go_1tab") }}
+{{ [m_name ~ " is the " ~ m_value ~ " value of " ~ name ~ "Attr.", "", m.brief | default("") | trim] | comment(format="go_1tab") }}
 	{{ m_name }} {{ name }}Attr = {{ m_value }}
 {%- endfor %}
 )
@@ -71,7 +65,7 @@ var new{{ v.name }}Opts = []metric.{{ v.inst }}Option{
 {%- if metric.instrument == "histogram" and metric_bucket_boundaries != "" %}
 	metric.WithExplicitBucketBoundaries({{ metric_bucket_boundaries }}...),
 {%- endif %}
-	metric.WithDescription("{{ i.desc(metric) }}"),
+	metric.WithDescription({{ i.desc(metric) | tojson }}),
 	metric.WithUnit("{{metric.unit}}"),
 }
 
@@ -127,7 +121,7 @@ func ({{ v.name }}) Unit() string {
 
 // Description returns the semantic convention description of the instrument
 func ({{ v.name }}) Description() string {
-	return "{{ i.desc(metric) }}"
+	return {{ i.desc(metric) | tojson }}
 }
 {%- endif %}
 {%- if v.observable %}
