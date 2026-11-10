@@ -1,4 +1,6 @@
 {% import 'helpers.j2' as h -%}
+{#- An area with no attributes or events renders an empty file, which the make target deletes. -#}
+{% if ctx.attributes | length > 0 or ctx.events | length > 0 -%}
 // Code generated from semantic convention specification. DO NOT EDIT.
 
 package sigsemconv
@@ -19,3 +21,4 @@ const (
 {% endfor -%}
 )
 {%- endif %}{{ "\n" }}
+{%- endif %}
