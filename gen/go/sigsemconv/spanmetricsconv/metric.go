@@ -107,7 +107,7 @@ func (CallsTotal) Description() string {
 //
 // The operation is the name of the aggregated spans.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -123,7 +123,7 @@ func (m CallsTotal) Add(
 	ctx context.Context,
 	incr int64,
 	operation string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	spanKind SpanKindAttr,
@@ -136,7 +136,7 @@ func (m CallsTotal) Add(
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("operation", operation),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("span.kind", string(spanKind)),
@@ -154,7 +154,7 @@ func (m CallsTotal) Add(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("operation", operation),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("span.kind", string(spanKind)),
@@ -409,7 +409,7 @@ func (DBLatencyCount) Description() string {
 //
 // The dbSystem is the deprecated, use `db.system.name` instead.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -426,7 +426,7 @@ func (m DBLatencyCount) Add(
 	ctx context.Context,
 	incr int64,
 	dbSystem string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	statusCode StatusCodeAttr,
@@ -438,7 +438,7 @@ func (m DBLatencyCount) Add(
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("db.system", dbSystem),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("status.code", string(statusCode)),
@@ -455,7 +455,7 @@ func (m DBLatencyCount) Add(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("db.system", dbSystem),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("status.code", string(statusCode)),
@@ -704,7 +704,7 @@ func (DBLatencySum) Description() string {
 //
 // The dbSystem is the deprecated, use `db.system.name` instead.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -721,7 +721,7 @@ func (m DBLatencySum) Add(
 	ctx context.Context,
 	incr int64,
 	dbSystem string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	statusCode StatusCodeAttr,
@@ -733,7 +733,7 @@ func (m DBLatencySum) Add(
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("db.system", dbSystem),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("status.code", string(statusCode)),
@@ -750,7 +750,7 @@ func (m DBLatencySum) Add(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("db.system", dbSystem),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("status.code", string(statusCode)),
@@ -999,7 +999,7 @@ func (ExternalCallLatencyCount) Description() string {
 //
 // The address is the remote endpoint of an external call.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -1015,7 +1015,7 @@ func (m ExternalCallLatencyCount) Add(
 	ctx context.Context,
 	incr int64,
 	address string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	statusCode StatusCodeAttr,
@@ -1027,7 +1027,7 @@ func (m ExternalCallLatencyCount) Add(
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("address", address),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("status.code", string(statusCode)),
@@ -1044,7 +1044,7 @@ func (m ExternalCallLatencyCount) Add(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("address", address),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("status.code", string(statusCode)),
@@ -1295,7 +1295,7 @@ func (ExternalCallLatencySum) Description() string {
 //
 // The address is the remote endpoint of an external call.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -1312,7 +1312,7 @@ func (m ExternalCallLatencySum) Add(
 	ctx context.Context,
 	incr int64,
 	address string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	statusCode StatusCodeAttr,
@@ -1324,7 +1324,7 @@ func (m ExternalCallLatencySum) Add(
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
 			attribute.String("address", address),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("status.code", string(statusCode)),
@@ -1341,7 +1341,7 @@ func (m ExternalCallLatencySum) Add(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("address", address),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("status.code", string(statusCode)),
@@ -1593,7 +1593,7 @@ func (Latency) Description() string {
 //
 // The operation is the name of the aggregated spans.
 //
-// The resourceSignozCollectorId is a copy of `signoz.collector.id`.
+// The resourceSigNozCollectorId is a copy of `signoz.collector.id`.
 //
 // The serviceName is the logical name of the service.
 //
@@ -1612,7 +1612,7 @@ func (m Latency) Record(
 	ctx context.Context,
 	val float64,
 	operation string,
-	resourceSignozCollectorId string,
+	resourceSigNozCollectorId string,
 	serviceName string,
 	collectorId string,
 	spanKind SpanKindAttr,
@@ -1625,7 +1625,7 @@ func (m Latency) Record(
 	if len(attrs) == 0 {
 		m.Float64Histogram.Record(ctx, val, metric.WithAttributes(
 			attribute.String("operation", operation),
-			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+			attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
 			attribute.String("span.kind", string(spanKind)),
@@ -1643,7 +1643,7 @@ func (m Latency) Record(
 			append(
 				attrs[:len(attrs):len(attrs)],
 				attribute.String("operation", operation),
-				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
+				attribute.String("resource_signoz.collector.id", resourceSigNozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
 				attribute.String("span.kind", string(spanKind)),

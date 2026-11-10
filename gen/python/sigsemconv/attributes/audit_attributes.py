@@ -30,14 +30,14 @@ each side, with `signoz.resource.target.*` describing the other side.
 """
 
 
-class SignozAuditActionCategoryValues(Enum):
+class SigNozAuditActionCategoryValues(Enum):
     ACCESS_CONTROL = "access_control"
     """A change to who may do what, such as a role assignment or a credential change."""
     CONFIGURATION_CHANGES = "configuration_changes"
     """A change to a metaresource or a platform setting, such as a dashboard or an alert rule change."""
 
 
-class SignozAuditOutcomeValues(Enum):
+class SigNozAuditOutcomeValues(Enum):
     SUCCESS = "success"
     """The operation succeeded."""
     FAILURE = "failure"
