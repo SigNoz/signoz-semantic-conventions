@@ -17,6 +17,7 @@ env:
   WEAVER_VERSION: 0.26.1
   YAMLLINT_VERSION: 1.37.0
   RUFF_VERSION: 0.17.4
+  TYPESCRIPT_VERSION: 5.9.3
 
 jobs:
   check:
@@ -111,13 +112,4 @@ jobs:
             importlib.import_module(module.name)
         '
     - name: javascript-test
-      run: |
-        node --input-type=module -e '
-        import { createRequire } from "node:module";
-        const esm = await import("./gen/javascript/sigsemconv/index.mjs");
-        const cjs = createRequire(import.meta.url)("./gen/javascript/sigsemconv/index.cjs");
-        const names = Object.keys(esm).sort();
-        if (names.length === 0 || names.join() !== Object.keys(cjs).sort().join()) {
-          throw new Error("the ES module and CommonJS exports differ");
-        }
-        '
+      run: hack/test-javascript.sh

@@ -72,11 +72,15 @@ case "${1:-}" in
     check_tag "${tag}"
     # Go resolves versions of a module in a subdirectory from tags prefixed with its path.
     gotag="gen/go/${tag}"
-    if git ls-remote --exit-code --tags origin "refs/tags/${gotag}" >/dev/null 2>&1; then
+    # The releaser checks out the release tag, so HEAD is the release commit.
+    head="$(git rev-parse HEAD)"
+    # The last line is the commit an annotated tag points at, or the tag itself.
+    existing="$(git ls-remote --tags origin "refs/tags/${gotag}" "refs/tags/${gotag}^{}" | tail -n 1 | cut -f 1)"
+    if [[ -n "${existing}" ]]; then
+      [[ "${existing}" == "${head}" ]] || die "tag ${gotag} is on ${existing}, not on the release commit ${head}"
       echo "release: tag ${gotag} already exists; nothing to push" >&2
       exit 0
     fi
-    # The releaser checks out the release tag, so HEAD is the release commit.
     git tag "${gotag}"
     git push origin "refs/tags/${gotag}"
     ;;
