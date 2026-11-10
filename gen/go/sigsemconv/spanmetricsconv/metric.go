@@ -13,122 +13,6 @@ import (
 	"go.opentelemetry.io/otel/metric/noop"
 )
 
-// DBSystemAttr is an attribute conforming to the db.system semantic conventions.
-// It represents the deprecated, use `db.system.name` instead.
-type DBSystemAttr string
-
-var (
-	// DBSystemOtherSQL is the some other SQL database. Fallback only. See notes.
-	DBSystemOtherSQL DBSystemAttr = "other_sql"
-	// DBSystemAdabas is the adabas (Adaptable Database System).
-	DBSystemAdabas DBSystemAttr = "adabas"
-	// DBSystemCache is the deprecated, use `intersystems_cache` instead.
-	DBSystemCache DBSystemAttr = "cache"
-	// DBSystemIntersystemsCache is the interSystems Caché.
-	DBSystemIntersystemsCache DBSystemAttr = "intersystems_cache"
-	// DBSystemCassandra is the apache Cassandra.
-	DBSystemCassandra DBSystemAttr = "cassandra"
-	// DBSystemClickHouse is the clickHouse.
-	DBSystemClickHouse DBSystemAttr = "clickhouse"
-	// DBSystemCloudscape is the deprecated, use `other_sql` instead.
-	DBSystemCloudscape DBSystemAttr = "cloudscape"
-	// DBSystemCockroachDB is the cockroachDB.
-	DBSystemCockroachDB DBSystemAttr = "cockroachdb"
-	// DBSystemColdfusion is the deprecated, no replacement at this time.
-	DBSystemColdfusion DBSystemAttr = "coldfusion"
-	// DBSystemCosmosDB is the microsoft Azure Cosmos DB.
-	DBSystemCosmosDB DBSystemAttr = "cosmosdb"
-	// DBSystemCouchbase is the couchbase.
-	DBSystemCouchbase DBSystemAttr = "couchbase"
-	// DBSystemCouchDB is the couchDB.
-	DBSystemCouchDB DBSystemAttr = "couchdb"
-	// DBSystemDB2 is the IBM Db2.
-	DBSystemDB2 DBSystemAttr = "db2"
-	// DBSystemDerby is the apache Derby.
-	DBSystemDerby DBSystemAttr = "derby"
-	// DBSystemDynamoDB is the amazon DynamoDB.
-	DBSystemDynamoDB DBSystemAttr = "dynamodb"
-	// DBSystemEDB is the enterpriseDB.
-	DBSystemEDB DBSystemAttr = "edb"
-	// DBSystemElasticsearch is the elasticsearch.
-	DBSystemElasticsearch DBSystemAttr = "elasticsearch"
-	// DBSystemFilemaker is the fileMaker.
-	DBSystemFilemaker DBSystemAttr = "filemaker"
-	// DBSystemFirebird is the firebird.
-	DBSystemFirebird DBSystemAttr = "firebird"
-	// DBSystemFirstSQL is the deprecated, use `other_sql` instead.
-	DBSystemFirstSQL DBSystemAttr = "firstsql"
-	// DBSystemGeode is the apache Geode.
-	DBSystemGeode DBSystemAttr = "geode"
-	// DBSystemH2 is the h2.
-	DBSystemH2 DBSystemAttr = "h2"
-	// DBSystemHanaDB is the SAP HANA.
-	DBSystemHanaDB DBSystemAttr = "hanadb"
-	// DBSystemHBase is the apache HBase.
-	DBSystemHBase DBSystemAttr = "hbase"
-	// DBSystemHive is the apache Hive.
-	DBSystemHive DBSystemAttr = "hive"
-	// DBSystemHSQLDB is the hyperSQL DataBase.
-	DBSystemHSQLDB DBSystemAttr = "hsqldb"
-	// DBSystemInfluxDB is the influxDB.
-	DBSystemInfluxDB DBSystemAttr = "influxdb"
-	// DBSystemInformix is the informix.
-	DBSystemInformix DBSystemAttr = "informix"
-	// DBSystemIngres is the ingres.
-	DBSystemIngres DBSystemAttr = "ingres"
-	// DBSystemInstantDB is the instantDB.
-	DBSystemInstantDB DBSystemAttr = "instantdb"
-	// DBSystemInterbase is the interBase.
-	DBSystemInterbase DBSystemAttr = "interbase"
-	// DBSystemMariaDB is the mariaDB.
-	DBSystemMariaDB DBSystemAttr = "mariadb"
-	// DBSystemMaxDB is the SAP MaxDB.
-	DBSystemMaxDB DBSystemAttr = "maxdb"
-	// DBSystemMemcached is the memcached.
-	DBSystemMemcached DBSystemAttr = "memcached"
-	// DBSystemMongoDB is the mongoDB.
-	DBSystemMongoDB DBSystemAttr = "mongodb"
-	// DBSystemMSSQL is the microsoft SQL Server.
-	DBSystemMSSQL DBSystemAttr = "mssql"
-	// DBSystemMssqlcompact is the deprecated, Microsoft SQL Server Compact is
-	// discontinued.
-	DBSystemMssqlcompact DBSystemAttr = "mssqlcompact"
-	// DBSystemMySQL is the mySQL.
-	DBSystemMySQL DBSystemAttr = "mysql"
-	// DBSystemNeo4j is the neo4j.
-	DBSystemNeo4j DBSystemAttr = "neo4j"
-	// DBSystemNetezza is the netezza.
-	DBSystemNetezza DBSystemAttr = "netezza"
-	// DBSystemOpenSearch is the openSearch.
-	DBSystemOpenSearch DBSystemAttr = "opensearch"
-	// DBSystemOracle is the oracle Database.
-	DBSystemOracle DBSystemAttr = "oracle"
-	// DBSystemPervasive is the pervasive PSQL.
-	DBSystemPervasive DBSystemAttr = "pervasive"
-	// DBSystemPointbase is the pointBase.
-	DBSystemPointbase DBSystemAttr = "pointbase"
-	// DBSystemPostgreSQL is the postgreSQL.
-	DBSystemPostgreSQL DBSystemAttr = "postgresql"
-	// DBSystemProgress is the progress Database.
-	DBSystemProgress DBSystemAttr = "progress"
-	// DBSystemRedis is the redis.
-	DBSystemRedis DBSystemAttr = "redis"
-	// DBSystemRedshift is the amazon Redshift.
-	DBSystemRedshift DBSystemAttr = "redshift"
-	// DBSystemSpanner is the cloud Spanner.
-	DBSystemSpanner DBSystemAttr = "spanner"
-	// DBSystemSQLite is the SQLite.
-	DBSystemSQLite DBSystemAttr = "sqlite"
-	// DBSystemSybase is the sybase.
-	DBSystemSybase DBSystemAttr = "sybase"
-	// DBSystemTeradata is the teradata.
-	DBSystemTeradata DBSystemAttr = "teradata"
-	// DBSystemTrino is the trino.
-	DBSystemTrino DBSystemAttr = "trino"
-	// DBSystemVertica is the vertica.
-	DBSystemVertica DBSystemAttr = "vertica"
-)
-
 // SpanKindAttr is an attribute conforming to the span.kind semantic conventions.
 // It represents the kind of the aggregated spans.
 type SpanKindAttr string
@@ -541,7 +425,7 @@ func (DBLatencyCount) Description() string {
 func (m DBLatencyCount) Add(
 	ctx context.Context,
 	incr int64,
-	dbSystem DBSystemAttr,
+	dbSystem string,
 	resourceSignozCollectorId string,
 	serviceName string,
 	collectorId string,
@@ -553,7 +437,7 @@ func (m DBLatencyCount) Add(
 	}
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("db.system", string(dbSystem)),
+			attribute.String("db.system", dbSystem),
 			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
@@ -570,7 +454,7 @@ func (m DBLatencyCount) Add(
 		metric.WithAttributes(
 			append(
 				attrs[:len(attrs):len(attrs)],
-				attribute.String("db.system", string(dbSystem)),
+				attribute.String("db.system", dbSystem),
 				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
@@ -695,8 +579,8 @@ func (DBLatencyCountObservable) Description() string {
 
 // AttrDBSystem returns a required attribute for the "db.system" semantic
 // convention. It represents the deprecated, use `db.system.name` instead.
-func (DBLatencyCountObservable) AttrDBSystem(val DBSystemAttr) attribute.KeyValue {
-	return attribute.String("db.system", string(val))
+func (DBLatencyCountObservable) AttrDBSystem(val string) attribute.KeyValue {
+	return attribute.String("db.system", val)
 }
 
 // AttrResourceSigNozCollectorID returns a required attribute for the
@@ -836,7 +720,7 @@ func (DBLatencySum) Description() string {
 func (m DBLatencySum) Add(
 	ctx context.Context,
 	incr int64,
-	dbSystem DBSystemAttr,
+	dbSystem string,
 	resourceSignozCollectorId string,
 	serviceName string,
 	collectorId string,
@@ -848,7 +732,7 @@ func (m DBLatencySum) Add(
 	}
 	if len(attrs) == 0 {
 		m.Int64Counter.Add(ctx, incr, metric.WithAttributes(
-			attribute.String("db.system", string(dbSystem)),
+			attribute.String("db.system", dbSystem),
 			attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
 			attribute.String("service.name", serviceName),
 			attribute.String("signoz.collector.id", collectorId),
@@ -865,7 +749,7 @@ func (m DBLatencySum) Add(
 		metric.WithAttributes(
 			append(
 				attrs[:len(attrs):len(attrs)],
-				attribute.String("db.system", string(dbSystem)),
+				attribute.String("db.system", dbSystem),
 				attribute.String("resource_signoz.collector.id", resourceSignozCollectorId),
 				attribute.String("service.name", serviceName),
 				attribute.String("signoz.collector.id", collectorId),
@@ -990,8 +874,8 @@ func (DBLatencySumObservable) Description() string {
 
 // AttrDBSystem returns a required attribute for the "db.system" semantic
 // convention. It represents the deprecated, use `db.system.name` instead.
-func (DBLatencySumObservable) AttrDBSystem(val DBSystemAttr) attribute.KeyValue {
-	return attribute.String("db.system", string(val))
+func (DBLatencySumObservable) AttrDBSystem(val string) attribute.KeyValue {
+	return attribute.String("db.system", val)
 }
 
 // AttrResourceSigNozCollectorID returns a required attribute for the
