@@ -26,7 +26,7 @@ from typing_extensions import deprecated
 {% if attribute is deprecated %}
 @deprecated("The attribute {{ attribute.name }} is deprecated - {{ c.comment_with_prefix(attribute.deprecated.note, "") }}")
 {% endif %}
-class {{ attribute.name | replace("/", ".") | pascal_case }}Values(Enum):
+class {{ attribute.name | replace("/", ".") | pascal_case | replace("Signoz", "SigNoz") }}Values(Enum):
 {% for member in attribute.type.members %}
     {{ c.const_name(member.id) }} = {{ member.value | print_member_value }}
     """{% if member.deprecated %}Deprecated: {{ c.comment_with_prefix(member.deprecated.note, "") }}{% else %}{{ c.comment_with_prefix(member.brief or member.id, "") }}{% endif %}."""
