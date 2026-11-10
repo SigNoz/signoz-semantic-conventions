@@ -2,7 +2,7 @@
 
 from typing import Final
 
-SCHEMA_URL: Final = "https://signoz.io/schemas/otel/0.0.1-unreleased"
+SCHEMA_URL: Final = "https://signoz.io/schemas/otel/0.0.1"
 """
 The schema URL that matches the version of the semantic conventions that this
 package defines.
