@@ -54,9 +54,9 @@ Int64
 {%- endif -%}
 {%- endif -%}
 {%- if name | lower is in reserved -%}
-{{ raw | replace("/", ".") | camel_case }}
+{{ raw | replace("/", ".") | camel_case | replace("Signoz", "SigNoz") }}
 {%- else -%}
-{{ name | replace("/", ".") | camel_case }}
+{{ name | replace("/", ".") | camel_case | replace("Signoz", "SigNoz") }}
 {%- endif -%}
 {%- endmacro -%}
 
