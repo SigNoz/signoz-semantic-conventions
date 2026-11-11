@@ -6,7 +6,7 @@
  * The schema URL that matches the version of the semantic conventions that
  * this package defines.
  */
-export declare const SCHEMA_URL: 'https://signoz.io/schemas/otel/0.0.2';
+export declare const SCHEMA_URL: 'https://signoz.io/schemas/otel/0.1.0-unreleased';
 
 export * from './audit.cjs';
 export * from './genai.cjs';

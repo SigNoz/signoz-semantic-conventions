@@ -1,3 +1,3 @@
 # Code generated from semantic convention specification. DO NOT EDIT.
 
-__version__ = "0.0.2"
+__version__ = "0.1.0.dev0"
