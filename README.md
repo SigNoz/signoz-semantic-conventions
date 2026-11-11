@@ -30,11 +30,51 @@ dependencies:
 
 Each release also carries the resolved registry (`resolved.yaml`) for tools that read it directly. [RELEASE.md](RELEASE.md) describes how versions and releases work.
 
+### In code
+
+The names are also generated as code, installed from a release tag.
+
+Go:
+
+```sh
+go get github.com/SigNoz/signoz-semantic-conventions/gen/go@v<version>
+```
+
+```go
+import "github.com/SigNoz/signoz-semantic-conventions/gen/go/sigsemconv"
+
+span.SetAttributes(sigsemconv.SigNozWorkspaceName("acme-prod"))
+```
+
+Python:
+
+```sh
+pip install "sigsemconv @ git+https://github.com/SigNoz/signoz-semantic-conventions@v<version>#subdirectory=gen/python"
+```
+
+```python
+from sigsemconv.attributes.workspace_attributes import SIGNOZ_WORKSPACE_NAME
+
+span.set_attribute(SIGNOZ_WORKSPACE_NAME, "acme-prod")
+```
+
+JavaScript and TypeScript:
+
+```sh
+pnpm add "SigNoz/signoz-semantic-conventions#v<version>&path:/gen/javascript"
+```
+
+```js
+import { ATTR_SIGNOZ_WORKSPACE_NAME } from 'sigsemconv';
+
+span.setAttribute(ATTR_SIGNOZ_WORKSPACE_NAME, 'acme-prod');
+```
+
 ## Contributing
 
 Open an [issue](https://github.com/SigNoz/signoz-semantic-conventions/issues) or a pull request, ask in `#contributing` on the [SigNoz Slack](https://signoz.io/slack), or share ideas in [GitHub Discussions](https://github.com/SigNoz/signoz/discussions).
 
-Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check` and `make weaver-docs`, and commit the regenerated `docs/` with your change. CI runs the same checks.
+Changes are checked with [weaver](https://github.com/open-telemetry/weaver/releases) and [yamllint](https://github.com/adrienverge/yamllint): run `make yaml-lint`, `make weaver-check`, `make weaver-docs` and `make weaver-gen`, and commit the regenerated `docs/` and `gen/` with your change. `make weaver-gen` also needs [Go](https://go.dev/dl/) and [ruff](https://docs.astral.sh/ruff/). CI runs the same checks.
 
 ## License
 

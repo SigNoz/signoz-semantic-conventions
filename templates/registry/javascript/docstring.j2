@@ -1,0 +1,65 @@
+{#- Adapted from open-telemetry/opentelemetry-js, scripts/semconv/templates/registry/ts-experimental/docstring.ts.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
+{% macro strong_rfc2119(string) -%}{{ string | regex_replace("\\b(MUST NOT|MUST|REQUIRED|SHALL NOT|SHALL|SHOULD NOT|SHOULD|RECOMMENDED|MAY|OPTIONAL)\\b", "**$1**") }}{% endmacro -%}
+
+
+{% macro docstring(obj, type="value") -%}
+{%- set examples_jsdoc %}
+  {% if obj.examples is sequence %}
+    {% for example in obj.examples %}
+@example {{ example }}
+    {% endfor %}
+  {% elif obj.examples %}
+@example {{ obj.examples | print_member_value }}
+  {% endif %}
+{% endset -%}
+
+{%- if obj.note %}
+  {% set note_jsdoc = "@note " ~ strong_rfc2119(obj.note) %}
+{% endif -%}
+
+{%- if obj.stability != "stable" %}
+  {% set stability_jsdoc = "@experimental This " ~ type ~ " is experimental and is subject to breaking changes in minor releases of `sigsemconv`." %}
+{% endif -%}
+
+{%- if obj is deprecated %}
+  {%- set deprecated_jsdoc = "\n@deprecated " ~ strong_rfc2119(obj.deprecated.note) -%}
+{%- endif -%}
+
+/**
+{{ [
+  strong_rfc2119(obj.brief) | trim,
+  "\n",
+  examples_jsdoc,
+  note_jsdoc,
+  stability_jsdoc,
+  deprecated_jsdoc,
+] | comment | replace("*/", "*\\/") }}
+ */
+{%- endmacro -%}
+
+
+{% macro docstring_enum_value(member, attribute, attribute_const) -%}
+
+{%- if member.brief %}
+  {% set brief_jsdoc = "\n" ~ strong_rfc2119(member.brief) %}
+{% endif -%}
+
+{%- if member.stability != "stable" %}
+  {% set stability_jsdoc = "\n@experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`." %}
+{% endif -%}
+
+{%- if member.deprecated %}
+  {%- set deprecated_jsdoc = "\n@deprecated " ~ strong_rfc2119(member.deprecated.note) -%}
+{%- endif -%}
+
+{%- set enum_jsdoc = "Enum value " ~ member.value | print_member_value ~ " for attribute {@link ATTR_" ~ attribute_const ~ "}." -%}
+
+/**
+{{ [
+  enum_jsdoc,
+  brief_jsdoc,
+  stability_jsdoc,
+  deprecated_jsdoc,
+] | comment | replace("*/", "*\\/") }}
+ */
+{%- endmacro -%}

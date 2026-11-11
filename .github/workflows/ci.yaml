@@ -16,6 +16,8 @@ concurrency:
 env:
   WEAVER_VERSION: 0.26.1
   YAMLLINT_VERSION: 1.37.0
+  RUFF_VERSION: 0.17.4
+  TYPESCRIPT_VERSION: 5.9.3
 
 jobs:
   check:
@@ -64,3 +66,40 @@ jobs:
           echo "::error::docs/ is out of date. Run 'make weaver-docs' and commit the result."
           exit 1
         fi
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+    - name: self-checkout
+      uses: actions/checkout@v7
+    - name: go-install
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: gen/go/go.mod
+        cache-dependency-path: gen/go/go.sum
+    - name: ruff-install
+      run: pipx install "ruff==${RUFF_VERSION}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: weaver-gen
+      run: |
+        make weaver-gen
+        git add --intent-to-add gen
+        if ! git diff --exit-code -- gen; then
+          echo "::error::gen/ is out of date. Run 'make weaver-gen' and commit the result."
+          exit 1
+        fi
+    - name: go-test
+      run: hack/test-go.sh
+    - name: python-test
+      run: hack/test-python.sh
+    - name: javascript-test
+      run: hack/test-javascript.sh

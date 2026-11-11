@@ -1,0 +1,99 @@
+# Renders gen/python/sigsemconv/ from the resolved registry.
+#
+# Adapted from the OpenTelemetry Python templates (Apache-2.0):
+# https://github.com/open-telemetry/opentelemetry-python/tree/5546285fc885858ce580350563e861681aa642fb/scripts/semconv/templates/registry
+# Differences from upstream: definitions are grouped by area (the directory
+# under model/ each one lives in) where upstream groups by root namespace,
+# there is no separate package for unstable definitions, and events get name
+# constants.
+params:
+  # Group every definition of this registry by its area; definitions imported
+  # from another registry are left out, and so are definitions annotated with
+  # code_generation.exclude.
+  areas_filter: &areas >
+    .groups
+    | map(select(.lineage.provenance.path | test("://") | not))
+    | map(. + {area: (.lineage.provenance.path | capture("(^|/)model/(?<area>[^/]+)/").area)})
+    | group_by(.area)
+    | map({
+        area: .[0].area,
+        attributes: (
+          map(select(.type == "attribute_group" and (.id | startswith("registry."))) | .attributes[])
+          | map(select(.annotations.code_generation.exclude != true))
+          | sort_by(.name)
+        ),
+        metrics: (map(select(.type == "metric" and .annotations.code_generation.exclude != true)) | sort_by(.metric_name)),
+        events: (map(select(.type == "event" and .annotations.code_generation.exclude != true)) | sort_by(.name))
+      })
+  # The registry version, and the same version as Python spells it:
+  # 0.0.1-rc.1 is 0.0.1rc1, 0.0.1-alpha.2 is 0.0.1a2 and 0.0.1-unreleased is
+  # 0.0.1.dev0. Any other suffix fails the generation.
+  version_filter: &version >
+    [.groups[] | .lineage.provenance | select(.path | test("://") | not) | .schema_url][0] as $url
+    | ($url | split("/") | .[-1]) as $version
+    | ($version | split("-")) as $parts
+    | ($parts[1:] | join("-")) as $suffix
+    | {
+        schema_url: $url,
+        version: $version,
+        python_version: (
+          if $suffix == "" then $version
+          elif $suffix == "unreleased" then $parts[0] + ".dev0"
+          elif ($suffix | test("^(alpha|beta|rc)(\\.[0-9]+)?$")) then
+            $parts[0] + ($suffix | sub("^alpha"; "a") | sub("^beta"; "b") | sub("\\."; ""))
+          else error("version " + $version + " has no Python spelling: use -unreleased, -alpha.N, -beta.N or -rc.N")
+          end
+        )
+      }
+templates:
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: __init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: attributes/__init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: metrics/__init__.py
+- pattern: init.py.j2
+  filter: .
+  application_mode: single
+  file_name: events/__init__.py
+- pattern: version.py.j2
+  filter: *version
+  application_mode: single
+  file_name: version/__init__.py
+- pattern: schemas.py.j2
+  filter: *version
+  application_mode: single
+  file_name: schemas.py
+- pattern: semantic_attributes.j2
+  filter: *areas
+  application_mode: each
+  file_name: "attributes/{{ ctx.area | snake_case }}_attributes.py"
+- pattern: semantic_metrics.j2
+  filter: *areas
+  application_mode: each
+  file_name: "metrics/{{ ctx.area | snake_case }}_metrics.py"
+- pattern: semantic_events.j2
+  filter: *areas
+  application_mode: each
+  file_name: "events/{{ ctx.area | snake_case }}_events.py"
+text_maps:
+  py_instrument_to_factory:
+    counter: counter
+    histogram: histogram
+    updowncounter: up_down_counter
+    gauge: observable_gauge
+  py_instrument_to_type:
+    counter: Counter
+    histogram: Histogram
+    updowncounter: UpDownCounter
+    gauge: ObservableGauge
+whitespace_control:
+  trim_blocks: true
+  lstrip_blocks: true
+  keep_trailing_newline: true

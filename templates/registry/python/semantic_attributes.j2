@@ -1,0 +1,36 @@
+{#- Adapted from open-telemetry/opentelemetry-python, scripts/semconv/templates/registry/semantic_attributes.j2. Copyright The OpenTelemetry Authors, Apache-2.0. Modified; weaver.yaml lists the differences. -#}
+{%- import 'common.j2' as c -%}
+{#- An area with no attributes renders an empty file, which the make target deletes. -#}
+{%- if ctx.attributes | length > 0 -%}
+{%- set attributes = ctx.attributes | list -%}
+{%- set enum_attributes = attributes | select("enum") | list -%}
+{{ c.file_header() }}
+
+{% if enum_attributes | count > 0 %}
+from enum import Enum
+{% endif %}
+from typing import Final
+{% if enum_attributes | select("deprecated") | list | count > 0 %}
+
+from typing_extensions import deprecated
+{% endif %}
+{% for attribute in attributes %}
+
+{{ c.const_name(attribute.name) }}{% if attribute.type is template_type %}_TEMPLATE{% endif %}: Final = "{{ attribute.name }}"
+"""
+{{ c.docstring(attribute) }}
+"""
+{% endfor %}
+{% for attribute in enum_attributes %}
+
+
+{% if attribute is deprecated %}
+@deprecated("The attribute {{ attribute.name }} is deprecated - {{ c.quoted(attribute.deprecated.note) }}")
+{% endif %}
+class {{ attribute.name | replace("/", ".") | pascal_case | replace("Signoz", "SigNoz") }}Values(Enum):
+{% for member in attribute.type.members %}
+    {{ c.const_name(member.id) }} = {{ member.value | print_member_value }}
+    """{% if member.deprecated %}Deprecated: {{ c.quoted(member.deprecated.note) }}{% else %}{{ c.quoted(member.brief or member.id) }}{% endif %}."""
+{% endfor %}
+{% endfor %}
+{%- endif -%}

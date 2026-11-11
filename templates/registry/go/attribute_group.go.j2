@@ -1,0 +1,24 @@
+{% import 'helpers.j2' as h -%}
+{#- An area with no attributes or events renders an empty file, which the make target deletes. -#}
+{% if ctx.attributes | length > 0 or ctx.events | length > 0 -%}
+// Code generated from semantic convention specification. DO NOT EDIT.
+
+package sigsemconv
+{%- if ctx.attributes | length > 0 %}
+
+import "go.opentelemetry.io/otel/attribute"
+{{- h.generate_consts(ctx) }}
+{{- h.generate_funcs(ctx) }}
+{{- h.generate_vars(ctx) }}
+{%- endif %}
+{%- if ctx.events | length > 0 %}
+
+// Event names
+const (
+{%- for event in ctx.events if not event.deprecated %}
+{{ [h.to_go_name(event.name) ~ "EventName is the name of the event conforming to the \"" ~ event.name ~ "\" semantic conventions.", "", event.brief | trim, "", "Stability: " ~ event.stability | title] | comment(format="go_1tab") }}
+	{{ h.to_go_name(event.name) }}EventName = "{{ event.name }}"
+{% endfor -%}
+)
+{%- endif %}{{ "\n" }}
+{%- endif %}

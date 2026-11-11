@@ -1,0 +1,102 @@
+{
+  "name": "sigsemconv",
+  "version": "0.1.0-unreleased",
+  "description": "SigNoz Semantic Conventions",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/SigNoz/signoz-semantic-conventions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SigNoz/signoz-semantic-conventions.git",
+    "directory": "gen/javascript"
+  },
+  "main": "./sigsemconv/index.cjs",
+  "module": "./sigsemconv/index.mjs",
+  "types": "./sigsemconv/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./sigsemconv/index.d.mts",
+        "default": "./sigsemconv/index.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/index.d.cts",
+        "default": "./sigsemconv/index.cjs"
+      }
+    },
+    "./audit": {
+      "import": {
+        "types": "./sigsemconv/audit.d.mts",
+        "default": "./sigsemconv/audit.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/audit.d.cts",
+        "default": "./sigsemconv/audit.cjs"
+      }
+    },
+    "./genai": {
+      "import": {
+        "types": "./sigsemconv/genai.d.mts",
+        "default": "./sigsemconv/genai.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/genai.d.cts",
+        "default": "./sigsemconv/genai.cjs"
+      }
+    },
+    "./identity": {
+      "import": {
+        "types": "./sigsemconv/identity.d.mts",
+        "default": "./sigsemconv/identity.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/identity.d.cts",
+        "default": "./sigsemconv/identity.cjs"
+      }
+    },
+    "./meter": {
+      "import": {
+        "types": "./sigsemconv/meter.d.mts",
+        "default": "./sigsemconv/meter.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/meter.d.cts",
+        "default": "./sigsemconv/meter.cjs"
+      }
+    },
+    "./resource": {
+      "import": {
+        "types": "./sigsemconv/resource.d.mts",
+        "default": "./sigsemconv/resource.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/resource.d.cts",
+        "default": "./sigsemconv/resource.cjs"
+      }
+    },
+    "./spanmetrics": {
+      "import": {
+        "types": "./sigsemconv/spanmetrics.d.mts",
+        "default": "./sigsemconv/spanmetrics.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/spanmetrics.d.cts",
+        "default": "./sigsemconv/spanmetrics.cjs"
+      }
+    },
+    "./workspace": {
+      "import": {
+        "types": "./sigsemconv/workspace.d.mts",
+        "default": "./sigsemconv/workspace.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/workspace.d.cts",
+        "default": "./sigsemconv/workspace.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "sigsemconv"
+  ],
+  "sideEffects": false
+}

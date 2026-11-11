@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+env:
+  WEAVER_VERSION: 0.26.1
+  RUFF_VERSION: 0.17.4
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -30,6 +34,21 @@ jobs:
       env:
         VERSION: ${{ inputs.version }}
       run: hack/release.sh prepare "${VERSION}"
+    - name: ruff-install
+      run: pipx install "ruff==${RUFF_VERSION}"
+    - name: weaver-install
+      run: |
+        cd "${RUNNER_TEMP}"
+        archive="weaver-x86_64-unknown-linux-gnu.tar.xz"
+        base="https://github.com/open-telemetry/weaver/releases/download/v${WEAVER_VERSION}"
+        curl -fsSLO "${base}/${archive}"
+        curl -fsSLO "${base}/${archive}.sha256"
+        sha256sum -c "${archive}.sha256"
+        tar -xJf "${archive}"
+        sudo install "weaver-x86_64-unknown-linux-gnu/weaver" /usr/local/bin/weaver
+        weaver --version
+    - name: weaver-gen
+      run: make weaver-gen
     - name: git-configure
       run: |
         git config --global user.name "primus-bot[bot]"
@@ -41,7 +60,8 @@ jobs:
       run: |
         branch="chore/release-v${VERSION}"
         git switch -c "${branch}"
+        git add --all gen
         git commit -am "chore(release): v${VERSION}"
         git push origin "${branch}"
         gh pr create --base main --head "${branch}" --title "chore(release): v${VERSION}" \
-          --body "$(printf '%s\n\n%s\n' '#### Chores' "- release \`v${VERSION}\`: set \`schema_url\` in \`model/manifest.yaml\` to \`${VERSION}\`")"
+          --body "$(printf '%s\n\n%s\n' '#### Chores' "- release \`v${VERSION}\`: set \`schema_url\` in \`model/manifest.yaml\` to \`${VERSION}\` and regenerate \`gen/\`")"

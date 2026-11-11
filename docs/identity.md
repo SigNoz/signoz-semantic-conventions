@@ -12,6 +12,7 @@
 | [`signoz.organization.id`](#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the organization. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | string | Email address of the principal. | `jane.doe@example.com` |
 | [`signoz.principal.id`](#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier of the principal. | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | string | Kind of the principal. | `user` |
 
 ### <a id="signoz-organization-id"></a>`signoz.organization.id`
@@ -47,6 +48,17 @@ Unique identifier of the principal.
 
 Identifies a user or a service account, as indicated by
 `signoz.principal.type`.
+
+### <a id="signoz-principal-identn-provider"></a>`signoz.principal.identn.provider`
+
+Provider that identified the principal on the request.
+
+- **Value Type:** string
+- **Stability:** ![Development](https://img.shields.io/badge/-development-blue)
+- **Examples:** `api_key`
+
+The SigNoz platform defines the values, such as `tokenizer` (a user's
+sign-in credential) and `api_key` (a service account API key).
 
 ### <a id="signoz-principal-type"></a>`signoz.principal.type`
 

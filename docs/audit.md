@@ -28,6 +28,7 @@ with words joined by underscores.
 | --- | --- | --- |
 | `access_control` | A change to who may do what, such as a role assignment or a credential change. | ![Development](https://img.shields.io/badge/-development-blue) |
 | `configuration_changes` | A change to a metaresource or a platform setting, such as a dashboard or an alert rule change. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `data_access` | An operation that involves accessing or retrieving data, such as a read or list action. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ### <a id="signoz-audit-outcome"></a>`signoz.audit.outcome`
 
@@ -100,6 +101,7 @@ and `ERROR` (17) when it is `failure`.
 | [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
 | [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If known. | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
 | [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
 | [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
@@ -180,6 +182,7 @@ and `ERROR` (17) when it is `failure`.
 | [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
 | [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If known. | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
 | [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
 | [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
@@ -257,6 +260,7 @@ and `ERROR` (17) when it is `failure`.
 | [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
 | [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If known. | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
 | [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
 | [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
@@ -337,6 +341,7 @@ and `ERROR` (17) when it is `failure`.
 | [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
 | [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If known. | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
 | [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
 | [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |
@@ -417,6 +422,7 @@ and `ERROR` (17) when it is `failure`.
 | [`signoz.organization.id`](identity.md#signoz-organization-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Organization that owns the resource the operation was performed on. | `58b0e1c2-3f6a-4c2e-9d3b-2f0a1b2c3d4e` |
 | [`signoz.principal.email`](identity.md#signoz-principal-email) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Email address of the principal. [4] | `jane.doe@example.com` |
 | [`signoz.principal.id`](identity.md#signoz-principal-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Unique identifier of the principal. [5] | `7c1d9e40-8a2b-4f6d-b1c3-9e5f7a0d2b4c` |
+| [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If known. | string | Provider that identified the principal on the request. | `api_key` |
 | [`signoz.principal.type`](identity.md#signoz-principal-type) | ![Development](https://img.shields.io/badge/-development-blue) | `Conditionally Required` If the request was authenticated. | string | Kind of the principal. | `user` |
 | [`signoz.resource.id`](resource.md#signoz-resource-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Unique identifier of the resource. [6] | `3f8a2c14-9b7d-4e1f-a6c3-5d8e2f0b1a4c`; `*` |
 | [`signoz.resource.kind`](resource.md#signoz-resource-kind) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | Kind of the resource. | `ingestion-key` |

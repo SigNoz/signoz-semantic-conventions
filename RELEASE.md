@@ -11,8 +11,8 @@
 
 The workflows run [`hack/release.sh`](hack/release.sh) for the version checks and edits; run it with no arguments for usage.
 
-1. Run the [prereleaser](.github/workflows/prereleaser.yaml) workflow with the version, e.g. `0.0.1-rc.1`. It opens a `chore(release): v<version>` PR that sets `schema_url`.
+1. Run the [prereleaser](.github/workflows/prereleaser.yaml) workflow with the version, e.g. `0.0.1-rc.1`. It opens a `chore(release): v<version>` PR that sets `schema_url` and regenerates `gen/`.
 2. Review and merge that PR.
 3. [Create the release](https://github.com/SigNoz/signoz-semantic-conventions/releases/new) in the GitHub UI: tag `v<version>` on the merge commit, title `v<version>`, generated release notes, and "Set as a pre-release" when the version has a suffix. Publish it.
-4. The [releaser](.github/workflows/releaser.yaml) workflow runs on the published release. It checks that the tag matches `schema_url`, packages the registry with `weaver registry package`, and attaches `manifest.yaml` and `resolved.yaml` to the release. To attach them again, run it by hand with the tag.
-5. The [postreleaser](.github/workflows/postreleaser.yaml) workflow opens a PR that sets `schema_url` back to an unreleased version: `0.0.1-unreleased` after `v0.0.1-rc.1`, `0.2.0-unreleased` after `v0.1.0`. Review and merge it.
+4. The [releaser](.github/workflows/releaser.yaml) workflow runs on the published release. It checks that the tag matches `schema_url`, packages the registry with `weaver registry package`, and attaches `manifest.yaml` and `resolved.yaml` to the release. To attach them again, run it by hand with the tag. It also pushes the tag `gen/go/v<version>` on the same commit, which is the version Go resolves for the module in `gen/go`.
+5. The [postreleaser](.github/workflows/postreleaser.yaml) workflow opens a PR that sets `schema_url` back to an unreleased version and regenerates `gen/`: `0.0.1-unreleased` after `v0.0.1-rc.1`, `0.2.0-unreleased` after `v0.1.0`. Review and merge it.

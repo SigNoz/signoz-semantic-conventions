@@ -9,7 +9,7 @@ description: Write, review and evolve OpenTelemetry-style semantic conventions f
 
 - Registry `signoz`, manifest `model/manifest.yaml`; its `dependencies` entry pins the upstream OTel semconv release.
 - Hard constraints are in `.claude/rules/` (`model.md`, `docs.md`, `policies.md`, `pull-requests.md`).
-- Make targets: `make yaml-lint`, `make weaver-check`, `make weaver-docs`; CI runs all three with the weaver version pinned in `.github/workflows/ci.yaml`.
+- Make targets: `make yaml-lint`, `make weaver-check`, `make weaver-docs`, `make weaver-gen`; CI runs all four with the weaver version pinned in `.github/workflows/ci.yaml`.
 
 ## SigNoz decisions
 
