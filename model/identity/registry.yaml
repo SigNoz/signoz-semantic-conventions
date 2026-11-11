@@ -61,3 +61,40 @@ groups:
       > information (PII).
     examples:
     - "jane.doe@example.com"
+  - id: signoz.principal.authn.method
+    type:
+      members:
+      - id: tokenizer
+        value: "tokenizer"
+        stability: development
+        brief: >
+          A bearer token issued to a user at sign-in.
+      - id: api_key
+        value: "api_key"
+        stability: development
+        brief: >
+          A service account API key, sent in the `SigNoz-Api-Key` header.
+      - id: anonymous
+        value: "anonymous"
+        stability: development
+        brief: >
+          The request carried no credentials.
+      - id: internal
+        value: "internal"
+        stability: development
+        brief: >
+          A call made by SigNoz itself, such as an alert rule evaluation.
+      - id: impersonation
+        value: "impersonation"
+        stability: development
+        brief: >
+          Impersonation mode, in which every request acts as the root user
+          and no credential is checked.
+    stability: development
+    brief: >
+      Method by which the request was identified.
+    note: |
+      Describes the request, not the principal: the same principal can use
+      different methods on different requests.
+    examples:
+    - "api_key"

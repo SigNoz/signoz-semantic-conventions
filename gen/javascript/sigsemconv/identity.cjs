@@ -19,6 +19,63 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.ATTR_SIGNOZ_ORGANIZATION_ID = 'signoz.organization.id';
 
 /**
+ * Method by which the request was identified.
+ *
+ * @example api_key
+ *
+ * @note Describes the request, not the principal: the same principal can use
+ * different methods on different requests.
+ *
+ * @experimental This attribute is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD = 'signoz.principal.authn.method';
+
+/**
+ * Enum value "anonymous" for attribute {@link ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD}.
+ *
+ * The request carried no credentials.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_PRINCIPAL_AUTHN_METHOD_VALUE_ANONYMOUS = "anonymous";
+
+/**
+ * Enum value "api_key" for attribute {@link ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD}.
+ *
+ * A service account API key, sent in the `SigNoz-Api-Key` header.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_PRINCIPAL_AUTHN_METHOD_VALUE_API_KEY = "api_key";
+
+/**
+ * Enum value "impersonation" for attribute {@link ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD}.
+ *
+ * Impersonation mode, in which every request acts as the root user and no credential is checked.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_PRINCIPAL_AUTHN_METHOD_VALUE_IMPERSONATION = "impersonation";
+
+/**
+ * Enum value "internal" for attribute {@link ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD}.
+ *
+ * A call made by SigNoz itself, such as an alert rule evaluation.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_PRINCIPAL_AUTHN_METHOD_VALUE_INTERNAL = "internal";
+
+/**
+ * Enum value "tokenizer" for attribute {@link ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD}.
+ *
+ * A bearer token issued to a user at sign-in.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_PRINCIPAL_AUTHN_METHOD_VALUE_TOKENIZER = "tokenizer";
+
+/**
  * Email address of the principal.
  *
  * @example jane.doe@example.com

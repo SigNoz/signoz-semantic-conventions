@@ -19,6 +19,19 @@ const (
 	// change.
 	SigNozOrganizationIDKey = attribute.Key("signoz.organization.id")
 
+	// SigNozPrincipalAuthnMethodKey is the attribute Key conforming to the
+	// "signoz.principal.authn.method" semantic conventions. It represents the
+	// method by which the request was identified.
+	//
+	// Type: Enum
+	// RequirementLevel: Recommended
+	// Stability: Development
+	//
+	// Examples: "api_key"
+	// Note: Describes the request, not the principal: the same principal can use
+	// different methods on different requests.
+	SigNozPrincipalAuthnMethodKey = attribute.Key("signoz.principal.authn.method")
+
 	// SigNozPrincipalEmailKey is the attribute Key conforming to the
 	// "signoz.principal.email" semantic conventions. It represents the email
 	// address of the principal.
@@ -89,3 +102,28 @@ func SigNozPrincipalID(val string) attribute.KeyValue {
 func SigNozPrincipalType(val string) attribute.KeyValue {
 	return SigNozPrincipalTypeKey.String(val)
 }
+
+// Enum values for signoz.principal.authn.method
+var (
+	// A bearer token issued to a user at sign-in.
+	//
+	// Stability: development
+	SigNozPrincipalAuthnMethodTokenizer = SigNozPrincipalAuthnMethodKey.String("tokenizer")
+	// A service account API key, sent in the `SigNoz-Api-Key` header.
+	//
+	// Stability: development
+	SigNozPrincipalAuthnMethodAPIKey = SigNozPrincipalAuthnMethodKey.String("api_key")
+	// The request carried no credentials.
+	//
+	// Stability: development
+	SigNozPrincipalAuthnMethodAnonymous = SigNozPrincipalAuthnMethodKey.String("anonymous")
+	// A call made by SigNoz itself, such as an alert rule evaluation.
+	//
+	// Stability: development
+	SigNozPrincipalAuthnMethodInternal = SigNozPrincipalAuthnMethodKey.String("internal")
+	// Impersonation mode, in which every request acts as the root user and no
+	// credential is checked.
+	//
+	// Stability: development
+	SigNozPrincipalAuthnMethodImpersonation = SigNozPrincipalAuthnMethodKey.String("impersonation")
+)
