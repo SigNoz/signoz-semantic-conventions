@@ -8,7 +8,7 @@
  * The schema URL that matches the version of the semantic conventions that
  * this package defines.
  */
-const SCHEMA_URL = 'https://signoz.io/schemas/otel/0.0.2';
+const SCHEMA_URL = 'https://signoz.io/schemas/otel/0.1.0-unreleased';
 
 module.exports = {
   SCHEMA_URL,
