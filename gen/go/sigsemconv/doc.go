@@ -4,5 +4,5 @@
 //
 // The SigNoz semantic conventions are the names, types and meanings of the
 // telemetry SigNoz emits and reads. This package represents the
-// 0.1.0-unreleased version of the SigNoz semantic conventions.
+// 0.0.2 version of the SigNoz semantic conventions.
 package sigsemconv
