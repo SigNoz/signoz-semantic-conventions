@@ -48,7 +48,7 @@ groups:
 
       > [!WARNING]
       > This attribute contains personally identifiable information (PII).
-  - ref: signoz.principal.authn.method
+  - ref: signoz.principal.identn.provider
     requirement_level:
       conditionally_required: If known.
   - ref: signoz.workspace.key.id

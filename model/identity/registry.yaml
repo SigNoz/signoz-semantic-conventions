@@ -61,11 +61,11 @@ groups:
       > information (PII).
     examples:
     - "jane.doe@example.com"
-  - id: signoz.principal.authn.method
+  - id: signoz.principal.identn.provider
     type: string
     stability: development
     brief: >
-      Method by which the principal identified itself on the request.
+      Provider that identified the principal on the request.
     note: |
       The SigNoz platform defines the values, such as `tokenizer` (a user's
       sign-in credential) and `api_key` (a service account API key).

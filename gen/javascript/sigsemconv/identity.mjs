@@ -15,18 +15,6 @@
 export const ATTR_SIGNOZ_ORGANIZATION_ID = 'signoz.organization.id';
 
 /**
- * Method by which the principal identified itself on the request.
- *
- * @example api_key
- *
- * @note The SigNoz platform defines the values, such as `tokenizer` (a user's
- * sign-in credential) and `api_key` (a service account API key).
- *
- * @experimental This attribute is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
- */
-export const ATTR_SIGNOZ_PRINCIPAL_AUTHN_METHOD = 'signoz.principal.authn.method';
-
-/**
  * Email address of the principal.
  *
  * @example jane.doe@example.com
@@ -51,6 +39,18 @@ export const ATTR_SIGNOZ_PRINCIPAL_EMAIL = 'signoz.principal.email';
  * @experimental This attribute is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
  */
 export const ATTR_SIGNOZ_PRINCIPAL_ID = 'signoz.principal.id';
+
+/**
+ * Provider that identified the principal on the request.
+ *
+ * @example api_key
+ *
+ * @note The SigNoz platform defines the values, such as `tokenizer` (a user's
+ * sign-in credential) and `api_key` (a service account API key).
+ *
+ * @experimental This attribute is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+export const ATTR_SIGNOZ_PRINCIPAL_IDENTN_PROVIDER = 'signoz.principal.identn.provider';
 
 /**
  * Kind of the principal.
