@@ -21,15 +21,15 @@ const (
 
 	// SigNozPrincipalAuthnMethodKey is the attribute Key conforming to the
 	// "signoz.principal.authn.method" semantic conventions. It represents the
-	// method by which the request was identified.
+	// method by which the principal identified itself on the request.
 	//
-	// Type: Enum
+	// Type: string
 	// RequirementLevel: Recommended
 	// Stability: Development
 	//
 	// Examples: "api_key"
-	// Note: Describes the request, not the principal: the same principal can use
-	// different methods on different requests.
+	// Note: The SigNoz platform defines the values, such as `tokenizer` (a user's
+	// sign-in credential) and `api_key` (a service account API key).
 	SigNozPrincipalAuthnMethodKey = attribute.Key("signoz.principal.authn.method")
 
 	// SigNozPrincipalEmailKey is the attribute Key conforming to the
@@ -82,6 +82,13 @@ func SigNozOrganizationID(val string) attribute.KeyValue {
 	return SigNozOrganizationIDKey.String(val)
 }
 
+// SigNozPrincipalAuthnMethod returns an attribute KeyValue conforming to the
+// "signoz.principal.authn.method" semantic conventions. It represents the method
+// by which the principal identified itself on the request.
+func SigNozPrincipalAuthnMethod(val string) attribute.KeyValue {
+	return SigNozPrincipalAuthnMethodKey.String(val)
+}
+
 // SigNozPrincipalEmail returns an attribute KeyValue conforming to the
 // "signoz.principal.email" semantic conventions. It represents the email address
 // of the principal.
@@ -102,28 +109,3 @@ func SigNozPrincipalID(val string) attribute.KeyValue {
 func SigNozPrincipalType(val string) attribute.KeyValue {
 	return SigNozPrincipalTypeKey.String(val)
 }
-
-// Enum values for signoz.principal.authn.method
-var (
-	// A bearer token issued to a user at sign-in.
-	//
-	// Stability: development
-	SigNozPrincipalAuthnMethodTokenizer = SigNozPrincipalAuthnMethodKey.String("tokenizer")
-	// A service account API key, sent in the `SigNoz-Api-Key` header.
-	//
-	// Stability: development
-	SigNozPrincipalAuthnMethodAPIKey = SigNozPrincipalAuthnMethodKey.String("api_key")
-	// The request carried no credentials.
-	//
-	// Stability: development
-	SigNozPrincipalAuthnMethodAnonymous = SigNozPrincipalAuthnMethodKey.String("anonymous")
-	// A call made by SigNoz itself, such as an alert rule evaluation.
-	//
-	// Stability: development
-	SigNozPrincipalAuthnMethodInternal = SigNozPrincipalAuthnMethodKey.String("internal")
-	// Impersonation mode, in which every request acts as the root user and no
-	// credential is checked.
-	//
-	// Stability: development
-	SigNozPrincipalAuthnMethodImpersonation = SigNozPrincipalAuthnMethodKey.String("impersonation")
-)

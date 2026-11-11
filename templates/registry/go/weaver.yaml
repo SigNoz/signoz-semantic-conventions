@@ -142,7 +142,6 @@ text_maps:
 # names use are listed; add one when a new name needs it.
 acronyms:
 - AI
-- API
 - CPU
 - DB
 - HTTP
