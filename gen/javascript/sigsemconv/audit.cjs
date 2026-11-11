@@ -37,6 +37,15 @@ exports.SIGNOZ_AUDIT_ACTION_CATEGORY_VALUE_ACCESS_CONTROL = "access_control";
 exports.SIGNOZ_AUDIT_ACTION_CATEGORY_VALUE_CONFIGURATION_CHANGES = "configuration_changes";
 
 /**
+ * Enum value "data_access" for attribute {@link ATTR_SIGNOZ_AUDIT_ACTION_CATEGORY}.
+ *
+ * An operation that involves accessing or retrieving data, such as a read or list action.
+ *
+ * @experimental This enum value is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+exports.SIGNOZ_AUDIT_ACTION_CATEGORY_VALUE_DATA_ACCESS = "data_access";
+
+/**
  * Outcome of the audited operation.
  *
  * @example success

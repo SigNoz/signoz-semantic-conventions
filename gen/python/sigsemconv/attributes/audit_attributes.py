@@ -35,6 +35,8 @@ class SigNozAuditActionCategoryValues(Enum):
     """A change to who may do what, such as a role assignment or a credential change."""
     CONFIGURATION_CHANGES = "configuration_changes"
     """A change to a metaresource or a platform setting, such as a dashboard or an alert rule change."""
+    DATA_ACCESS = "data_access"
+    """An operation that involves accessing or retrieving data, such as a read or list action."""
 
 
 class SigNozAuditOutcomeValues(Enum):

@@ -28,6 +28,7 @@ with words joined by underscores.
 | --- | --- | --- |
 | `access_control` | A change to who may do what, such as a role assignment or a credential change. | ![Development](https://img.shields.io/badge/-development-blue) |
 | `configuration_changes` | A change to a metaresource or a platform setting, such as a dashboard or an alert rule change. | ![Development](https://img.shields.io/badge/-development-blue) |
+| `data_access` | An operation that involves accessing or retrieving data, such as a read or list action. | ![Development](https://img.shields.io/badge/-development-blue) |
 
 ### <a id="signoz-audit-outcome"></a>`signoz.audit.outcome`
 
