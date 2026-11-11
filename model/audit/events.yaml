@@ -48,6 +48,9 @@ groups:
 
       > [!WARNING]
       > This attribute contains personally identifiable information (PII).
+  - ref: signoz.principal.authn.method
+    requirement_level:
+      conditionally_required: If known.
   - ref: signoz.workspace.key.id
     requirement_level:
       conditionally_required: If `signoz.resource.kind` is `ingestion-key`.

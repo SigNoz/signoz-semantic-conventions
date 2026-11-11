@@ -24,10 +24,10 @@ groups:
   type: attribute_group
   display_name: SigNoz Principal Attributes
   brief: >
-    Attributes that describe the principal, an authenticated user or service account.
+    Attributes that describe the principal, the caller of an operation.
   note: |
-    The principal is also modelled as the entity `signoz.principal` (see
-    `entities.yaml`).
+    A principal with an id, a user or a service account, is also modelled
+    as the entity `signoz.principal` (see `entities.yaml`).
   attributes:
   - id: signoz.principal.id
     type: string
@@ -61,3 +61,13 @@ groups:
       > information (PII).
     examples:
     - "jane.doe@example.com"
+  - id: signoz.principal.authn.method
+    type: string
+    stability: development
+    brief: >
+      Method by which the principal identified itself on the request.
+    note: |
+      The SigNoz platform defines the values, such as `tokenizer` (a user's
+      sign-in credential) and `api_key` (a service account API key).
+    examples:
+    - "api_key"

@@ -19,6 +19,19 @@ const (
 	// change.
 	SigNozOrganizationIDKey = attribute.Key("signoz.organization.id")
 
+	// SigNozPrincipalAuthnMethodKey is the attribute Key conforming to the
+	// "signoz.principal.authn.method" semantic conventions. It represents the
+	// method by which the principal identified itself on the request.
+	//
+	// Type: string
+	// RequirementLevel: Recommended
+	// Stability: Development
+	//
+	// Examples: "api_key"
+	// Note: The SigNoz platform defines the values, such as `tokenizer` (a user's
+	// sign-in credential) and `api_key` (a service account API key).
+	SigNozPrincipalAuthnMethodKey = attribute.Key("signoz.principal.authn.method")
+
 	// SigNozPrincipalEmailKey is the attribute Key conforming to the
 	// "signoz.principal.email" semantic conventions. It represents the email
 	// address of the principal.
@@ -67,6 +80,13 @@ const (
 // identifier of the organization.
 func SigNozOrganizationID(val string) attribute.KeyValue {
 	return SigNozOrganizationIDKey.String(val)
+}
+
+// SigNozPrincipalAuthnMethod returns an attribute KeyValue conforming to the
+// "signoz.principal.authn.method" semantic conventions. It represents the method
+// by which the principal identified itself on the request.
+func SigNozPrincipalAuthnMethod(val string) attribute.KeyValue {
+	return SigNozPrincipalAuthnMethodKey.String(val)
 }
 
 // SigNozPrincipalEmail returns an attribute KeyValue conforming to the

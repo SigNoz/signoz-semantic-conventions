@@ -9,6 +9,13 @@ Note: The value is an opaque string: a UUID today, but the format may
 change.
 """
 
+SIGNOZ_PRINCIPAL_AUTHN_METHOD: Final = "signoz.principal.authn.method"
+"""
+Method by which the principal identified itself on the request.
+Note: The SigNoz platform defines the values, such as `tokenizer` (a user's
+sign-in credential) and `api_key` (a service account API key).
+"""
+
 SIGNOZ_PRINCIPAL_EMAIL: Final = "signoz.principal.email"
 """
 Email address of the principal.
