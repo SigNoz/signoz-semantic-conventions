@@ -70,6 +70,11 @@ var (
 	//
 	// Stability: development
 	SigNozAuditActionCategoryConfigurationChanges = SigNozAuditActionCategoryKey.String("configuration_changes")
+	// An operation that involves accessing or retrieving data, such as a read or
+	// list action.
+	//
+	// Stability: development
+	SigNozAuditActionCategoryDataAccess = SigNozAuditActionCategoryKey.String("data_access")
 )
 
 // Enum values for signoz.audit.outcome

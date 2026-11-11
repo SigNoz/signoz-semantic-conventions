@@ -35,6 +35,12 @@ groups:
         brief: >
           A change to a metaresource or a platform setting, such as a
           dashboard or an alert rule change.
+      - id: data_access
+        value: "data_access"
+        stability: development
+        brief: >
+          An operation that involves accessing or retrieving data,
+          such as a read or list action.
     stability: development
     brief: >
       Category of the audited operation.
