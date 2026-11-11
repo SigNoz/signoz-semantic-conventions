@@ -21,9 +21,9 @@
 ### [`identity`](identity.md)
 
 - [`signoz.organization.id`](identity.md#signoz-organization-id): Unique identifier of the organization.
-- [`signoz.principal.authn.method`](identity.md#signoz-principal-authn-method): Method by which the principal identified itself on the request.
 - [`signoz.principal.email`](identity.md#signoz-principal-email): Email address of the principal.
 - [`signoz.principal.id`](identity.md#signoz-principal-id): Unique identifier of the principal.
+- [`signoz.principal.identn.provider`](identity.md#signoz-principal-identn-provider): Provider that identified the principal on the request.
 - [`signoz.principal.type`](identity.md#signoz-principal-type): Kind of the principal.
 
 ### [`meter`](meter.md)
