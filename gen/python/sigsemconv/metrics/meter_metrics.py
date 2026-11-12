@@ -80,7 +80,7 @@ def create_signoz_meter_log_size(meter: Meter) -> Counter:
 
 SIGNOZ_METER_METRIC_DATAPOINT_COUNT: Final = "signoz.meter.metric.datapoint.count"
 """
-The number of metric data points observed.
+The number of metric data points indexed.
 Instrument: counter
 Unit: 1
 Note: A gauge or sum data point counts as one. A histogram data point counts
@@ -89,14 +89,41 @@ sum, min and max when present.
 A summary data point counts as its number of quantiles plus two.
 Exponential histogram data points, and metrics whose name starts with
 `signoz` or `otelcol`, are not counted.
+Data points that a metric reduction rule condenses are not counted.
 """
 
 
 def create_signoz_meter_metric_datapoint_count(meter: Meter) -> Counter:
-    """The number of metric data points observed"""
+    """The number of metric data points indexed"""
     return meter.create_counter(
         name=SIGNOZ_METER_METRIC_DATAPOINT_COUNT,
-        description="The number of metric data points observed.",
+        description="The number of metric data points indexed.",
+        unit="1",
+    )
+
+
+SIGNOZ_METER_METRIC_DATAPOINT_INGESTED_COUNT: Final = (
+    "signoz.meter.metric.datapoint.ingested.count"
+)
+"""
+The number of metric data points ingested.
+Instrument: counter
+Unit: 1
+Note: A gauge or sum data point counts as one. A histogram data point counts
+as its number of buckets plus one for its count and one each for its
+sum, min and max when present.
+A summary data point counts as its number of quantiles plus two.
+Exponential histogram data points, and metrics whose name starts with
+`signoz` or `otelcol`, are not counted.
+Data points that a metric reduction rule condenses are counted.
+"""
+
+
+def create_signoz_meter_metric_datapoint_ingested_count(meter: Meter) -> Counter:
+    """The number of metric data points ingested"""
+    return meter.create_counter(
+        name=SIGNOZ_METER_METRIC_DATAPOINT_INGESTED_COUNT,
+        description="The number of metric data points ingested.",
         unit="1",
     )
 

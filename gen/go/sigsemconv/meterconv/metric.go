@@ -639,13 +639,13 @@ func (LogSizeObservable) AttrServiceName(val string) attribute.KeyValue {
 
 // MetricDatapointCount is an instrument used to record metric values conforming
 // to the "signoz.meter.metric.datapoint.count" semantic conventions. It
-// represents the number of metric data points observed.
+// represents the number of metric data points indexed.
 type MetricDatapointCount struct {
 	metric.Int64Counter
 }
 
 var newMetricDatapointCountOpts = []metric.Int64CounterOption{
-	metric.WithDescription("The number of metric data points observed."),
+	metric.WithDescription("The number of metric data points indexed."),
 	metric.WithUnit("1"),
 }
 
@@ -692,7 +692,7 @@ func (MetricDatapointCount) Unit() string {
 
 // Description returns the semantic convention description of the instrument
 func (MetricDatapointCount) Description() string {
-	return "The number of metric data points observed."
+	return "The number of metric data points indexed."
 }
 
 // Add adds incr to the existing count for attrs.
@@ -705,6 +705,7 @@ func (MetricDatapointCount) Description() string {
 // A summary data point counts as its number of quantiles plus two.
 // Exponential histogram data points, and metrics whose name starts with
 // `signoz` or `otelcol`, are not counted.
+// Data points that a metric reduction rule condenses are not counted.
 func (m MetricDatapointCount) Add(
 	ctx context.Context,
 	incr int64,
@@ -739,6 +740,7 @@ func (m MetricDatapointCount) Add(
 // A summary data point counts as its number of quantiles plus two.
 // Exponential histogram data points, and metrics whose name starts with
 // `signoz` or `otelcol`, are not counted.
+// Data points that a metric reduction rule condenses are not counted.
 func (m MetricDatapointCount) AddSet(ctx context.Context, incr int64, set attribute.Set) {
 	if !m.Int64Counter.Enabled(ctx) {
 		return
@@ -778,13 +780,13 @@ func (MetricDatapointCount) AttrServiceName(val string) attribute.KeyValue {
 
 // MetricDatapointCountObservable is an instrument used to record metric values
 // conforming to the "signoz.meter.metric.datapoint.count" semantic conventions.
-// It represents the number of metric data points observed.
+// It represents the number of metric data points indexed.
 type MetricDatapointCountObservable struct {
 	metric.Int64ObservableCounter
 }
 
 var newMetricDatapointCountObservableOpts = []metric.Int64ObservableCounterOption{
-	metric.WithDescription("The number of metric data points observed."),
+	metric.WithDescription("The number of metric data points indexed."),
 	metric.WithUnit("1"),
 }
 
@@ -832,7 +834,7 @@ func (MetricDatapointCountObservable) Unit() string {
 
 // Description returns the semantic convention description of the instrument
 func (MetricDatapointCountObservable) Description() string {
-	return "The number of metric data points observed."
+	return "The number of metric data points indexed."
 }
 
 // AttrDeploymentEnvironment returns an optional attribute for the
@@ -853,6 +855,228 @@ func (MetricDatapointCountObservable) AttrHostName(val string) attribute.KeyValu
 // AttrServiceName returns an optional attribute for the "service.name" semantic
 // convention. It represents the logical name of the service.
 func (MetricDatapointCountObservable) AttrServiceName(val string) attribute.KeyValue {
+	return attribute.String("service.name", val)
+}
+
+// MetricDatapointIngestedCount is an instrument used to record metric values
+// conforming to the "signoz.meter.metric.datapoint.ingested.count" semantic
+// conventions. It represents the number of metric data points ingested.
+type MetricDatapointIngestedCount struct {
+	metric.Int64Counter
+}
+
+var newMetricDatapointIngestedCountOpts = []metric.Int64CounterOption{
+	metric.WithDescription("The number of metric data points ingested."),
+	metric.WithUnit("1"),
+}
+
+// NewMetricDatapointIngestedCount returns a new MetricDatapointIngestedCount
+// instrument.
+func NewMetricDatapointIngestedCount(
+	m metric.Meter,
+	opt ...metric.Int64CounterOption,
+) (MetricDatapointIngestedCount, error) {
+	// Check if the meter is nil.
+	if m == nil {
+		return MetricDatapointIngestedCount{noop.Int64Counter{}}, nil
+	}
+
+	if len(opt) == 0 {
+		opt = newMetricDatapointIngestedCountOpts
+	} else {
+		opt = append(opt[:len(opt):len(opt)], newMetricDatapointIngestedCountOpts...)
+	}
+
+	i, err := m.Int64Counter(
+		"signoz.meter.metric.datapoint.ingested.count",
+		opt...,
+	)
+	if err != nil {
+		return MetricDatapointIngestedCount{noop.Int64Counter{}}, err
+	}
+	return MetricDatapointIngestedCount{i}, nil
+}
+
+// Inst returns the underlying metric instrument.
+func (m MetricDatapointIngestedCount) Inst() metric.Int64Counter {
+	return m.Int64Counter
+}
+
+// Name returns the semantic convention name of the instrument.
+func (MetricDatapointIngestedCount) Name() string {
+	return "signoz.meter.metric.datapoint.ingested.count"
+}
+
+// Unit returns the semantic convention unit of the instrument
+func (MetricDatapointIngestedCount) Unit() string {
+	return "1"
+}
+
+// Description returns the semantic convention description of the instrument
+func (MetricDatapointIngestedCount) Description() string {
+	return "The number of metric data points ingested."
+}
+
+// Add adds incr to the existing count for attrs.
+//
+// All additional attrs passed are included in the recorded value.
+//
+// A gauge or sum data point counts as one. A histogram data point counts
+// as its number of buckets plus one for its count and one each for its
+// sum, min and max when present.
+// A summary data point counts as its number of quantiles plus two.
+// Exponential histogram data points, and metrics whose name starts with
+// `signoz` or `otelcol`, are not counted.
+// Data points that a metric reduction rule condenses are counted.
+func (m MetricDatapointIngestedCount) Add(
+	ctx context.Context,
+	incr int64,
+	attrs ...attribute.KeyValue,
+) {
+	if !m.Int64Counter.Enabled(ctx) {
+		return
+	}
+	if len(attrs) == 0 {
+		m.Int64Counter.Add(ctx, incr)
+		return
+	}
+
+	o := metricpool.AddOptions()
+	defer metricpool.PutAddOptions(o)
+
+	*o = append(
+		*o,
+		metric.WithAttributes(
+			attrs...,
+		),
+	)
+
+	m.Int64Counter.Add(ctx, incr, *o...)
+}
+
+// AddSet adds incr to the existing count for set.
+//
+// A gauge or sum data point counts as one. A histogram data point counts
+// as its number of buckets plus one for its count and one each for its
+// sum, min and max when present.
+// A summary data point counts as its number of quantiles plus two.
+// Exponential histogram data points, and metrics whose name starts with
+// `signoz` or `otelcol`, are not counted.
+// Data points that a metric reduction rule condenses are counted.
+func (m MetricDatapointIngestedCount) AddSet(ctx context.Context, incr int64, set attribute.Set) {
+	if !m.Int64Counter.Enabled(ctx) {
+		return
+	}
+	if set.Len() == 0 {
+		m.Int64Counter.Add(ctx, incr)
+		return
+	}
+
+	o := metricpool.AddOptions()
+	defer metricpool.PutAddOptions(o)
+
+	*o = append(*o, metric.WithAttributeSet(set))
+	m.Int64Counter.Add(ctx, incr, *o...)
+}
+
+// AttrDeploymentEnvironment returns an optional attribute for the
+// "deployment.environment" semantic convention. It represents the deprecated,
+// use `deployment.environment.name` instead.
+func (MetricDatapointIngestedCount) AttrDeploymentEnvironment(val string) attribute.KeyValue {
+	return attribute.String("deployment.environment", val)
+}
+
+// AttrHostName returns an optional attribute for the "host.name" semantic
+// convention. It represents the name of the host. On UNIX systems, it may
+// contain what the hostname command returns, or the fully qualified hostname, or
+// another name specified by the user.
+func (MetricDatapointIngestedCount) AttrHostName(val string) attribute.KeyValue {
+	return attribute.String("host.name", val)
+}
+
+// AttrServiceName returns an optional attribute for the "service.name" semantic
+// convention. It represents the logical name of the service.
+func (MetricDatapointIngestedCount) AttrServiceName(val string) attribute.KeyValue {
+	return attribute.String("service.name", val)
+}
+
+// MetricDatapointIngestedCountObservable is an instrument used to record metric
+// values conforming to the "signoz.meter.metric.datapoint.ingested.count"
+// semantic conventions. It represents the number of metric data points ingested.
+type MetricDatapointIngestedCountObservable struct {
+	metric.Int64ObservableCounter
+}
+
+var newMetricDatapointIngestedCountObservableOpts = []metric.Int64ObservableCounterOption{
+	metric.WithDescription("The number of metric data points ingested."),
+	metric.WithUnit("1"),
+}
+
+// NewMetricDatapointIngestedCountObservable returns a new
+// MetricDatapointIngestedCountObservable instrument.
+func NewMetricDatapointIngestedCountObservable(
+	m metric.Meter,
+	opt ...metric.Int64ObservableCounterOption,
+) (MetricDatapointIngestedCountObservable, error) {
+	// Check if the meter is nil.
+	if m == nil {
+		return MetricDatapointIngestedCountObservable{noop.Int64ObservableCounter{}}, nil
+	}
+
+	if len(opt) == 0 {
+		opt = newMetricDatapointIngestedCountObservableOpts
+	} else {
+		opt = append(opt[:len(opt):len(opt)], newMetricDatapointIngestedCountObservableOpts...)
+	}
+
+	i, err := m.Int64ObservableCounter(
+		"signoz.meter.metric.datapoint.ingested.count",
+		opt...,
+	)
+	if err != nil {
+		return MetricDatapointIngestedCountObservable{noop.Int64ObservableCounter{}}, err
+	}
+	return MetricDatapointIngestedCountObservable{i}, nil
+}
+
+// Inst returns the underlying metric instrument.
+func (m MetricDatapointIngestedCountObservable) Inst() metric.Int64ObservableCounter {
+	return m.Int64ObservableCounter
+}
+
+// Name returns the semantic convention name of the instrument.
+func (MetricDatapointIngestedCountObservable) Name() string {
+	return "signoz.meter.metric.datapoint.ingested.count"
+}
+
+// Unit returns the semantic convention unit of the instrument
+func (MetricDatapointIngestedCountObservable) Unit() string {
+	return "1"
+}
+
+// Description returns the semantic convention description of the instrument
+func (MetricDatapointIngestedCountObservable) Description() string {
+	return "The number of metric data points ingested."
+}
+
+// AttrDeploymentEnvironment returns an optional attribute for the
+// "deployment.environment" semantic convention. It represents the deprecated,
+// use `deployment.environment.name` instead.
+func (MetricDatapointIngestedCountObservable) AttrDeploymentEnvironment(val string) attribute.KeyValue {
+	return attribute.String("deployment.environment", val)
+}
+
+// AttrHostName returns an optional attribute for the "host.name" semantic
+// convention. It represents the name of the host. On UNIX systems, it may
+// contain what the hostname command returns, or the fully qualified hostname, or
+// another name specified by the user.
+func (MetricDatapointIngestedCountObservable) AttrHostName(val string) attribute.KeyValue {
+	return attribute.String("host.name", val)
+}
+
+// AttrServiceName returns an optional attribute for the "service.name" semantic
+// convention. It represents the logical name of the service.
+func (MetricDatapointIngestedCountObservable) AttrServiceName(val string) attribute.KeyValue {
 	return attribute.String("service.name", val)
 }
 

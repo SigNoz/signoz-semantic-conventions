@@ -57,7 +57,7 @@ export declare const METRIC_SIGNOZ_METER_LOG_COUNT: 'signoz.meter.log.count';
 export declare const METRIC_SIGNOZ_METER_LOG_SIZE: 'signoz.meter.log.size';
 
 /**
- * The number of metric data points observed.
+ * The number of metric data points indexed.
  *
  * @note A gauge or sum data point counts as one. A histogram data point counts
  * as its number of buckets plus one for its count and one each for its
@@ -65,10 +65,26 @@ export declare const METRIC_SIGNOZ_METER_LOG_SIZE: 'signoz.meter.log.size';
  * A summary data point counts as its number of quantiles plus two.
  * Exponential histogram data points, and metrics whose name starts with
  * `signoz` or `otelcol`, are not counted.
+ * Data points that a metric reduction rule condenses are not counted.
  *
  * @experimental This metric is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
  */
 export declare const METRIC_SIGNOZ_METER_METRIC_DATAPOINT_COUNT: 'signoz.meter.metric.datapoint.count';
+
+/**
+ * The number of metric data points ingested.
+ *
+ * @note A gauge or sum data point counts as one. A histogram data point counts
+ * as its number of buckets plus one for its count and one each for its
+ * sum, min and max when present.
+ * A summary data point counts as its number of quantiles plus two.
+ * Exponential histogram data points, and metrics whose name starts with
+ * `signoz` or `otelcol`, are not counted.
+ * Data points that a metric reduction rule condenses are counted.
+ *
+ * @experimental This metric is experimental and is subject to breaking changes in minor releases of `sigsemconv`.
+ */
+export declare const METRIC_SIGNOZ_METER_METRIC_DATAPOINT_INGESTED_COUNT: 'signoz.meter.metric.datapoint.ingested.count';
 
 /**
  * The size of metric data points observed.
