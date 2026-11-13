@@ -13,6 +13,7 @@ const SCHEMA_URL = 'https://signoz.io/schemas/otel/0.1.0-unreleased';
 module.exports = {
   SCHEMA_URL,
   ...require('./audit.cjs'),
+  ...require('./deployment.cjs'),
   ...require('./genai.cjs'),
   ...require('./identity.cjs'),
   ...require('./meter.cjs'),

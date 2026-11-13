@@ -9,6 +9,7 @@
 export declare const SCHEMA_URL: 'https://signoz.io/schemas/otel/0.1.0-unreleased';
 
 export * from './audit.cjs';
+export * from './deployment.cjs';
 export * from './genai.cjs';
 export * from './identity.cjs';
 export * from './meter.cjs';

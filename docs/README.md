@@ -88,6 +88,10 @@
 - [`signoz.audit.detach`](audit.md#signoz-audit-detach): Records the detachment of one SigNoz resource from another.
 - [`signoz.audit.update`](audit.md#signoz-audit-update): Records the modification of a SigNoz resource.
 
+### [`deployment`](deployment.md)
+
+- [`signoz.deployment`](deployment.md#signoz-deployment): A deployment of a service.
+
 ## 🧩 Entities
 
 ### [`identity`](identity.md)

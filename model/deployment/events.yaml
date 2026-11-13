@@ -1,0 +1,36 @@
+groups:
+- id: event.signoz.deployment
+  type: event
+  name: signoz.deployment
+  stability: development
+  brief: >
+    A deployment of a service.
+  note: |
+    `service.name`, `service.version` and `deployment.environment.name` are set
+    on the OpenTelemetry Resource; every other attribute is set on the log
+    record. Severity is `INFO` (9) for `succeeded` and `ERROR` (17) for `failed`.
+  attributes:
+  - ref: service.name
+    requirement_level: required
+  - ref: service.version
+    requirement_level: required
+  - ref: deployment.environment.name
+    requirement_level: recommended
+  - ref: deployment.status
+    requirement_level: recommended
+    examples:
+    - succeeded
+    - failed
+  - ref: deployment.id
+    requirement_level: recommended
+  - ref: vcs.ref.head.revision
+    requirement_level: recommended
+  - ref: vcs.ref.head.name
+    requirement_level: opt_in
+  - ref: vcs.repository.url.full
+    requirement_level: opt_in
+  - ref: cicd.pipeline.run.url.full
+    requirement_level: opt_in
+  entity_associations:
+  - service
+  - deployment

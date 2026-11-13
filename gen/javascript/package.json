@@ -33,6 +33,16 @@
         "default": "./sigsemconv/audit.cjs"
       }
     },
+    "./deployment": {
+      "import": {
+        "types": "./sigsemconv/deployment.d.mts",
+        "default": "./sigsemconv/deployment.mjs"
+      },
+      "default": {
+        "types": "./sigsemconv/deployment.d.cts",
+        "default": "./sigsemconv/deployment.cjs"
+      }
+    },
     "./genai": {
       "import": {
         "types": "./sigsemconv/genai.d.mts",
