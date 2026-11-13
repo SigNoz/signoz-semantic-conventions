@@ -91,7 +91,7 @@ counted.
 
 | Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
 | --- | --- | --- | --- | --- | --- |
-| `signoz.meter.metric.datapoint.count` | Counter | `1` | The number of metric data points observed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
+| `signoz.meter.metric.datapoint.count` | Counter | `1` | The number of metric data points indexed. | ![Development](https://img.shields.io/badge/-development-blue) |  |
 
 A gauge or sum data point counts as one. A histogram data point counts
 as its number of buckets plus one for its count and one each for its
@@ -99,6 +99,28 @@ sum, min and max when present.
 A summary data point counts as its number of quantiles plus two.
 Exponential histogram data points, and metrics whose name starts with
 `signoz` or `otelcol`, are not counted.
+Data points that a metric reduction rule condenses are not counted.
+
+| Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
+| --- | --- | --- | --- | --- | --- |
+| [`connector_id`](#connector-id) | ![Development](https://img.shields.io/badge/-development-blue) | `Required` | string | The identifier of the meter connector instance that produced the metric. | `0b8f4a6e-2c1d-4e5f-9a7b-3c6d8e1f2a4b` |
+| [`deployment.environment`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/deployment.md#deployment-environment) | ![Deprecated](https://img.shields.io/badge/-deprecated-red)<br>Replaced by `deployment.environment.name`. | `Recommended` | string | SigNoz uses this name, which OpenTelemetry has deprecated. | `staging`; `production` |
+| [`host.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/host.md#host-name) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Name of the host. On UNIX systems, it may contain what the hostname command returns, or the fully qualified hostname, or another name specified by the user. | `opentelemetry-test` |
+| [`service.name`](https://github.com/open-telemetry/semantic-conventions/blob/v1.44.0/docs/registry/attributes/service.md#service-name) | ![Stable](https://img.shields.io/badge/-stable-lightgreen) | `Recommended` | string | Logical name of the service. | `shoppingcart` |
+
+### <a id="signoz-meter-metric-datapoint-ingested-count"></a>`signoz.meter.metric.datapoint.ingested.count`
+
+| Name | Instrument Type | Unit (UCUM) | Description | Stability | Entity Associations |
+| --- | --- | --- | --- | --- | --- |
+| `signoz.meter.metric.datapoint.ingested.count` | Counter | `1` | The number of metric data points ingested. | ![Development](https://img.shields.io/badge/-development-blue) |  |
+
+A gauge or sum data point counts as one. A histogram data point counts
+as its number of buckets plus one for its count and one each for its
+sum, min and max when present.
+A summary data point counts as its number of quantiles plus two.
+Exponential histogram data points, and metrics whose name starts with
+`signoz` or `otelcol`, are not counted.
+Data points that a metric reduction rule condenses are counted.
 
 | Key | Stability | [Requirement Level](https://opentelemetry.io/docs/specs/semconv/general/attribute-requirement-level/) | Value Type | Description | Example Values |
 | --- | --- | --- | --- | --- | --- |

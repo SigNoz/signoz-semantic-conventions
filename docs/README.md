@@ -63,7 +63,8 @@
 - [`signoz.meter.cpu.node.allocatable.usage`](meter.md#signoz-meter-cpu-node-allocatable-usage): The amount of CPU allocatable on a Kubernetes node that runs SigNoz.
 - [`signoz.meter.log.count`](meter.md#signoz-meter-log-count): The number of log records observed.
 - [`signoz.meter.log.size`](meter.md#signoz-meter-log-size): The size of log records observed.
-- [`signoz.meter.metric.datapoint.count`](meter.md#signoz-meter-metric-datapoint-count): The number of metric data points observed.
+- [`signoz.meter.metric.datapoint.count`](meter.md#signoz-meter-metric-datapoint-count): The number of metric data points indexed.
+- [`signoz.meter.metric.datapoint.ingested.count`](meter.md#signoz-meter-metric-datapoint-ingested-count): The number of metric data points ingested.
 - [`signoz.meter.metric.datapoint.size`](meter.md#signoz-meter-metric-datapoint-size): The size of metric data points observed.
 - [`signoz.meter.span.count`](meter.md#signoz-meter-span-count): The number of spans observed.
 - [`signoz.meter.span.size`](meter.md#signoz-meter-span-size): The size of spans observed.

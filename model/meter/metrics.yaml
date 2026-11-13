@@ -84,7 +84,7 @@ groups:
   metric_name: signoz.meter.metric.datapoint.count
   stability: development
   brief: >
-    The number of metric data points observed.
+    The number of metric data points indexed.
   note: |
     A gauge or sum data point counts as one. A histogram data point counts
     as its number of buckets plus one for its count and one each for its
@@ -92,6 +92,29 @@ groups:
     A summary data point counts as its number of quantiles plus two.
     Exponential histogram data points, and metrics whose name starts with
     `signoz` or `otelcol`, are not counted.
+    Data points that a metric reduction rule condenses are not counted.
+  instrument: counter
+  unit: "1"
+  annotations:
+    signoz:
+      policy_exceptions:
+      - counter_unit_one
+  extends: attributes.signoz.meter.common
+
+- id: metric.signoz.meter.metric.datapoint.ingested.count
+  type: metric
+  metric_name: signoz.meter.metric.datapoint.ingested.count
+  stability: development
+  brief: >
+    The number of metric data points ingested.
+  note: |
+    A gauge or sum data point counts as one. A histogram data point counts
+    as its number of buckets plus one for its count and one each for its
+    sum, min and max when present.
+    A summary data point counts as its number of quantiles plus two.
+    Exponential histogram data points, and metrics whose name starts with
+    `signoz` or `otelcol`, are not counted.
+    Data points that a metric reduction rule condenses are counted.
   instrument: counter
   unit: "1"
   annotations:
